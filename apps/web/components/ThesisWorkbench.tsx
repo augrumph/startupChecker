@@ -99,6 +99,11 @@ type Evaluation = {
   conservative_strength: number;
   evidence_coverage: number;
   investigation_priority: number;
+  decision_confidence: number;
+  sensitivity_risk: number;
+  expert_disagreement: number;
+  decision_margin: number;
+  review_required: boolean;
   fatal_vetoes: CriterionResult[];
   entry_flags: CriterionResult[];
   decision:
@@ -120,6 +125,61 @@ type Evaluation = {
     horizon_hours: number;
     information_priority: number;
   };
+};
+
+type AiIntake = {
+  model: string;
+  advisoryOnly: boolean;
+  normalized: {
+    name: string;
+    sector: string;
+    payer: string;
+    user: string;
+    problem: string;
+    solution: string;
+    businessModels: string[];
+  };
+  engineSuggestions: Array<{
+    engine: EngineKey;
+    affinity: number;
+    rationale: string;
+  }>;
+  assumptions: Array<{
+    statement: string;
+    whyItMatters: string;
+    evidenceNeeded: string;
+  }>;
+  unknowns: string[];
+  firstQuestions: string[];
+};
+
+type AiRedTeam = {
+  model: string;
+  advisoryOnly: boolean;
+  attacks: Array<{
+    assumption: string;
+    failureMode: string;
+    whyItCouldBeWrong: string;
+    cheapestFalsification: string;
+    severity: number;
+  }>;
+  blindSpots: string[];
+  strongestCounterCase: string;
+};
+
+type AiEvidence = {
+  model: string;
+  advisoryOnly: boolean;
+  findings: Array<{
+    criterionKey: string;
+    direction: "SUPPORTS" | "CONTRADICTS" | "NEUTRAL";
+    evidenceLevel: Evidence;
+    strength: number;
+    rationale: string;
+    sourceFragment: string;
+  }>;
+  unresolved: string[];
+  warnings: string[];
 };
 
 type Thesis = {
@@ -380,6 +440,14 @@ export function ThesisWorkbench() {
   const [evaluationError, setEvaluationError] = useState("");
   const [lastEvaluation, setLastEvaluation] = useState<Evaluation | null>(null);
 
+  const [aiIntakeText, setAiIntakeText] = useState("");
+  const [aiIntake, setAiIntake] = useState<AiIntake | null>(null);
+  const [aiRedTeam, setAiRedTeam] = useState<AiRedTeam | null>(null);
+  const [aiEvidence, setAiEvidence] = useState<AiEvidence | null>(null);
+  const [evidenceText, setEvidenceText] = useState("");
+  const [aiBusy, setAiBusy] = useState<"intake" | "redteam" | "evidence" | null>(null);
+  const [aiError, setAiError] = useState("");
+
   const [context, setContext] = useState({
     name: "",
     sector: "",
@@ -474,6 +542,13 @@ export function ThesisWorkbench() {
     setWizardStep(0);
     setEvaluationError("");
     setLastEvaluation(null);
+    setAiIntakeText("");
+    setAiIntake(null);
+    setAiRedTeam(null);
+    setAiEvidence(null);
+    setEvidenceText("");
+    setAiError("");
+    setAiBusy(null);
     setContext({
       name: "",
       sector: "",
@@ -627,6 +702,132 @@ export function ThesisWorkbench() {
     }
   }
 
+  async function runAiIntake() {
+    const text = aiIntakeText.trim();
+    if (text.length < 20) {
+      setAiError("Cole uma descrição minimamente completa da tese.");
+      return;
+    }
+
+    setAiBusy("intake");
+    setAiError("");
+
+    try {
+      const response = await fetch("/api/ai/intake", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? `AI ${response.status}`);
+
+      const result = data as AiIntake;
+      setAiIntake(result);
+      setContext((prev) => ({
+        ...prev,
+        name: result.normalized.name || prev.name,
+        sector: result.normalized.sector || prev.sector,
+        payer: result.normalized.payer || prev.payer,
+        user: result.normalized.user || prev.user,
+        problem: result.normalized.problem || prev.problem,
+        solution: result.normalized.solution || prev.solution,
+        model: result.normalized.businessModels[0] || prev.model,
+      }));
+
+      // LLM may classify the mechanism of value, but these affinities remain
+      // HYPOTHESIS-level router hints. It never assigns core/expert scores.
+      setRouterSignals((prev) => {
+        const next = { ...prev };
+        for (const suggestion of result.engineSuggestions) {
+          next[suggestion.engine] = {
+            ...(next[suggestion.engine] ?? blankSignal()),
+            score: Math.round(suggestion.affinity),
+            evidence: "HYPOTHESIS",
+          };
+        }
+        return next;
+      });
+    } catch (error) {
+      setAiError(String(error));
+    } finally {
+      setAiBusy(null);
+    }
+  }
+
+  function evidenceCriteria(evaluation: Evaluation) {
+    return [
+      ...evaluation.universal.criteria.map((criterion) => ({
+        key: criterion.key,
+        label: criterion.label,
+        scope: "universal",
+      })),
+      ...evaluation.experts.flatMap((expert) =>
+        expert.scorecard.criteria.map((criterion) => ({
+          key: criterion.key,
+          label: criterion.label,
+          scope: `expert:${expert.engine}`,
+        })),
+      ),
+      ...evaluation.learning.criteria.map((criterion) => ({
+        key: criterion.key,
+        label: criterion.label,
+        scope: "learning",
+      })),
+    ];
+  }
+
+  async function runAiRedTeam() {
+    if (!lastEvaluation) return;
+    setAiBusy("redteam");
+    setAiError("");
+
+    try {
+      const response = await fetch("/api/ai/red-team", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          thesis: context,
+          evaluation: lastEvaluation,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? `AI ${response.status}`);
+      setAiRedTeam(data as AiRedTeam);
+    } catch (error) {
+      setAiError(String(error));
+    } finally {
+      setAiBusy(null);
+    }
+  }
+
+  async function runAiEvidence() {
+    if (!lastEvaluation || evidenceText.trim().length < 20) {
+      setAiError("Cole uma entrevista, nota de cliente ou evidência mais completa.");
+      return;
+    }
+
+    setAiBusy("evidence");
+    setAiError("");
+
+    try {
+      const response = await fetch("/api/ai/evidence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: evidenceText,
+          criteria: evidenceCriteria(lastEvaluation),
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? `AI ${response.status}`);
+      setAiEvidence(data as AiEvidence);
+    } catch (error) {
+      setAiError(String(error));
+    } finally {
+      setAiBusy(null);
+    }
+  }
+
   const currentHeroScore = thesis.evaluation
     ? thesis.evaluation.structural_strength
     : (thesis.core + thesis.expert) / 2;
@@ -643,7 +844,7 @@ export function ThesisWorkbench() {
           </div>
           <div>
             <strong>Startup Checker</strong>
-            <span>Thesis Engine V4</span>
+            <span>Thesis Engine V5</span>
           </div>
         </div>
 
@@ -782,7 +983,7 @@ export function ThesisWorkbench() {
               <h3>{thesis.evaluation?.critical_issue ?? "Vale founder time?"}</h3>
               <p>
                 {thesis.evaluation
-                  ? `A V4 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
+                  ? `A V5 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
                   : "Referência de calibração. Crie uma nova tese para rodar o motor real ponta a ponta."}
               </p>
 
@@ -838,6 +1039,22 @@ export function ThesisWorkbench() {
                   title="Investigation priority"
                   subtitle="Estrutura forte + incerteza relevante + aprendizado rápido."
                   value={currentPriority}
+                />
+              ) : null}
+              {thesis.evaluation ? (
+                <Metric
+                  icon={<BrainCircuit size={18} />}
+                  title="Confiança da decisão"
+                  subtitle="Evidência + distância dos vetos + concordância entre experts."
+                  value={thesis.evaluation.decision_confidence}
+                />
+              ) : null}
+              {thesis.evaluation ? (
+                <Metric
+                  icon={<Gauge size={18} />}
+                  title="Estabilidade da decisão"
+                  subtitle="100 menos o risco de pequenas mudanças alterarem a conclusão."
+                  value={100 - thesis.evaluation.sensitivity_risk}
                 />
               ) : null}
 
@@ -925,7 +1142,7 @@ export function ThesisWorkbench() {
             </div>
 
             {!config && !configError ? (
-              <div className="wizard-state">Carregando Thesis Engine V4…</div>
+              <div className="wizard-state">Carregando Thesis Engine V5…</div>
             ) : null}
 
             {configError ? (
@@ -941,6 +1158,45 @@ export function ThesisWorkbench() {
                   <span className="eyebrow">Contexto</span>
                   <h3>O que estamos avaliando?</h3>
                   <p>Sem pitch. Descreva o pagador, o job e o wedge inicial.</p>
+                </div>
+
+                <div className="ai-assist-card">
+                  <div className="ai-assist-head">
+                    <div>
+                      <span>LLM opcional</span>
+                      <strong>Estruturar uma tese em texto livre</strong>
+                    </div>
+                    <button
+                      className="secondary-button"
+                      disabled={aiBusy === "intake"}
+                      onClick={runAiIntake}
+                    >
+                      <Sparkles size={14} />
+                      {aiBusy === "intake" ? "Estruturando…" : "Estruturar com IA"}
+                    </button>
+                  </div>
+                  <textarea
+                    rows={4}
+                    value={aiIntakeText}
+                    onChange={(e) => setAiIntakeText(e.target.value)}
+                    placeholder="Cole aqui a ideia do jeito que você pensou. A IA só organiza, aponta lacunas e sugere o mecanismo de valor — ela não julga a tese."
+                  />
+                  {aiIntake ? (
+                    <div className="ai-intake-output">
+                      <div>
+                        <strong>Lacunas</strong>
+                        {aiIntake.unknowns.slice(0, 4).map((item) => (
+                          <span key={item}>{item}</span>
+                        ))}
+                      </div>
+                      <div>
+                        <strong>Perguntas que importam</strong>
+                        {aiIntake.firstQuestions.slice(0, 4).map((item) => (
+                          <span key={item}>{item}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="form-section wizard-form">
@@ -1201,7 +1457,7 @@ export function ThesisWorkbench() {
                     disabled={evaluating}
                     onClick={evaluateThesis}
                   >
-                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V4"}
+                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V5"}
                     {!evaluating ? <Sparkles size={15} /> : null}
                   </button>
                 </div>
@@ -1241,7 +1497,32 @@ export function ThesisWorkbench() {
                     <span>Evidência</span>
                     <strong>{Math.round(lastEvaluation.evidence_coverage * 100)}%</strong>
                   </div>
+                  <div>
+                    <span>Confiança decisão</span>
+                    <strong>{lastEvaluation.decision_confidence.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Sensibilidade</span>
+                    <strong>{lastEvaluation.sensitivity_risk.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Divergência experts</span>
+                    <strong>{lastEvaluation.expert_disagreement.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Margem do veto</span>
+                    <strong>{lastEvaluation.decision_margin.toFixed(1)}</strong>
+                  </div>
                 </div>
+
+                {lastEvaluation.review_required ? (
+                  <div className="review-warning">
+                    <strong>Revisão humana recomendada</strong>
+                    <span>
+                      A decisão está sensível, pouco evidenciada ou há divergência relevante entre experts.
+                    </span>
+                  </div>
+                ) : null}
 
                 <div className="experiment-card">
                   <div className="experiment-head">
@@ -1261,6 +1542,94 @@ export function ThesisWorkbench() {
                       <X size={15} />
                       <span>{lastEvaluation.next_experiment.failure_signal}</span>
                     </div>
+                  </div>
+                </div>
+
+                <div className="ai-lab">
+                  <div className="ai-lab-header">
+                    <div>
+                      <span>LLM advisory layer</span>
+                      <strong>Use IA só onde interpretação humana ajuda.</strong>
+                    </div>
+                    <button
+                      className="secondary-button"
+                      disabled={aiBusy === "redteam"}
+                      onClick={runAiRedTeam}
+                    >
+                      <BrainCircuit size={14} />
+                      {aiBusy === "redteam" ? "Atacando…" : "Red-team da tese"}
+                    </button>
+                  </div>
+
+                  {aiRedTeam ? (
+                    <div className="redteam-list">
+                      <div className="counter-case">
+                        <span>Melhor argumento contra</span>
+                        <strong>{aiRedTeam.strongestCounterCase}</strong>
+                      </div>
+                      {aiRedTeam.attacks.map((attack, index) => (
+                        <div className="redteam-item" key={`${attack.assumption}-${index}`}>
+                          <div className="redteam-severity">{attack.severity}</div>
+                          <div>
+                            <strong>{attack.assumption}</strong>
+                            <p>{attack.whyItCouldBeWrong}</p>
+                            <span>{attack.cheapestFalsification}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  <div className="evidence-lab">
+                    <div>
+                      <span>Mapear nova evidência</span>
+                      <p>
+                        Cole entrevista, nota de cliente ou resultado de pesquisa. A IA mapeia para critérios,
+                        mas não altera nenhuma nota sozinha.
+                      </p>
+                    </div>
+                    <textarea
+                      rows={4}
+                      value={evidenceText}
+                      onChange={(e) => setEvidenceText(e.target.value)}
+                      placeholder="Ex.: transcrição de entrevista, feedback de comprador, proposta discutida…"
+                    />
+                    <button
+                      className="secondary-button"
+                      disabled={aiBusy === "evidence"}
+                      onClick={runAiEvidence}
+                    >
+                      <Search size={14} />
+                      {aiBusy === "evidence" ? "Mapeando…" : "Mapear evidência"}
+                    </button>
+                  </div>
+
+                  {aiEvidence ? (
+                    <div className="evidence-findings">
+                      {aiEvidence.findings.map((finding, index) => (
+                        <div className="evidence-finding" key={`${finding.criterionKey}-${index}`}>
+                          <span className={`evidence-direction ${finding.direction.toLowerCase()}`}>
+                            {finding.direction}
+                          </span>
+                          <div>
+                            <strong>{finding.criterionKey}</strong>
+                            <p>{finding.rationale}</p>
+                            <small>{finding.evidenceLevel} · força {Math.round(finding.strength * 100)}%</small>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  {aiError ? (
+                    <div className="wizard-error compact">
+                      <strong>Camada LLM indisponível</strong>
+                      <span>{aiError}</span>
+                    </div>
+                  ) : null}
+
+                  <div className="ai-guardrail">
+                    Rust decide. A IA não pode alterar score, veto, threshold ou decisão final.
                   </div>
                 </div>
 

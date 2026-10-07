@@ -708,3 +708,224 @@ button { color: inherit; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* V5 selective LLM layer */
+.secondary-button {
+  min-height: 32px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 12px;
+  background: rgba(0,122,255,.10);
+  color: #0056b3;
+  font-weight: 600;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+.secondary-button:disabled { opacity: .45; cursor: default; }
+
+.ai-assist-card,
+.ai-lab {
+  background: rgba(88,86,214,.055);
+  border: 1px solid rgba(88,86,214,.10);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.ai-assist-head,
+.ai-lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.ai-assist-head span,
+.ai-lab-header span,
+.evidence-lab > div > span {
+  display: block;
+  color: var(--indigo);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.ai-assist-head strong,
+.ai-lab-header strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+}
+
+.ai-assist-card textarea,
+.evidence-lab textarea {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: #fff;
+  border-radius: 13px;
+  padding: 12px;
+  resize: vertical;
+  color: var(--label);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.ai-intake-output {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.ai-intake-output > div {
+  background: rgba(255,255,255,.78);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.ai-intake-output strong {
+  display: block;
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.ai-intake-output span {
+  display: block;
+  color: var(--label-2);
+  font-size: 10px;
+  line-height: 1.35;
+}
+.ai-intake-output span + span { margin-top: 4px; }
+
+.review-warning {
+  margin-top: 10px;
+  padding: 13px 15px;
+  border-radius: 14px;
+  background: rgba(255,149,0,.10);
+  color: #835000;
+  display: grid;
+  gap: 3px;
+}
+.review-warning strong { font-size: 12px; }
+.review-warning span { font-size: 11px; }
+
+.ai-lab {
+  margin-top: 10px;
+  margin-bottom: 0;
+  background: rgba(88,86,214,.045);
+}
+
+.redteam-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.counter-case {
+  background: #fff;
+  border-radius: 13px;
+  padding: 12px;
+}
+.counter-case span {
+  display: block;
+  color: var(--label-3);
+  font-size: 9px;
+}
+.counter-case strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.redteam-item {
+  background: #fff;
+  border-radius: 13px;
+  padding: 11px;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 9px;
+}
+.redteam-severity {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: rgba(255,59,48,.10);
+  color: #a81d15;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+.redteam-item strong { font-size: 11px; }
+.redteam-item p {
+  margin: 4px 0;
+  color: var(--label-2);
+  font-size: 10px;
+  line-height: 1.4;
+}
+.redteam-item span {
+  color: #0056b3;
+  font-size: 10px;
+}
+
+.evidence-lab {
+  margin-top: 16px;
+  border-top: 1px solid rgba(88,86,214,.12);
+  padding-top: 14px;
+}
+.evidence-lab > div > p {
+  margin: 3px 0 10px;
+  color: var(--label-2);
+  font-size: 10px;
+}
+.evidence-lab .secondary-button { margin-top: 8px; }
+
+.evidence-findings {
+  margin-top: 12px;
+  display: grid;
+  gap: 7px;
+}
+.evidence-finding {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 10px;
+}
+.evidence-direction {
+  align-self: start;
+  border-radius: 999px;
+  padding: 5px 7px;
+  text-align: center;
+  font-size: 8px;
+  font-weight: 800;
+}
+.evidence-direction.supports { background: rgba(52,199,89,.12); color: #167332; }
+.evidence-direction.contradicts { background: rgba(255,59,48,.12); color: #a81d15; }
+.evidence-direction.neutral { background: rgba(118,118,128,.12); color: var(--label-2); }
+.evidence-finding strong { font-size: 11px; }
+.evidence-finding p {
+  margin: 3px 0;
+  color: var(--label-2);
+  font-size: 10px;
+}
+.evidence-finding small { color: var(--label-3); font-size: 9px; }
+
+.ai-guardrail {
+  margin-top: 12px;
+  color: var(--label-3);
+  font-size: 9px;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .ai-intake-output { grid-template-columns: 1fr; }
+  .ai-assist-head, .ai-lab-header { align-items: flex-start; flex-direction: column; }
+}

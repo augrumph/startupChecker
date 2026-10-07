@@ -42,7 +42,7 @@ async fn main() {
 async fn health() -> Json<Value> {
     Json(json!({
         "ok": true,
-        "engine": "Thesis Engine V4",
+        "engine": "Thesis Engine V5",
         "version": ENGINE_VERSION
     }))
 }
