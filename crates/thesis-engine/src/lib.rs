@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const ENGINE_VERSION: &str = "6.0.0";
+pub const ENGINE_VERSION: &str = "7.0.0";
 
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
@@ -154,6 +154,17 @@ pub enum Decision {
     ScaleExpand,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum RatingBand {
+    Reject,
+    Weak,
+    Watchlist,
+    Investigate,
+    Priority,
+    Exceptional,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExperimentRecommendation {
     pub criterion_key: String,
@@ -198,11 +209,23 @@ pub struct Evaluation {
     pub potential_score: Option<f64>,
     pub blue_ocean: Option<BlueOceanEvaluation>,
 
-    /// Strength of the thesis assuming the supplied scores are true.
+    /// V7 theoretical strength after nonlinear score compression, before evidence/quality caps.
     pub structural_strength: f64,
 
-    /// Evidence-adjusted strength. This is intentionally conservative.
+    /// V7 headline score. This is the number used for ranking/action.
+    pub thesis_score: f64,
+
+    /// Alias kept for API compatibility; equals thesis_score in V7.
     pub conservative_strength: f64,
+
+    /// V7 semantic band for the 0-10 headline score.
+    pub rating_band: RatingBand,
+
+    /// Maximum score allowed by the maturity of evidence.
+    pub evidence_cap: f64,
+
+    /// Maximum score allowed by headroom above critical veto thresholds.
+    pub quality_cap: f64,
 
     /// Average confidence across the signals that drive the decision.
     pub evidence_coverage: f64,
@@ -379,12 +402,13 @@ fn scorecard(
         });
     }
 
-    let raw = weighted / total_weight * 10.0;
+    let weighted_average = weighted / total_weight;
     let coverage = weighted_confidence / total_weight;
 
-    // Conservative shrinkage toward 50, not toward zero:
-    // low evidence means uncertainty, not automatic rejection.
-    let conservative = 50.0 + (raw - 50.0) * coverage;
+    // V7: nonlinear compression. Ordinary "good" averages must not become 8/10.
+    // 7.0 avg -> ~5.5; 8.0 -> ~6.8; 9.0 -> ~8.4; 9.4 -> ~9.0.
+    let raw = strict_curve(weighted_average);
+    let conservative = raw.min(evidence_score_cap(coverage));
 
     Ok(ScoreCard {
         raw_score: round1(raw),
@@ -570,21 +594,25 @@ fn experiment_for(critical: &CriterionResult, decision: Decision) -> ExperimentR
 fn decide(
     fatal_vetoes: &[CriterionResult],
     entry_flags: &[CriterionResult],
-    input: &ThesisInput,
+    thesis_score: f64,
 ) -> Decision {
-    if !fatal_vetoes.is_empty() {
+    if !fatal_vetoes.is_empty() || thesis_score < 5.5 {
         return Decision::KillReformulate;
     }
     if !entry_flags.is_empty() {
         return Decision::ThesisGoodEntryBad;
     }
 
-    match evidence_level_for_decision(input) {
-        EvidenceLevel::Hypothesis | EvidenceLevel::DeskResearch => Decision::Falsify48h,
-        EvidenceLevel::CustomerBehavior => Decision::ValidateDemand7d,
-        EvidenceLevel::CommercialCommitment => Decision::PaidTest30d,
-        EvidenceLevel::Money => Decision::DeliverMeasureValue,
-        EvidenceLevel::ObservedOutcome => Decision::ScaleExpand,
+    if thesis_score < 7.0 {
+        Decision::Falsify48h
+    } else if thesis_score < 8.0 {
+        Decision::ValidateDemand7d
+    } else if thesis_score < 8.6 {
+        Decision::PaidTest30d
+    } else if thesis_score < 9.0 {
+        Decision::DeliverMeasureValue
+    } else {
+        Decision::ScaleExpand
     }
 }
 
@@ -634,16 +662,19 @@ fn blue_ocean_evaluation(
 
     let classification = if empty_ocean_risk >= 65.0 {
         BlueOceanClass::EmptyOceanRisk
-    } else if scorecard.raw_score >= 80.0
+    } else if scorecard.conservative_score >= 8.5
         && scorecard.evidence_coverage >= 0.70
-        && utility >= 7.0
-        && cost_break >= 6.0
-        && latent >= 7.0
+        && utility >= 8.0
+        && cost_break >= 7.0
+        && latent >= 8.0
     {
         BlueOceanClass::BlueValidated
-    } else if scorecard.raw_score >= 75.0 && value_innovation_valid {
+    } else if scorecard.conservative_score >= 7.0
+        && value_innovation_valid
+        && empty_ocean_risk < 50.0
+    {
         BlueOceanClass::BlueHypothesis
-    } else if scorecard.raw_score >= 60.0 {
+    } else if scorecard.conservative_score >= 5.5 {
         BlueOceanClass::PurpleOcean
     } else {
         BlueOceanClass::RedOcean
@@ -724,8 +755,8 @@ fn expert_disagreement(experts: &[ExpertEvaluation]) -> f64 {
         .sum::<f64>()
         / experts.len() as f64;
 
-    // A 20-point standard deviation maps to maximum disagreement.
-    round1((variance.sqrt() / 20.0 * 100.0).clamp(0.0, 100.0))
+    // V7 scorecards are 0-10; a 2-point standard deviation is severe disagreement.
+    round1((variance.sqrt() / 2.0 * 100.0).clamp(0.0, 100.0))
 }
 
 fn decision_confidence(
@@ -743,6 +774,81 @@ fn decision_confidence(
 }
 
 
+fn strict_curve(score_0_10: f64) -> f64 {
+    let normalized = (score_0_10.clamp(0.0, 10.0) / 10.0).powf(1.7);
+    (normalized * 10.0).clamp(0.0, 10.0)
+}
+
+fn evidence_score_cap(coverage: f64) -> f64 {
+    let c = coverage.clamp(0.0, 1.0);
+    if c < 0.12 {
+        6.3
+    } else if c < 0.30 {
+        7.1
+    } else if c < 0.50 {
+        7.8
+    } else if c < 0.70 {
+        8.5
+    } else if c < 0.88 {
+        9.2
+    } else if c < 0.97 {
+        9.6
+    } else {
+        10.0
+    }
+}
+
+fn critical_headroom(universal: &ScoreCard, experts: &[ExpertEvaluation]) -> f64 {
+    universal
+        .criteria
+        .iter()
+        .chain(experts.iter().flat_map(|e| e.scorecard.criteria.iter()))
+        .filter_map(|criterion| {
+            criterion.threshold.map(|threshold| criterion.score - threshold)
+        })
+        .min_by(|a, b| a.total_cmp(b))
+        .unwrap_or(3.0)
+}
+
+fn quality_score_cap(headroom: f64, has_fatal_veto: bool) -> f64 {
+    if has_fatal_veto || headroom < 0.0 {
+        4.9
+    } else if headroom < 0.5 {
+        5.9
+    } else if headroom < 1.0 {
+        6.9
+    } else if headroom < 1.5 {
+        7.9
+    } else if headroom < 2.0 {
+        8.6
+    } else {
+        10.0
+    }
+}
+
+fn rating_band(score: f64) -> RatingBand {
+    if score < 5.0 {
+        RatingBand::Reject
+    } else if score < 6.0 {
+        RatingBand::Weak
+    } else if score < 7.0 {
+        RatingBand::Watchlist
+    } else if score < 8.0 {
+        RatingBand::Investigate
+    } else if score < 9.0 {
+        RatingBand::Priority
+    } else {
+        RatingBand::Exceptional
+    }
+}
+
+fn weighted_harmonic(a: f64, b: f64, wa: f64, wb: f64) -> f64 {
+    if a <= 0.0 || b <= 0.0 {
+        return 0.0;
+    }
+    (wa + wb) / (wa / a + wb / b)
+}
+
 fn round1(v: f64) -> f64 {
     (v * 10.0).round() / 10.0
 }
@@ -755,6 +861,7 @@ fn round3(v: f64) -> f64 {
 pub struct EngineV4;
 
 pub type EngineV6 = EngineV4;
+pub type EngineV7 = EngineV4;
 
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
@@ -788,18 +895,11 @@ impl EngineV4 {
         });
 
         let primary = experts.first().ok_or(EngineError::NoViableRoute)?.engine;
-
-        // Hybrid thesis: core + weighted expert blend.
         let total_affinity: f64 = experts.iter().map(|e| e.route_affinity).sum();
+
         let expert_raw = experts
             .iter()
             .map(|e| e.scorecard.raw_score * e.route_affinity)
-            .sum::<f64>()
-            / total_affinity.max(1.0);
-
-        let expert_conservative = experts
-            .iter()
-            .map(|e| e.scorecard.conservative_score * e.route_affinity)
             .sum::<f64>()
             / total_affinity.max(1.0);
 
@@ -809,15 +909,30 @@ impl EngineV4 {
             .sum::<f64>()
             / total_affinity.max(1.0);
 
-        let structural_strength = universal.raw_score * 0.45 + expert_raw * 0.55;
-        let conservative_strength =
-            universal.conservative_score * 0.45 + expert_conservative * 0.55;
+        // V7: weighted harmonic mean punishes imbalance between universal fundamentals
+        // and the selected value engine(s). A great expert score cannot hide a mediocre core.
+        let structural_strength =
+            weighted_harmonic(universal.raw_score, expert_raw, 0.45, 0.55);
+
+        // Only evidence attached to value/economics can lift the score ceiling.
+        // "Easy to test" evidence does not make the thesis itself more true.
         let evidence_coverage =
-            universal.evidence_coverage * 0.35 + expert_coverage * 0.45 + learning.evidence_coverage * 0.20;
+            universal.evidence_coverage * 0.45 + expert_coverage * 0.55;
 
         let fatal_vetoes = all_fatal_vetoes(&universal, &experts);
         let flags = entry_flags(&learning);
-        let decision = decide(&fatal_vetoes, &flags, input);
+        let headroom = critical_headroom(&universal, &experts);
+        let evidence_cap = evidence_score_cap(evidence_coverage);
+        let quality_cap = quality_score_cap(headroom, !fatal_vetoes.is_empty());
+
+        let mut thesis_score = structural_strength.min(evidence_cap).min(quality_cap);
+        if !flags.is_empty() {
+            thesis_score = thesis_score.min(6.9);
+        }
+        thesis_score = round1(thesis_score);
+
+        let band = rating_band(thesis_score);
+        let decision = decide(&fatal_vetoes, &flags, thesis_score);
 
         let critical = if let Some(veto) = fatal_vetoes.first() {
             veto.clone()
@@ -827,15 +942,13 @@ impl EngineV4 {
             weakest_information_gap(&universal, &experts, &learning)
         };
 
-        // Priority rewards strong structure, low evidence and fast learning.
-        // This explicitly prioritizes "promising but unproven and cheap to learn".
-        let uncertainty = 1.0 - evidence_coverage.clamp(0.0, 1.0);
+        // V7 research priority is also 0-10 and cannot outrun the quality of the thesis.
+        let information_gap = (1.0 - evidence_coverage.clamp(0.0, 1.0)) * 10.0;
         let investigation_priority = if matches!(decision, Decision::KillReformulate) {
             0.0
         } else {
-            structural_strength * 0.55
-                + learning.raw_score * 0.25
-                + (uncertainty * 100.0) * 0.20
+            (thesis_score * 0.65 + learning.raw_score * 0.25 + information_gap * 0.10)
+                .min(9.5)
         };
 
         let sensitivity = sensitivity_risk(&universal, &experts);
@@ -859,7 +972,11 @@ impl EngineV4 {
             potential_score: potential_score(input),
             blue_ocean,
             structural_strength: round1(structural_strength),
-            conservative_strength: round1(conservative_strength),
+            thesis_score,
+            conservative_strength: thesis_score,
+            rating_band: band,
+            evidence_cap: round1(evidence_cap),
+            quality_cap: round1(quality_cap),
             evidence_coverage: round3(evidence_coverage),
             investigation_priority: round1(investigation_priority),
             decision_confidence: confidence,
