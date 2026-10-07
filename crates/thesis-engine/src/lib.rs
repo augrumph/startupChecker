@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const ENGINE_VERSION: &str = "5.0.0";
+pub const ENGINE_VERSION: &str = "6.0.0";
 
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
@@ -754,6 +754,8 @@ fn round3(v: f64) -> f64 {
 #[derive(Debug, Default, Clone)]
 pub struct EngineV4;
 
+pub type EngineV6 = EngineV4;
+
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
         let selected = selected_engines(input)?;
@@ -901,3 +903,6 @@ pub fn public_expert_config() -> BTreeMap<&'static str, Vec<PublicCriterion>> {
     out.insert("CONVENIENCE_EXPERIENCE", public_defs(&CONVENIENCE));
     out
 }
+
+mod scout;
+pub use scout::{scout_sparse_thesis, ScoutPrediction, SparseThesisInput, SCOUT_MODEL_VERSION};
