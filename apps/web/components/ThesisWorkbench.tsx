@@ -302,7 +302,6 @@ type Thesis = {
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
-const STORAGE_KEY = "startup-checker-v8-theses";
 
 const seeded: Thesis[] = [
   {
@@ -581,20 +580,6 @@ export function ThesisWorkbench() {
   const [candidateExperiments, setCandidateExperiments] = useState<Array<Record<string, unknown>>>([]);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved) as Thesis[];
-        if (Array.isArray(parsed) && parsed.length) {
-          setTheses([...seeded, ...parsed]);
-        }
-      }
-    } catch {
-      // GO HORSE: storage corrupto não bloqueia o produto.
-    }
-  }, []);
-
-  useEffect(() => {
     fetch(`${API_URL}/v1/config`)
       .then(async (response) => {
         if (!response.ok) throw new Error(`API ${response.status}`);
@@ -733,13 +718,6 @@ export function ThesisWorkbench() {
     );
   }
 
-  function persistUserTheses(next: Thesis[]) {
-    const custom = next.filter(
-      (item) => !seeded.some((seed) => seed.id === item.id),
-    );
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(custom));
-  }
-
   async function evaluateThesis() {
     if (!config || selectedEngines.length === 0) {
       setEvaluationError(
@@ -783,7 +761,7 @@ export function ThesisWorkbench() {
     };
 
     try {
-      const response = await fetch(`${API_URL}/v1/evaluate`, {
+      const response = await fetch(`${API_URL}/v1/theses`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -795,7 +773,8 @@ export function ThesisWorkbench() {
         throw new Error(data.error ?? `API ${response.status}`);
       }
 
-      const result = data as Evaluation;
+      const result = data.evaluation as Evaluation;
+      if (!result) throw new Error("Markdown store returned no evaluation");
       setLastEvaluation(result);
 
       const primary =
@@ -816,11 +795,7 @@ export function ThesisWorkbench() {
         evaluation: result,
       };
 
-      setTheses((prev) => {
-        const next = [...prev, summary];
-        persistUserTheses(next);
-        return next;
-      });
+      setTheses((prev) => [...prev.filter((item) => item.id !== id), summary]);
       setSelected(id);
       setWizardStep(4);
     } catch (error) {
