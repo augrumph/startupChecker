@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 
 use super::{
-    round1, round3, Decision, EngineError, EngineV4, EvidenceDirection, HypothesisObservation,
-    ThesisInput, V8Overlay, Evaluation,
+    round1, round3, Decision, EngineError, EngineV4, EvidenceDirection, Evaluation,
+    HypothesisObservation, ThesisInput,
 };
+use super::v8::V8Overlay;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ExperimentLedgerEntry {
@@ -173,6 +174,7 @@ fn robustness(
     thesis_score: f64,
     structural_strength: f64,
     evidence_coverage: f64,
+    decision_confidence: f64,
     sensitivity_risk: f64,
     v8: &V8Overlay,
 ) -> RobustnessSimulation {
@@ -340,7 +342,7 @@ pub(crate) fn build_overlay(
         &input.decision_history,
         thesis_score,
         v8.founder_attention_priority,
-        0.0,
+        decision_confidence,
         evidence_coverage,
         decision,
     );
