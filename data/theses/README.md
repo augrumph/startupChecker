@@ -54,3 +54,12 @@ THESIS_DATA_DIR=/absolute/or/persistent/path
 The API writes atomically through a temporary file and rename.
 
 Important: the deployment must have a writable/persistent checkout if runtime writes are expected. On read-only/stateless hosting, use a repo-backed write adapter instead of local filesystem writes.
+
+
+## V10 evidence provenance
+
+The machine record now also stores `evidence_records` and `evidence_as_of_unix`.
+
+Research claims must be persisted with source provenance so Truth Score, contradiction detection, duplicate detection and training eligibility can be recomputed from the Markdown record alone.
+
+Evidence and experiment updates should use the persisted thesis routes so every mutation remains in the repository-backed record.
