@@ -106,7 +106,48 @@ const schema = z.object({
     emptyOceanRisk: z.number().min(0).max(1),
     proposedSignals: z.array(scoredCriterion).length(6),
     sourceUrls: z.array(z.string().url()).max(12),
+    strategyCanvas: z.array(
+      z.object({
+        factor: z.string(),
+        incumbents: z.number().min(0).max(10),
+        proposed: z.number().min(0).max(10),
+        rationale: z.string(),
+      }),
+    ).min(4).max(12),
   }),
+  evidenceGraph: z.object({
+    claims: z.array(
+      z.object({
+        id: z.string(),
+        claim: z.string(),
+        sourceUrls: z.array(z.string().url()).max(8),
+        criterionKeys: z.array(z.string()).max(8),
+        direction: z.enum(["SUPPORTS", "CONTRADICTS", "CONTEXT"]),
+        confidence: z.number().min(0).max(1),
+      }),
+    ).max(40),
+  }),
+  criticalHypotheses: z.array(
+    z.object({
+      id: z.string(),
+      label: z.string(),
+      priorProbability: z.number().min(0.01).max(0.99),
+      killIfFalse: z.boolean(),
+      rationale: z.string(),
+    }),
+  ).min(2).max(10),
+  candidateExperiments: z.array(
+    z.object({
+      id: z.string(),
+      label: z.string(),
+      hypothesisId: z.string(),
+      costBRL: z.number().min(0),
+      hours: z.number().min(0),
+      decisiveness: z.number().min(0).max(1),
+      rationale: z.string(),
+    }),
+  ).min(1).max(12),
+  founderFitQuestions: z.array(z.string()).max(8),
   proposedSignals: z.object({
     universal: z.array(scoredCriterion),
     experts: z.array(
@@ -186,7 +227,16 @@ BLUE OCEAN — obrigatório em TODA tese:
 Blue Ocean NÃO pode resgatar uma tese com pagador, capacidade de pagar ou valor fracos.
 O objetivo é descobrir criação de demanda e value innovation, não premiar novidade.
 
-SCORING V7 — use esta régua com extrema severidade para TODO score 0-10:
+V8 — DECISION & RESEARCH OS:
+19. construa uma STRATEGY CANVAS com 4–12 fatores reais de competição; compare incumbentes vs tese proposta 0–10;
+20. construa um EVIDENCE GRAPH: cada claim importante deve apontar fontes e critérios que suporta/contradiz;
+21. liste 2–10 HIPÓTESES CRÍTICAS que ainda não sabemos, com prior probability conservadora e killIfFalse;
+22. crie experimentos baratos para essas hipóteses, estimando custo em R$, horas e decisiveness 0–1;
+23. priorize experimentos que possam mudar a decisão, não os que apenas aumentam confiança;
+24. gere perguntas de Founder Fit apenas para fatos privados que a web não consegue saber (acesso, credibilidade, capital, velocidade de build);
+25. não invente Founder Fit: pergunte, não pontue.
+
+SCORING V7/V8 — use esta régua com extrema severidade para TODO score 0-10:
 - 0–2: evidência contrária / mecanismo praticamente inexistente.
 - 3–4: fraco; abaixo do necessário; tese não deve consumir founder time.
 - 5: plausível/mediano, mas sem edge forte.
@@ -233,14 +283,16 @@ Os critérios podem variar conforme o engine. Não crie critério inexistente se
         "Web-grounded Brazil adaptation and preliminary evidence pack for deterministic thesis evaluation.",
       schema,
     }),
-    system: `Você é o Research Orchestrator do Thesis Engine V5.
+    system: `Você é o Research Orchestrator do Thesis Engine V8.
 Você pesquisa; não vende a ideia.
 Você é adversarial, econômico e local.
 Uma tese YC não ganha pontos por ser YC.
 Uma ausência de concorrente pode significar ausência de mercado.
 Blue Ocean exige simultaneamente valor para o comprador e lógica econômica/custo, além de nova demanda ou não-clientes plausíveis.
 Use URLs reais obtidas nas ferramentas.
-O output deve permitir que outro sistema audite cada conclusão.`,
+O output deve permitir que outro sistema audite cada conclusão.
+A V8 separa qualidade da tese de prioridade de atenção. Sua função é produzir as incertezas e experimentos que permitam ao Rust calcular Value of Information.
+Não tente adivinhar Founder Fit.`,
     prompt,
   });
 
