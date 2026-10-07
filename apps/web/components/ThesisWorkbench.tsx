@@ -606,6 +606,10 @@ export function ThesisWorkbench() {
   const [areaFilter, setAreaFilter] = useState("ALL");
   const [batchFilter, setBatchFilter] = useState("ALL");
   const [productFilter, setProductFilter] = useState("ALL");
+  const [salesMotionFilter, setSalesMotionFilter] = useState("ALL");
+  const [capitalFilter, setCapitalFilter] = useState("ALL");
+  const [regulatoryFilter, setRegulatoryFilter] = useState("ALL");
+  const [adaptationFilter, setAdaptationFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [showNew, setShowNew] = useState(false);
 
@@ -749,6 +753,10 @@ export function ThesisWorkbench() {
       ),
       batches: unique(theses.map((item) => item.batch)),
       products: unique(theses.map((item) => item.productType)),
+      salesMotions: unique(theses.map((item) => item.salesMotion)),
+      capital: unique(theses.map((item) => item.capitalIntensity)),
+      regulatory: unique(theses.map((item) => item.regulatoryIntensity)),
+      adaptations: unique(theses.map((item) => item.adaptationMode)),
       statuses: unique(theses.map((item) => item.analysisStatus)),
     };
   }, [theses, macroFilter]);
@@ -1351,6 +1359,22 @@ export function ThesisWorkbench() {
             <select value={productFilter} onChange={(e) => setProductFilter(e.target.value)}>
               <option value="ALL">Todos os produtos</option>
               {filterOptions.products.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={salesMotionFilter} onChange={(e) => setSalesMotionFilter(e.target.value)}>
+              <option value="ALL">Todos os motions</option>
+              {filterOptions.salesMotions.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={capitalFilter} onChange={(e) => setCapitalFilter(e.target.value)}>
+              <option value="ALL">Qualquer capital</option>
+              {filterOptions.capital.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={regulatoryFilter} onChange={(e) => setRegulatoryFilter(e.target.value)}>
+              <option value="ALL">Qualquer regulação</option>
+              {filterOptions.regulatory.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={adaptationFilter} onChange={(e) => setAdaptationFilter(e.target.value)}>
+              <option value="ALL">Brasil / global</option>
+              {filterOptions.adaptations.map((value) => <option key={value}>{value}</option>)}
             </select>
             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="ALL">Todos os status</option>
