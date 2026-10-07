@@ -96,7 +96,11 @@ type Evaluation = {
   learning: ScoreCard;
   potential_score: number | null;
   structural_strength: number;
+  thesis_score: number;
   conservative_strength: number;
+  rating_band: "REJECT" | "WEAK" | "WATCHLIST" | "INVESTIGATE" | "PRIORITY" | "EXCEPTIONAL";
+  evidence_cap: number;
+  quality_cap: number;
   evidence_coverage: number;
   investigation_priority: number;
   decision_confidence: number;
@@ -206,9 +210,9 @@ const seeded: Thesis[] = [
     sector: "Formação esportiva",
     engine: "Aspiration / Transformation",
     decision: "7-day WTP / Demand Test",
-    core: 87,
-    expert: 88.5,
-    learning: 91,
+    core: 6.7,
+    expert: 6.9,
+    learning: 7.4,
     evidence: 2,
     next: "Conseguir compromissos reais no ticket: reserva, depósito ou matrícula.",
   },
@@ -218,9 +222,9 @@ const seeded: Thesis[] = [
     sector: "Legaltech trabalhista",
     engine: "Economic ROI",
     decision: "30-day Paid Test",
-    core: 88.5,
-    expert: 86.5,
-    learning: 84,
+    core: 6.8,
+    expert: 6.7,
+    learning: 7.0,
     evidence: 3,
     next: "Fechar piloto pago e medir horas economizadas, custo de entrega e outcome.",
   },
@@ -230,9 +234,9 @@ const seeded: Thesis[] = [
     sector: "Fintech / PME",
     engine: "Economic ROI",
     decision: "48h Falsification",
-    core: 81.5,
-    expert: 81,
-    learning: 83,
+    core: 6.1,
+    expert: 6.0,
+    learning: 6.8,
     evidence: 1,
     next: "Tentar destruir a hipótese com donos/CFOs antes de qualquer build.",
   },
@@ -242,9 +246,9 @@ const seeded: Thesis[] = [
     sector: "Healthtech",
     engine: "Economic ROI",
     decision: "Kill / Reformulate",
-    core: 46.5,
-    expert: 40,
-    learning: 53,
+    core: 3.2,
+    expert: 2.8,
+    learning: 4.0,
     evidence: 4,
     next: "Não investir mais sem uma nova economia de valor e um pagador claro.",
   },
@@ -297,8 +301,8 @@ function formatDecision(decision: string) {
 }
 
 function scoreTone(score: number) {
-  if (score >= 80) return "score score-good";
-  if (score >= 65) return "score score-warn";
+  if (score >= 8) return "score score-good";
+  if (score >= 7) return "score score-warn";
   return "score score-bad";
 }
 
@@ -829,7 +833,7 @@ export function ThesisWorkbench() {
   }
 
   const currentHeroScore = thesis.evaluation
-    ? thesis.evaluation.structural_strength
+    ? thesis.evaluation.thesis_score
     : (thesis.core + thesis.expert) / 2;
 
   const currentConservative = thesis.evaluation?.conservative_strength;
@@ -844,7 +848,7 @@ export function ThesisWorkbench() {
           </div>
           <div>
             <strong>Startup Checker</strong>
-            <span>Thesis Engine V5</span>
+            <span>Thesis Engine V7</span>
           </div>
         </div>
 
@@ -941,7 +945,7 @@ export function ThesisWorkbench() {
               onClick={() => setSelected(item.id)}
             >
               <div className="mini-ring">
-                <span>{Math.round(item.evaluation?.structural_strength ?? (item.core + item.expert) / 2)}</span>
+                <span>{(item.evaluation?.thesis_score ?? (item.core + item.expert) / 2).toFixed(1)}</span>
               </div>
               <div className="row-copy">
                 <div className="row-title">
@@ -972,8 +976,8 @@ export function ThesisWorkbench() {
             <div className="hero-score">
               <div className="big-ring">
                 <div>
-                  <strong>{Math.round(currentHeroScore)}</strong>
-                  <span>estrutura</span>
+                  <strong>{currentHeroScore.toFixed(1)}</strong>
+                  <span>score V7</span>
                 </div>
               </div>
             </div>
@@ -1142,7 +1146,7 @@ export function ThesisWorkbench() {
             </div>
 
             {!config && !configError ? (
-              <div className="wizard-state">Carregando Thesis Engine V5…</div>
+              <div className="wizard-state">Carregando Thesis Engine V7…</div>
             ) : null}
 
             {configError ? (
@@ -1457,7 +1461,7 @@ export function ThesisWorkbench() {
                     disabled={evaluating}
                     onClick={evaluateThesis}
                   >
-                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V5"}
+                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V7"}
                     {!evaluating ? <Sparkles size={15} /> : null}
                   </button>
                 </div>
@@ -1468,8 +1472,8 @@ export function ThesisWorkbench() {
               <div className="wizard-body result-step">
                 <div className="result-hero">
                   <div className="result-score">
-                    <strong>{Math.round(lastEvaluation.structural_strength)}</strong>
-                    <span>estrutura</span>
+                    <strong>{lastEvaluation.thesis_score.toFixed(1)}</strong>
+                    <span>score V7</span>
                   </div>
                   <div>
                     <span className={decisionTone(formatDecision(lastEvaluation.decision))}>
@@ -1482,8 +1486,20 @@ export function ThesisWorkbench() {
 
                 <div className="result-grid">
                   <div>
-                    <span>Força conservadora</span>
-                    <strong>{lastEvaluation.conservative_strength.toFixed(1)}</strong>
+                    <span>Estrutura teórica</span>
+                    <strong>{lastEvaluation.structural_strength.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Teto evidência</span>
+                    <strong>{lastEvaluation.evidence_cap.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Teto qualidade</span>
+                    <strong>{lastEvaluation.quality_cap.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Faixa</span>
+                    <strong>{lastEvaluation.rating_band}</strong>
                   </div>
                   <div>
                     <span>Learning</span>
