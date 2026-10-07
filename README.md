@@ -1,4 +1,4 @@
-# startupChecker — Thesis Engine V7
+# startupChecker — Thesis Engine V8
 
 Decision engine for rapidly killing weak startup theses and identifying the cheapest next experiment for promising ones.
 
@@ -11,7 +11,7 @@ Decision engine for rapidly killing weak startup theses and identifying the chea
 - **Rust remains the final decision authority**: LLM output cannot overwrite scores, vetoes, thresholds or decisions.
 - Future predictive ML is **not trained inside the transactional core**. Outcomes will be collected and models can be trained offline, then versioned and plugged into the engine as an overlay.
 
-## V7 principles
+## V8 principles
 
 1. Business-model agnostic: B2C, B2B, B2B2C, B2G, marketplaces, transactions, services, industrial models, etc.
 2. Multi-expert routing: a thesis may be evaluated by more than one value engine.
@@ -131,3 +131,26 @@ Three mechanisms prevent inflation:
 3. quality cap: barely clearing veto thresholds cannot produce a high overall score.
 
 A 9 requires both exceptional fundamentals and mature evidence. A 10 should be nearly absent.
+
+
+## V8 — Portfolio Decision OS
+
+V8 keeps the strict V7 thesis score and adds decision allocation:
+
+- Founder Fit separate from market quality
+- Bayesian-style hypothesis posteriors
+- Value of Information
+- kill probability
+- Founder Attention Priority
+- 7/8/9 counterfactuals
+- Failure Pattern Library
+- portfolio ranking and budget allocation
+- Strategy Canvas and Evidence Graph from Deep Research
+
+New endpoint:
+
+```
+POST /v1/portfolio
+```
+
+See `docs/ENGINE_V8.md`.
