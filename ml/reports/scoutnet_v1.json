@@ -1,0 +1,51 @@
+{
+  "version": "6.0.0-scoutnet-v1",
+  "dataset_rows": 363,
+  "weak_supervision": true,
+  "cv_5fold": {
+    "linear_svc": {
+      "accuracy": 0.8154,
+      "macro_f1": 0.7664,
+      "weighted_f1": 0.8129,
+      "status": "PROMOTED_SCOUT_OVERLAY"
+    },
+    "logreg": {
+      "accuracy": 0.7851,
+      "macro_f1": 0.7485,
+      "weighted_f1": 0.7887,
+      "status": "BASELINE"
+    },
+    "mlp_64": {
+      "accuracy": 0.7741,
+      "macro_f1": 0.7027,
+      "weighted_f1": 0.7658,
+      "status": "NEURAL_CHALLENGER"
+    },
+    "mlp_128_32": {
+      "accuracy": 0.7934,
+      "macro_f1": 0.7334,
+      "weighted_f1": 0.7868,
+      "status": "NEURAL_CHALLENGER"
+    }
+  },
+  "priority_cv_5fold": {
+    "ridge": {
+      "mae": 7.129,
+      "r2": 0.29,
+      "status": "PROMOTED_SCOUT_OVERLAY"
+    },
+    "mlp_reg_64": {
+      "mae": 8.372,
+      "r2": -0.13,
+      "status": "NEURAL_CHALLENGER"
+    }
+  },
+  "compact_export": {
+    "features": 49,
+    "teacher_train_accuracy": 0.9256,
+    "teacher_train_macro_f1": 0.9085,
+    "priority_train_mae": 5.6103
+  },
+  "guardrail": "ScoutNet imitates V5 weak labels only; it cannot change deterministic Rust decisions.",
+  "outcomenet": "LOCKED_UNTIL_REAL_LABELS"
+}
