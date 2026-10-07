@@ -1,4 +1,4 @@
-# startupChecker — Thesis Engine V5
+# startupChecker — Thesis Engine V6
 
 Decision engine for rapidly killing weak startup theses and identifying the cheapest next experiment for promising ones.
 
@@ -11,7 +11,7 @@ Decision engine for rapidly killing weak startup theses and identifying the chea
 - **Rust remains the final decision authority**: LLM output cannot overwrite scores, vetoes, thresholds or decisions.
 - Future predictive ML is **not trained inside the transactional core**. Outcomes will be collected and models can be trained offline, then versioned and plugged into the engine as an overlay.
 
-## V5 principles
+## V6 principles
 
 1. Business-model agnostic: B2C, B2B, B2B2C, B2G, marketplaces, transactions, services, industrial models, etc.
 2. Multi-expert routing: a thesis may be evaluated by more than one value engine.
@@ -89,3 +89,24 @@ AI_MODEL_DEEP=openai/gpt-6-sol
 ```
 
 **Rule: LLM interprets. Rust decides.**
+
+
+## V6 — ScoutNet and OutcomeNet
+
+ScoutNet was trained on the current 363-thesis weak-label universe and is used only to prioritize research.
+
+Endpoint:
+
+```
+POST /v1/scout
+```
+
+Actual 5-fold CV:
+- LinearSVC macro-F1: **0.7664** — promoted Scout overlay
+- MLP 128×32 macro-F1: **0.7334** — neural challenger
+- Ridge research-priority MAE: **7.129** — promoted
+- MLP regressor MAE: **8.372** — challenger
+
+The neural models were trained and lost, so they are not promoted.
+
+OutcomeNet remains locked until enough real market outcomes exist. See `docs/ENGINE_V6.md`.
