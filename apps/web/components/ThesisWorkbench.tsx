@@ -362,6 +362,53 @@ type ThesisSummaryApi = {
   decision: string | null;
 };
 
+
+type ShortlistItem = {
+  rank: number;
+  id: string;
+  name: string;
+  tagline: string;
+  batch: string;
+  area: string;
+  scoutPriority: number;
+  ocean: "BLUE_HYPOTHESIS" | "PURPLE_OCEAN";
+  whyImportant: string;
+  whatCanKill: string;
+};
+
+const ycShortlist: ShortlistItem[] = [
+  { rank: 1, id: "yc-spring-2026-dayjob", name: "Dayjob", tagline: "AI Scheduling for Short Haul Trucks", batch: "Spring 2026", area: "Supply Chain & Logistics", scoutPriority: 4.2, ocean: "BLUE_HYPOTHESIS", whyImportant: "Scheduling de frota é recorrente, operacional e mensurável; se reduzir ociosidade, atraso ou trabalho manual, o ROI aparece rápido.", whatCanKill: "TMS existentes resolverem o suficiente ou integração/dispatch ser mais difícil que o ganho econômico." },
+  { rank: 2, id: "yc-winter-2026-khotan-formerly-pollinate", name: "Khotan", tagline: "FDE as a platform for rebuilding critical operations in software.", batch: "Winter 2026", area: "Enterprise Operations & Vertical SaaS", scoutPriority: 4.2, ocean: "BLUE_HYPOTHESIS", whyImportant: "Ataca operações críticas, onde software ruim custa horas e receita; FDE pode capturar budget existente de serviços + software.", whatCanKill: "Virar consultoria pouco escalável ou depender de projetos longos para provar valor." },
+  { rank: 3, id: "yc-fall-2025-lunavo", name: "Lunavo", tagline: "AI assistant for carriers.", batch: "Fall 2025", area: "Supply Chain & Logistics", scoutPriority: 4.2, ocean: "BLUE_HYPOTHESIS", whyImportant: "Transportadoras têm alto volume de comunicação, tracking, exceções e backoffice; automação pode monetizar economia de headcount e throughput.", whatCanKill: "Wedge genérico demais ou carriers já terem automação suficiente no TMS." },
+  { rank: 4, id: "yc-spring-2026-hexa", name: "Hexa", tagline: "Autonomous operations for industrial distributors", batch: "Spring 2026", area: "Industrial, Manufacturing & Robotics", scoutPriority: 4.2, ocean: "BLUE_HYPOTHESIS", whyImportant: "Distribuidores industriais têm pedidos, cotações, estoque e atendimento repetitivos; buyer B2B e ROI operacional são claros.", whatCanKill: "Integrações ERP e dados ruins consumirem toda a margem e velocidade de implantação." },
+  { rank: 5, id: "yc-spring-2026-alchemize", name: "Alchemize", tagline: "Building AI Native Customs Brokerages", batch: "Spring 2026", area: "Supply Chain & Logistics", scoutPriority: 4.2, ocean: "BLUE_HYPOTHESIS", whyImportant: "Despacho aduaneiro mistura trabalho documental, regras e transação econômica; há oportunidade de serviço tech-enabled com automação profunda.", whatCanKill: "Regulação/localização e responsabilidade do broker impedirem automação ou expansão rápida." },
+  { rank: 6, id: "yc-winter-2027-linklane", name: "LinkLane", tagline: "AI-powered freight brokerage. Quote, book, and track loads in seconds.", batch: "Winter 2027", area: "Supply Chain & Logistics", scoutPriority: 4.2, ocean: "BLUE_HYPOTHESIS", whyImportant: "Cotação→booking→tracking é um workflow completo e monetizável; no Brasil ainda há espaço para uma adaptação realmente local.", whatCanKill: "Margem pequena, aquisição de liquidez e integração com embarcadores/transportadores." },
+  { rank: 7, id: "yc-winter-2026-balance", name: "Balance", tagline: "Full-Stack AI Accounting", batch: "Winter 2026", area: "Finance & Accounting", scoutPriority: 3.9, ocean: "BLUE_HYPOTHESIS", whyImportant: "Contabilidade possui budget recorrente, tarefas repetitivas e valor econômico direto; substituir trabalho humano cria um ROI objetivo.", whatCanKill: "Qualidade/責abilidade contábil exigir humanos demais ou concorrência comprimir preço." },
+  { rank: 8, id: "yc-winter-2026-fullseam", name: "FullSeam", tagline: "AI agents for corporate accounting teams", batch: "Winter 2026", area: "Finance & Accounting", scoutPriority: 3.9, ocean: "BLUE_HYPOTHESIS", whyImportant: "Buyer e departamento são explícitos; fechamento, reconciliação e exceções são frequentes e mensuráveis.", whatCanKill: "ERP incumbente incorporar a feature ou controles internos bloquearem autonomia do agente." },
+  { rank: 9, id: "yc-spring-2026-cohesion", name: "Cohesion", tagline: "Modern Intelligence for Finance", batch: "Spring 2026", area: "Finance & Accounting", scoutPriority: 3.9, ocean: "BLUE_HYPOTHESIS", whyImportant: "Finance teams têm alto custo de análise e decisão; uma camada de inteligência pode capturar budget se atuar em decisões recorrentes.", whatCanKill: "Posicionamento amplo demais e substituição fácil por BI/LLMs horizontais." },
+  { rank: 10, id: "yc-winter-2027-rote", name: "Rote", tagline: "AI-native insurance department for auto body shops", batch: "Winter 2027", area: "Insurance", scoutPriority: 3.9, ocean: "PURPLE_OCEAN", whyImportant: "Oficinas lidam com orçamento, fotos, seguradoras, autorizações e follow-up; o comprador e o workflow são concretos.", whatCanKill: "Seguradoras controlarem o processo ou oficinas pequenas não sustentarem ticket." },
+  { rank: 11, id: "yc-winter-2026-valgo", name: "Valgo", tagline: "Insurance risk layer for physical AI", batch: "Winter 2026", area: "Insurance", scoutPriority: 3.9, ocean: "PURPLE_OCEAN", whyImportant: "Physical AI cria novos riscos e compradores corporativos; uma camada de risco pode virar infraestrutura obrigatória se o mercado crescer.", whatCanKill: "Mercado prematuro, dados insuficientes para underwriting ou carriers capturarem a camada." },
+  { rank: 12, id: "yc-spring-2026-huscarl", name: "Huscarl", tagline: "AI-native actuary enabling self-insurance for corporations", batch: "Spring 2026", area: "Insurance", scoutPriority: 3.9, ocean: "PURPLE_OCEAN", whyImportant: "Self-insurance corporativo envolve economics grandes; reduzir custo atuarial/risco pode justificar ticket elevado.", whatCanKill: "Regulação, confiança e cauda de risco exigirem capital/credibilidade que a startup não possui." },
+  { rank: 13, id: "yc-spring-2026-clawvisor", name: "Clawvisor", tagline: "The Authorization Layer for AI Agents", batch: "Spring 2026", area: "Security, Identity & Trust", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Quanto mais agentes executam ações, mais autorização e controle viram requisito; valor é de risco/mandatory, não só conveniência.", whatCanKill: "Cloud/security incumbents absorverem a função ou padrões abertos comoditizarem a camada." },
+  { rank: 14, id: "yc-spring-2026-modern", name: "Modern", tagline: "The ServiceNow killer", batch: "Spring 2026", area: "Enterprise Operations & Vertical SaaS", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Service management tem budgets enormes e processos ruins; deslocar incumbent pode criar muito valor se houver wedge específico.", whatCanKill: "Sales cycle enterprise, switching cost e escopo amplo demais." },
+  { rank: 15, id: "yc-spring-2026-asendia-ai", name: "Asendia AI", tagline: "AI recruiters for staffing agencies", batch: "Spring 2026", area: "Recruiting & HR", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Staffing agencies monetizam throughput; automação que aumenta placements ou reduz recruiter-hours tem ROI direto.", whatCanKill: "Mercado extremamente crowded e diferenciação baixa." },
+  { rank: 16, id: "yc-spring-2026-pumpgtm", name: "PumpGTM", tagline: "Find and engage with desperate buyers across LinkedIn, Email, and X", batch: "Spring 2026", area: "Sales, Marketing & Growth", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Geração de pipeline tem budget claro e outcome em receita; uma fonte nova de intent pode capturar valor rápido.", whatCanKill: "Red ocean severo, dependência de plataformas e sinais de intent fracos." },
+  { rank: 17, id: "yc-spring-2026-agentphone", name: "AgentPhone", tagline: "Phone Numbers for AI Agents", batch: "Spring 2026", area: "AI Infrastructure & Developer Tools", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Agentes precisam de identidade/canais próprios para operar; pode virar infraestrutura simples e global.", whatCanKill: "Ser feature facilmente replicável por Twilio/telecom APIs." },
+  { rank: 18, id: "yc-spring-2026-runtime", name: "Runtime", tagline: "The AI agent harness for payment teams", batch: "Spring 2026", area: "AI Infrastructure & Developer Tools", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Payment teams combinam alto valor transacional com necessidade de controle; harness especializado pode cobrar premium.", whatCanKill: "Buyer preferir plataforma generalista ou compliance bloquear autonomia." },
+  { rank: 19, id: "yc-spring-2026-silmaril", name: "Silmaril", tagline: "Security for agents that self-improves", batch: "Spring 2026", area: "Security, Identity & Trust", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Segurança de agentes é um risco crescente; se detectar comportamento real em produção, o valor pode ser obrigatório.", whatCanKill: "Mercado ainda cedo ou solução virar módulo de observability/security existente." },
+  { rank: 20, id: "yc-spring-2026-wato", name: "Wato", tagline: "The control point for AI agents at work.", batch: "Spring 2026", area: "AI Infrastructure & Developer Tools", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Empresas precisarão controlar agentes, ações e permissões; governance pode se tornar infraestrutura horizontal.", whatCanKill: "Categoria consolidar em poucos vendors grandes ou produto não superar security stack atual." },
+  { rank: 21, id: "yc-spring-2026-chronicle-labs", name: "Chronicle Labs", tagline: "Staging Environments for Enterprise AI Agents", batch: "Spring 2026", area: "Enterprise Operations & Vertical SaaS", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Antes de agentes atuarem em produção, empresas precisam testar comportamento e integração; staging é um wedge técnico concreto.", whatCanKill: "Frameworks de agentes oferecerem isso nativamente." },
+  { rank: 22, id: "yc-spring-2026-auxos", name: "Auxos", tagline: "Simulations of real people for market research", batch: "Spring 2026", area: "Research, Data & Simulation", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Market research tem budget e tempo altos; simulação pode reduzir custo se provar correlação com humanos reais.", whatCanKill: "Validade externa ruim tornar o produto inútil para decisões sérias." },
+  { rank: 23, id: "yc-spring-2026-saudara-ai", name: "Saudara AI", tagline: "AI Native Sourcing Broker For Overseas Manufacturing", batch: "Spring 2026", area: "Supply Chain & Logistics", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Sourcing internacional é fragmentado e transacional; brokerage tech-enabled captura valor por economia e execução.", whatCanKill: "Confiança, inspeção e relacionamento local continuarem exigindo humanos." },
+  { rank: 24, id: "yc-spring-2026-kinect", name: "Kinect", tagline: "The AI revenue platform for D2C brands", batch: "Spring 2026", area: "Sales, Marketing & Growth", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "D2C mede receita diretamente; produto que prova lift pode cobrar sobre valor.", whatCanKill: "Atribuição fraca e competição intensa em martech." },
+  { rank: 25, id: "yc-spring-2026-maquoketa-research", name: "Maquoketa Research", tagline: "Automated LiveOps for Game Studios", batch: "Spring 2026", area: "AI Applications & Vertical Software", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "LiveOps é recorrente e ligado a retenção/receita; automação especializada pode ter outcome claro.", whatCanKill: "Studios pequenos demais ou ferramentas internas absorverem o fluxo." },
+  { rank: 26, id: "yc-spring-2026-pentagon", name: "Pentagon", tagline: "The control plane for agent-native work.", batch: "Spring 2026", area: "AI Applications & Vertical Software", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Se agentes virarem coworkers, coordenação e controle passam a ser uma nova camada de trabalho.", whatCanKill: "Abstração cedo demais sem buyer/wedge específico." },
+  { rank: 27, id: "yc-spring-2026-projectx", name: "ProjectX", tagline: "Agent native workspace for heavy parallel workflows on the web", batch: "Spring 2026", area: "AI Infrastructure & Developer Tools", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Workflows paralelos de agentes têm dor técnica real em browser/runtime; pode ser dev infra global.", whatCanKill: "Browsers/agent frameworks internalizarem a capacidade." },
+  { rank: 28, id: "yc-spring-2026-manicule", name: "Manicule", tagline: "AgentRel — Devrel For Agents", batch: "Spring 2026", area: "Sales, Marketing & Growth", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "Se agentes passarem a escolher APIs/ferramentas, surge um novo canal de distribuição B2B.", whatCanKill: "A premissa de agentes decidirem autonomamente software ainda não gerar budget real." },
+  { rank: 29, id: "yc-spring-2026-thomas", name: "Thomas", tagline: "The first AI founder: a virtual human who runs his own companies.", batch: "Spring 2026", area: "AI Applications & Vertical Software", scoutPriority: 3.7, ocean: "PURPLE_OCEAN", whyImportant: "É uma tese extrema de automação empresarial que pode revelar novos modelos de company creation.", whatCanKill: "Produto sem buyer claro, narrativa maior que economics e responsabilidade operacional." },
+  { rank: 30, id: "yc-winter-2026-inventoryquant", name: "InventoryQuant", tagline: "We automate the inventory process in insurance", batch: "Winter 2026", area: "Insurance", scoutPriority: 3.9, ocean: "PURPLE_OCEAN", whyImportant: "Inventário em sinistros é trabalho manual ligado diretamente ao claim; buyer e outcome operacional podem ser mensurados.", whatCanKill: "Volume pequeno por cliente ou incumbentes já dominarem o processo." }
+];
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
 const seeded: Thesis[] = [
@@ -601,6 +648,7 @@ export function ThesisWorkbench() {
   const [theses, setTheses] = useState<Thesis[]>(seeded);
   const [selected, setSelected] = useState(seeded[0].id);
   const [query, setQuery] = useState("");
+  const [listMode, setListMode] = useState<"BEST" | "ALL" | "TRAINING">("BEST");
   const [marketFilter, setMarketFilter] = useState("ALL");
   const [macroFilter, setMacroFilter] = useState("ALL");
   const [areaFilter, setAreaFilter] = useState("ALL");
@@ -1223,6 +1271,7 @@ export function ThesisWorkbench() {
     }
   }
 
+  const selectedShortlist = ycShortlist.find((item) => item.id === thesis.id);
   const currentHeroScore = thesis.evaluation
     ? thesis.evaluation.thesis_score
     : (thesis.core + thesis.expert) / 2;
@@ -1315,6 +1364,12 @@ export function ThesisWorkbench() {
           </button>
         </header>
 
+        <div className="universe-modes">
+          <button className={listMode === "BEST" ? "universe-mode active" : "universe-mode"} onClick={() => setListMode("BEST")}>Melhores</button>
+          <button className={listMode === "ALL" ? "universe-mode active" : "universe-mode"} onClick={() => setListMode("ALL")}>Todas 539</button>
+          <button className={listMode === "TRAINING" ? "universe-mode active" : "universe-mode"} onClick={() => setListMode("TRAINING")}>Treino</button>
+        </div>
+
         <label className="search">
           <Search size={16} />
           <input
@@ -1324,7 +1379,7 @@ export function ThesisWorkbench() {
           />
         </label>
 
-        <div className="filter-bar">
+        {listMode === "ALL" ? <div className="filter-bar">
           <div className="market-tabs">
             {["ALL", "B2B", "B2C", "B2G", "B2B2C"].map((market) => (
               <button
@@ -1400,36 +1455,60 @@ export function ThesisWorkbench() {
               </button>
             ) : null}
           </div>
-        </div>
+        </div> : null}
 
         <div className="thesis-list">
-          {visibleTheses.map((item) => (
-            <button
-              key={item.id}
-              className={
-                item.id === thesis.id
-                  ? "thesis-row thesis-selected"
-                  : "thesis-row"
-              }
-              onClick={() => setSelected(item.id)}
-            >
-              <div className="mini-ring">
-                <span>{(item.evaluation?.thesis_score ?? (item.core + item.expert) / 2).toFixed(1)}</span>
-              </div>
-              <div className="row-copy">
-                <div className="row-title">
-                  <strong>{item.name}</strong>
-                  <span>{item.evidence}/5</span>
+          {listMode === "BEST" ? (
+            ycShortlist.map((item) => (
+              <button
+                key={item.id}
+                className={item.id === thesis.id ? "thesis-row thesis-selected shortlist-row" : "thesis-row shortlist-row"}
+                onClick={() => setSelected(item.id)}
+              >
+                <div className="shortlist-rank">#{item.rank}</div>
+                <div className="row-copy">
+                  <div className="row-title">
+                    <strong>{item.name}</strong>
+                    <span>{item.scoutPriority.toFixed(1)} scout</span>
+                  </div>
+                  <p>{item.tagline}</p>
+                  <small>{item.area} · {item.batch} · {item.ocean === "BLUE_HYPOTHESIS" ? "Blue candidate" : "Purple"}</small>
+                  <em className="why-inline">{item.whyImportant}</em>
                 </div>
-                <p>{item.area ?? item.sector}</p>
-                <small>
-                  {[...(item.marketTypes ?? []), item.batch, item.productType]
-                    .filter(Boolean)
-                    .join(" · ") || item.decision}
-                </small>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))
+          ) : listMode === "TRAINING" ? (
+            <div className="training-panel">
+              <span className="eyebrow">ScoutNet · advisory only</span>
+              <h3>O que já foi treinado</h3>
+              <div className="training-stat"><span>Universo de treino</span><strong>363 teses</strong></div>
+              <div className="training-stat"><span>LinearSVC macro-F1</span><strong>0.7664</strong></div>
+              <div className="training-stat"><span>Accuracy</span><strong>0.8154</strong></div>
+              <div className="training-stat"><span>MLP challenger macro-F1</span><strong>0.7334</strong></div>
+              <div className="training-stat"><span>Priority model</span><strong>Ridge · MAE 7.129</strong></div>
+              <p>O modelo serve para ordenar research. Ele não pode alterar score, veto ou decisão Rust.</p>
+            </div>
+          ) : (
+            visibleTheses.map((item) => (
+              <button
+                key={item.id}
+                className={item.id === thesis.id ? "thesis-row thesis-selected" : "thesis-row"}
+                onClick={() => setSelected(item.id)}
+              >
+                <div className="mini-ring">
+                  <span>{item.evaluation ? item.evaluation.thesis_score.toFixed(1) : "—"}</span>
+                </div>
+                <div className="row-copy">
+                  <div className="row-title">
+                    <strong>{item.name}</strong>
+                    <span>{item.evaluation ? `${item.evidence}/5` : "sparse"}</span>
+                  </div>
+                  <p>{item.area ?? item.sector}</p>
+                  <small>{[...(item.marketTypes ?? []), item.batch, item.productType].filter(Boolean).join(" · ") || item.decision}</small>
+                </div>
+              </button>
+            ))
+          )}
         </div>
       </section>
 
@@ -1449,8 +1528,8 @@ export function ThesisWorkbench() {
             <div className="hero-score">
               <div className="big-ring">
                 <div>
-                  <strong>{currentHeroScore.toFixed(1)}</strong>
-                  <span>score V10</span>
+                  <strong>{selectedShortlist && !thesis.evaluation ? selectedShortlist.scoutPriority.toFixed(1) : currentHeroScore.toFixed(1)}</strong>
+                  <span>{selectedShortlist && !thesis.evaluation ? "scout priority" : "score V10"}</span>
                 </div>
               </div>
             </div>
@@ -1461,7 +1540,9 @@ export function ThesisWorkbench() {
               <p>
                 {thesis.evaluation
                   ? `A V10 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
-                  : "Referência de calibração. Crie uma nova tese para rodar o motor real ponta a ponta."}
+                  : selectedShortlist
+                    ? selectedShortlist.whyImportant
+                    : "Ainda sem Deep Research V10. A triagem sparse não é um score final."}
               </p>
 
               <div className="next-action">
@@ -1474,6 +1555,37 @@ export function ThesisWorkbench() {
               </div>
             </div>
           </section>
+
+          {selectedShortlist && !thesis.evaluation ? (
+            <section className="shortlist-explanation">
+              <div className="shortlist-explanation-head">
+                <div>
+                  <span className="eyebrow">Top {selectedShortlist.rank} / 539</span>
+                  <h3>Por que está no shortlist</h3>
+                </div>
+                <span className={selectedShortlist.ocean === "BLUE_HYPOTHESIS" ? "pill pill-good" : "pill pill-warn"}>
+                  {selectedShortlist.ocean === "BLUE_HYPOTHESIS" ? "Blue candidate" : "Purple ocean"}
+                </span>
+              </div>
+              <p>{selectedShortlist.whyImportant}</p>
+              <div className="shortlist-why-grid">
+                <div>
+                  <span>O que o treino enxergou</span>
+                  <strong>Scout {selectedShortlist.scoutPriority.toFixed(1)} · {selectedShortlist.area}</strong>
+                  <small>Ranking model-informed, diversificado por área para reduzir viés do vocabulário do ScoutNet.</small>
+                </div>
+                <div>
+                  <span>O que pode matar</span>
+                  <strong>{selectedShortlist.whatCanKill}</strong>
+                  <small>Isso precisa ser atacado no Deep Research/experimento antes de qualquer score V10 comparável.</small>
+                </div>
+              </div>
+              <div className="not-final-warning">
+                <BrainCircuit size={16} />
+                <span>Não é Thesis Score V10. É prioridade de investigação entre as 539 teses sparse.</span>
+              </div>
+            </section>
+          ) : null}
 
           <section className="section">
             <div className="section-title">
