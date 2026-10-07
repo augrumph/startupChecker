@@ -355,48 +355,82 @@ function supported(field: { status?: string; answer?: string; sourceUrls?: strin
 
 function auditResearchReadiness(output: z.infer<typeof schema>) {
   const d = output.researchDossier;
-  const critical: Array<[string, { status?: string; answer?: string; sourceUrls?: string[] } | undefined]> = [
-    ["buyer.economicBuyer", d.buyer.economicBuyer],
-    ["buyer.budgetOwner", d.buyer.budgetOwner],
-    ["buyer.purchaseTrigger", d.buyer.purchaseTrigger],
-    ["buyer.purchaseProcess", d.buyer.purchaseProcess],
-    ["problem.jobToBeDone", d.problem.jobToBeDone],
-    ["problem.currentWorkflow", d.problem.currentWorkflow],
-    ["problem.frequency", d.problem.frequency],
-    ["problem.statusQuoCost", d.problem.statusQuoCost],
-    ["economics.roiMechanism", d.economics.roiMechanism],
-    ["economics.valueEquation", d.economics.valueEquation],
-    ["economics.paybackLogic", d.economics.paybackLogic],
-    ["economics.grossMarginLogic", d.economics.grossMarginLogic],
-    ["market.buyerCount", d.market.buyerCount],
-    ["market.buyerDensity", d.market.buyerDensity],
-    ["market.sam", d.market.sam],
-    ["market.somEntryWedge", d.market.somEntryWedge],
-    ["competition.incumbentResponse", d.competition.incumbentResponse],
-    ["competition.substitutionRisk", d.competition.substitutionRisk],
-    ["distribution.salesMotion", d.distribution.salesMotion],
-    ["distribution.salesCycle", d.distribution.salesCycle],
-    ["distribution.cacProxy", d.distribution.cacProxy],
-    ["distribution.trustBarrier", d.distribution.trustBarrier],
-    ["product.minimumViableWedge", d.product.minimumViableWedge],
-    ["product.workflowInsertionPoint", d.product.workflowInsertionPoint],
-    ["product.automationBoundary", d.product.automationBoundary],
-    ["product.implementationComplexity", d.product.implementationComplexity],
-    ["product.timeToValue", d.product.timeToValue],
-    ["regulation.regulatoryRiskSummary", d.regulation.regulatoryRiskSummary],
-    ["defensibility.switchingCosts", d.defensibility.switchingCosts],
-    ["defensibility.platformDependency", d.defensibility.platformDependency],
-    ["retentionExpansion.usageFrequency", d.retentionExpansion.usageFrequency],
-    ["retentionExpansion.retentionDriver", d.retentionExpansion.retentionDriver],
-    ["localization.brazilApplicability", d.localization.brazilApplicability],
-  ];
 
-  const missing = critical.filter(([, field]) => !supported(field)).map(([path]) => path);
-  if (d.competition.direct.length < 3) missing.push("competition.direct<3");
-  if (d.problem.currentAlternatives.length < 1) missing.push("problem.currentAlternatives");
-  if (d.economics.pricingBenchmarks.length + d.economics.wtpEvidence.length < 2) {
-    missing.push("economics.pricing_or_wtp_evidence<2");
-  }
+  type FactLike = { status?: string; answer?: string; sourceUrls?: string[] };
+  const factFields: Array<{ path: string; field: FactLike }> = [];
+
+  const walkFacts = (value: unknown, path: string) => {
+    if (!value || typeof value !== "object") return;
+    if (Array.isArray(value)) {
+      value.forEach((item, index) => walkFacts(item, `${path}[${index}]`));
+      return;
+    }
+    const object = value as Record<string, unknown>;
+    if ("status" in object && "answer" in object && "sourceUrls" in object) {
+      factFields.push({ path, field: object as FactLike });
+      return;
+    }
+    for (const [key, child] of Object.entries(object)) {
+      walkFacts(child, path ? `${path}.${key}` : key);
+    }
+  };
+  walkFacts(d, "");
+
+  const missing = factFields
+    .filter(({ field }) => !supported(field))
+    .map(({ path }) => path);
+
+  const requireArray = (path: string, value: unknown[], min: number) => {
+    if (!Array.isArray(value) || value.length < min) missing.push(`${path}<${min}`);
+  };
+
+  requireArray("buyer.buyerSegments", d.buyer.buyerSegments, 1);
+  requireArray("problem.currentAlternatives", d.problem.currentAlternatives, 2);
+  requireArray("economics.currentSpend", d.economics.currentSpend, 1);
+  requireArray("economics.pricingBenchmarks", d.economics.pricingBenchmarks, 2);
+  requireArray("economics.wtpEvidence", d.economics.wtpEvidence, 1);
+  requireArray("economics.ongoingCostDrivers", d.economics.ongoingCostDrivers, 1);
+  requireArray("economics.unitEconomicRisks", d.economics.unitEconomicRisks, 1);
+  requireArray("market.segmentation", d.market.segmentation, 2);
+  requireArray("competition.direct", d.competition.direct, 3);
+  requireArray("competition.indirectAlternatives", d.competition.indirectAlternatives, 2);
+  requireArray("distribution.primaryChannels", d.distribution.primaryChannels, 1);
+  requireArray("distribution.channelDependencies", d.distribution.channelDependencies, 1);
+  requireArray("product.requiredIntegrations", d.product.requiredIntegrations, 1);
+  requireArray("product.requiredData", d.product.requiredData, 1);
+  requireArray("product.technicalRisks", d.product.technicalRisks, 1);
+  requireArray("regulation.obligations", d.regulation.obligations, 1);
+  requireArray("regulation.licenses", d.regulation.licenses, 1);
+  requireArray("regulation.privacyData", d.regulation.privacyData, 1);
+  requireArray("regulation.liability", d.regulation.liability, 1);
+  requireArray("regulation.procurementLobby", d.regulation.procurementLobby, 1);
+  requireArray("retentionExpansion.churnRisks", d.retentionExpansion.churnRisks, 1);
+  requireArray("retentionExpansion.expansionPaths", d.retentionExpansion.expansionPaths, 1);
+  requireArray("localization.brazilCompetitors", d.localization.brazilCompetitors, 1);
+  requireArray("localization.brazilRegulation", d.localization.brazilRegulation, 1);
+  requireArray("risks.fatalAssumptions", d.risks.fatalAssumptions, 2);
+  requireArray("risks.contradictionEvidence", d.risks.contradictionEvidence, 1);
+  requireArray("risks.externalDependencies", d.risks.externalDependencies, 1);
+
+  d.competition.direct.forEach((competitor, index) => {
+    if (!competitor.name?.trim()) missing.push(`competition.direct[${index}].name`);
+    if (!competitor.buyer?.trim()) missing.push(`competition.direct[${index}].buyer`);
+    if (!competitor.product?.trim()) missing.push(`competition.direct[${index}].product`);
+    if (!competitor.pricing?.trim()) missing.push(`competition.direct[${index}].pricing`);
+    if (!competitor.sourceUrls?.length) missing.push(`competition.direct[${index}].sourceUrls`);
+  });
+
+  const moneyEvidence = [
+    ...d.economics.currentSpend,
+    ...d.economics.pricingBenchmarks,
+    ...d.economics.wtpEvidence,
+  ];
+  moneyEvidence.forEach((item, index) => {
+    if (!item.description?.trim()) missing.push(`economics.moneyEvidence[${index}].description`);
+    if (!item.amountOrRange?.trim()) missing.push(`economics.moneyEvidence[${index}].amountOrRange`);
+    if (!item.context?.trim()) missing.push(`economics.moneyEvidence[${index}].context`);
+    if (!item.sourceUrls?.length) missing.push(`economics.moneyEvidence[${index}].sourceUrls`);
+  });
 
   const domains = new Set(output.sources.map((s) => domainOf(s.url)).filter(Boolean));
   const primary = output.sources.filter((s) =>
@@ -404,38 +438,44 @@ function auditResearchReadiness(output: z.infer<typeof schema>) {
   ).length;
   const claimCount = output.evidenceGraph.claims.length;
 
-  const structuralChecks = critical.length + 3;
-  const passed = structuralChecks - missing.length;
-  const completeness = Math.max(0, Math.min(1, passed / structuralChecks));
+  const uniqueMissing = [...new Set(missing)];
+  const structuralChecks = 22;
+  const totalChecks = factFields.length + structuralChecks;
+  const passedChecks = Math.max(0, totalChecks - uniqueMissing.length);
+  const completeness = totalChecks > 0 ? passedChecks / totalChecks : 0;
 
   const criticalUnknowns = [
-    ...missing,
-    ...output.unresolvedUnknowns.filter((x) =>
-      /pagador|payer|preço|pricing|wtp|willingness|roi|regula|licen|budget|orçamento|distribui|sales cycle|ciclo de venda/i.test(x)
-    ),
+    ...uniqueMissing,
+    ...output.unresolvedUnknowns,
+    ...d.risks.unknowns
+      .filter((field) => field.status === "UNKNOWN" || !field.answer?.trim())
+      .map((field, index) => `risks.unknowns[${index}]`),
   ];
 
   const engineReady =
-    completeness >= 0.95 &&
-    missing.length === 0 &&
+    completeness === 1 &&
+    uniqueMissing.length === 0 &&
     criticalUnknowns.length === 0 &&
-    output.sources.length >= 12 &&
-    domains.size >= 6 &&
-    primary >= 2 &&
-    claimCount >= 12;
+    output.sources.length >= 20 &&
+    domains.size >= 10 &&
+    primary >= 4 &&
+    claimCount >= 25;
 
   return {
-    status: engineReady ? "ENGINE_READY" : completeness >= 0.8 ? "RESEARCH_COMPLETE" : "RESEARCH_INCOMPLETE",
-    dossier_version: "research-dossier-v1",
+    status: engineReady ? "ENGINE_READY" : "RESEARCH_INCOMPLETE",
+    dossier_version: "research-dossier-v2-full",
     completeness,
-    missing_fields: missing,
+    missing_fields: uniqueMissing,
     source_count: output.sources.length,
     independent_domains: domains.size,
     primary_or_official_sources: primary,
     evidence_claim_count: claimCount,
+    field_count: totalChecks,
+    supported_field_count: passedChecks,
     critical_unknowns: [...new Set(criticalUnknowns)],
   };
 }
+
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -553,13 +593,15 @@ Priorize fontes oficiais brasileiras, reguladores, associações setoriais, dado
 Use mídia/comunidade somente como complemento.
 
 MÍNIMO PARA ENGINE_READY:
-- 12 fontes totais;
-- 6 domínios independentes;
-- 2 fontes primárias/oficiais;
-- 12 claims no evidence graph;
+- 20 fontes totais;
+- 10 domínios independentes;
+- 4 fontes primárias/oficiais;
+- 25 claims no evidence graph;
 - todos os campos críticos de buyer, problem, economics, market, competition, distribution, product e regulation com status SUPPORTED ou CONFLICTED;
 - nenhum UNKNOWN crítico sobre pagador, capacidade de pagar, mecanismo de valor, custo do status quo, WTP/pricing, distribuição ou regulação aplicável.
-Se isso não for atingido, o research pode retornar, mas NÃO está pronto para o motor.
+Se QUALQUER campo factual continuar UNKNOWN, se qualquer bloco estrutural estiver vazio, ou se houver qualquer unresolvedUnknown, o research NÃO está pronto para o motor.
+Quando algo realmente não se aplica, não deixe vazio: registre explicitamente "NÃO SE APLICA", com justificativa e fonte que sustente essa conclusão.
+O objetivo é 100% de cobertura auditável, não 95%.
 Não invente números. Se não encontrar, marque como desconhecido.
 Não confunda TAM com disposição a pagar.
 
@@ -578,7 +620,7 @@ Os critérios podem variar conforme o engine. Não crie critério inexistente se
       browserbase_search: gateway.tools.browserbaseSearch({ numResults: 10 }),
       browserbase_fetch: gateway.tools.browserbaseFetch({ allowRedirects: true }),
     },
-    stopWhen: isStepCount(30),
+    stopWhen: isStepCount(40),
     output: Output.object({
       name: "BrazilThesisResearch",
       description:
