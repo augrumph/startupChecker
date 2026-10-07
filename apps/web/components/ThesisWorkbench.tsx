@@ -363,6 +363,27 @@ type ThesisSummaryApi = {
 };
 
 
+type DeepResearchItem = {
+  deep_research_rank: number;
+  id: string;
+  name: string;
+  tagline: string;
+  batch: string;
+  categories: string[];
+  scout_priority: number;
+  ocean: "BLUE_HYPOTHESIS" | "PURPLE_OCEAN";
+  research_priority: number;
+  research_status: "DEEP_RESEARCHED" | "DEEP_RESEARCH_PARTIAL" | "RESEARCH_INCOMPLETE";
+  why: string;
+  what_can_kill: string;
+  sources: string[];
+};
+
+type DeepResearchLeaderboard = {
+  generated_at: string;
+  items: DeepResearchItem[];
+};
+
 type ShortlistItem = {
   rank: number;
   id: string;
@@ -648,6 +669,7 @@ export function ThesisWorkbench() {
   const [theses, setTheses] = useState<Thesis[]>(seeded);
   const [selected, setSelected] = useState(seeded[0].id);
   const [query, setQuery] = useState("");
+  const [deepResearchItems, setDeepResearchItems] = useState<DeepResearchItem[]>([]);
   const [listMode, setListMode] = useState<"BEST" | "ALL" | "TRAINING">("BEST");
   const [marketFilter, setMarketFilter] = useState("ALL");
   const [macroFilter, setMacroFilter] = useState("ALL");
@@ -726,6 +748,16 @@ export function ThesisWorkbench() {
           `Não consegui carregar o motor em ${API_URL}. ${String(error)}`,
         );
       });
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API_URL}/v1/leaderboards/deep-research`)
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`API ${response.status}`);
+        return (await response.json()) as DeepResearchLeaderboard;
+      })
+      .then((data) => setDeepResearchItems(data.items))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -1271,6 +1303,7 @@ export function ThesisWorkbench() {
     }
   }
 
+  const selectedDeepResearch = deepResearchItems.find((item) => item.id === thesis.id);
   const selectedShortlist = ycShortlist.find((item) => item.id === thesis.id);
   const currentHeroScore = thesis.evaluation
     ? thesis.evaluation.thesis_score
@@ -1463,21 +1496,21 @@ export function ThesisWorkbench() {
 
         <div className="thesis-list">
           {listMode === "BEST" ? (
-            ycShortlist.map((item) => (
+            (deepResearchItems.length ? deepResearchItems : ycShortlist.map((item) => ({ deep_research_rank: item.rank, id:item.id, name:item.name, tagline:item.tagline, batch:item.batch, categories:[], scout_priority:item.scoutPriority, ocean:item.ocean, research_priority:item.scoutPriority, research_status:"DEEP_RESEARCH_PARTIAL" as const, why:item.whyImportant, what_can_kill:item.whatCanKill, sources:[] }))).map((item) => (
               <button
                 key={item.id}
                 className={item.id === thesis.id ? "thesis-row thesis-selected shortlist-row" : "thesis-row shortlist-row"}
                 onClick={() => setSelected(item.id)}
               >
-                <div className="shortlist-rank">#{item.rank}</div>
+                <div className="shortlist-rank">#{item.deep_research_rank}</div>
                 <div className="row-copy">
                   <div className="row-title">
                     <strong>{item.name}</strong>
-                    <span>{item.scoutPriority.toFixed(1)} scout</span>
+                    <span>{item.research_priority.toFixed(1)} research</span>
                   </div>
                   <p>{item.tagline}</p>
-                  <small>{item.area} · {item.batch} · {item.ocean === "BLUE_HYPOTHESIS" ? "Blue candidate" : "Purple"}</small>
-                  <em className="why-inline">{item.whyImportant}</em>
+                  <small>{item.batch} · {item.research_status === "DEEP_RESEARCHED" ? "evidence-rich" : "partial"} · {item.ocean === "BLUE_HYPOTHESIS" ? "Blue candidate" : "Purple"}</small>
+                  <em className="why-inline">{item.why}</em>
                 </div>
               </button>
             ))
@@ -1532,8 +1565,8 @@ export function ThesisWorkbench() {
             <div className="hero-score">
               <div className="big-ring">
                 <div>
-                  <strong>{selectedShortlist && !thesis.evaluation ? selectedShortlist.scoutPriority.toFixed(1) : currentHeroScore.toFixed(1)}</strong>
-                  <span>{selectedShortlist && !thesis.evaluation ? "scout priority" : "score V10"}</span>
+                  <strong>{selectedDeepResearch && !thesis.evaluation ? selectedDeepResearch.research_priority.toFixed(1) : selectedShortlist && !thesis.evaluation ? selectedShortlist.scoutPriority.toFixed(1) : currentHeroScore.toFixed(1)}</strong>
+                  <span>{selectedDeepResearch && !thesis.evaluation ? "research priority" : selectedShortlist && !thesis.evaluation ? "scout priority" : "score V10"}</span>
                 </div>
               </div>
             </div>
@@ -1544,9 +1577,11 @@ export function ThesisWorkbench() {
               <p>
                 {thesis.evaluation
                   ? `A V10 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
-                  : selectedShortlist
-                    ? selectedShortlist.whyImportant
-                    : "Ainda sem Deep Research V10. A triagem sparse não é um score final."}
+                  : selectedDeepResearch
+                    ? selectedDeepResearch.why
+                    : selectedShortlist
+                      ? selectedShortlist.whyImportant
+                      : "Ainda sem Deep Research V10. A triagem sparse não é um score final."}
               </p>
 
               <div className="next-action">

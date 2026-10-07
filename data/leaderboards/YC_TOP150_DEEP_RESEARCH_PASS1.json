@@ -1,0 +1,2781 @@
+{
+  "generated_at": "2026-10-07",
+  "methodology": {
+    "universe": 539,
+    "initial_candidates": 150,
+    "rule": "Research priority is not V10 Thesis Score. >=7 requires thesis-specific public evidence beyond the sparse YC tagline.",
+    "statuses": [
+      "DEEP_RESEARCHED",
+      "DEEP_RESEARCH_PARTIAL",
+      "RESEARCH_INCOMPLETE"
+    ]
+  },
+  "items": [
+    {
+      "id": "yc-spring-2026-characterquilt",
+      "name": "CharacterQuilt",
+      "tagline": "Computer use agents to deploy enterprise marketing campaigns",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 9,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Enterprise marketing execution has direct budget displacement. Public YC/job material says revenue grew from $1.5M to $3.5M during the batch, a $13M seed, and customers including Asana/Follett launching campaigns far faster.",
+      "what_can_kill": "Services intensity, enterprise implementation and computer-use reliability could cap margins.",
+      "sources": [
+        "https://www.ycombinator.com/companies/characterquilt/jobs/CDbLjkb-founding-account-executive-nyc",
+        "https://www.characterquilt.com/"
+      ],
+      "deep_research_rank": 1
+    },
+    {
+      "id": "yc-winter-2026-autositu",
+      "name": "AutoSitu",
+      "tagline": "The AI operating system for the built world",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Legal"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.9,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Strong buyer/workflow plus unusually strong public usage evidence: 25k+ developments analyzed, $18B+ development value, named public/private customers, and multiple monetizable steps from feasibility to construction.",
+      "what_can_kill": "Long enterprise/public-sector sales cycles and local code/entitlement complexity.",
+      "sources": [
+        "https://autositu.com/",
+        "https://www.ycombinator.com/companies/autositu"
+      ],
+      "deep_research_rank": 2
+    },
+    {
+      "id": "yc-fall-2025-diligencesquared",
+      "name": "DiligenceSquared",
+      "tagline": "AI-powered market due diligence for investment decisions",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Analytics"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "High-ticket incumbent spend is explicit: PE funds pay $500k-$1M for diligence; company claims 5 of top 10 PE funds and $3T+ combined client AUM. Clear economic replacement wedge.",
+      "what_can_kill": "Human-consultant layer may remain necessary and limit software margins/scale.",
+      "sources": [
+        "https://www.diligencesquared.com/",
+        "https://www.ycombinator.com/companies/diligencesquared-inc"
+      ],
+      "deep_research_rank": 3
+    },
+    {
+      "id": "yc-fall-2025-openroll",
+      "name": "Openroll",
+      "tagline": "The AI workforce for People and Finance teams",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.7,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Named enterprise customers and recurring People/Finance workflows. Public customer material includes Notion, Flock Safety, Viaplay and measurable replacement of spreadsheet analysis.",
+      "what_can_kill": "Crowded HR/FP&A category and enterprise integration burden.",
+      "sources": [
+        "https://www.openroll.com/"
+      ],
+      "deep_research_rank": 4
+    },
+    {
+      "id": "yc-spring-2026-instaagent",
+      "name": "InstaAgent",
+      "tagline": "Scale marketing campaigns across hundreds of personas",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.6,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Company reports $1M ARR in 10 months, 500+ clients and performance improvement claims. Buyer, acquisition budget and feedback loop are explicit.",
+      "what_can_kill": "Agency-heavy delivery, creative quality churn and platform dependency.",
+      "sources": [
+        "https://www.ycombinator.com/companies/instaagent",
+        "https://instaagent.com/"
+      ],
+      "deep_research_rank": 5
+    },
+    {
+      "id": "yc-spring-2026-transload",
+      "name": "transload",
+      "tagline": "Measure freight with security cameras",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 8.5,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Very crisp value capture: company reports ~15% of shipments larger than declared and ~$50k/site/month opportunity from rebillings and utilization using existing cameras.",
+      "what_can_kill": "Computer-vision accuracy, hardware/camera variability and enterprise deployment friction.",
+      "sources": [
+        "https://www.ycombinator.com/companies/transload"
+      ],
+      "deep_research_rank": 6
+    },
+    {
+      "id": "yc-spring-2026-arden",
+      "name": "Arden",
+      "tagline": "AI-native internal audit firm",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 8.5,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Mandatory SOX workflow with public-company budgets. YC says SOX can cost ~$2M/year, 70%+ labor, with consultants at $500-$1,000/hour. Strong risk/mandatory engine.",
+      "what_can_kill": "Audit liability, integration breadth and incumbent GRC platforms.",
+      "sources": [
+        "https://www.ycombinator.com/companies/arden"
+      ],
+      "deep_research_rank": 7
+    },
+    {
+      "id": "yc-winter-2026-tepali",
+      "name": "Tepali",
+      "tagline": "AI EMR for medspas & wellness clinics",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.4,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Vertical all-in-one with direct revenue/admin claims: +53% leads booked, 68+ admin hours/month back and $14k+ additional monthly revenue per location.",
+      "what_can_kill": "Healthcare/EMR compliance and crowded practice-management incumbents.",
+      "sources": [
+        "https://www.tepali.com/",
+        "https://www.ycombinator.com/companies/tepali"
+      ],
+      "deep_research_rank": 8
+    },
+    {
+      "id": "yc-spring-2026-dayjob",
+      "name": "Dayjob",
+      "tagline": "AI Scheduling for Short Haul Trucks",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 8.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Specific operational wedge with measurable benefit: YC says customers in waste management see 8%+ efficiency gains from day one.",
+      "what_can_kill": "ERP/TMS integration and dispatch exception handling can dominate implementation.",
+      "sources": [
+        "https://www.ycombinator.com/companies/dayjob"
+      ],
+      "deep_research_rank": 9
+    },
+    {
+      "id": "yc-winter-2026-signals",
+      "name": "Signals",
+      "tagline": "iMessage revenue channel for DTC brands that brings customers back",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "A/B-tested value claim directly tied to revenue: ~$30 average incremental repeat revenue per iMessage conversation.",
+      "what_can_kill": "Apple/channel dependency, deliverability policy and DTC concentration.",
+      "sources": [
+        "https://www.ycombinator.com/companies/signals"
+      ],
+      "deep_research_rank": 10
+    },
+    {
+      "id": "yc-winter-2026-21st",
+      "name": "21st",
+      "tagline": "UI building blocks for the agentic internet",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.2,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Large demonstrated developer distribution: YC reports ~2M developers/1.4M+ registry users plus agent deployment infrastructure.",
+      "what_can_kill": "Open-source commoditization and hyperscalers absorbing deployment primitives.",
+      "sources": [
+        "https://www.ycombinator.com/companies/21st",
+        "https://21st.dev"
+      ],
+      "deep_research_rank": 11
+    },
+    {
+      "id": "yc-winter-2026-overshoot",
+      "name": "Overshoot",
+      "tagline": "AI Infra for real-time vision applications",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.1,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Technical benchmark + developer adoption: <200ms real-time vision claim and hundreds/1000+ developers cited publicly.",
+      "what_can_kill": "Inference platform competition and model providers improving native streaming video.",
+      "sources": [
+        "https://www.ycombinator.com/companies/overshoot"
+      ],
+      "deep_research_rank": 12
+    },
+    {
+      "id": "yc-winter-2026-stilta",
+      "name": "Stilta",
+      "tagline": "Agentic AI for intellectual property",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8.1,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "High-stakes patent workflow, 50+ IP teams publicly claimed and $10.5M financing. Buyer and costly manual substitute are clear.",
+      "what_can_kill": "Legal accuracy/liability and professional trust barrier.",
+      "sources": [
+        "https://stilta.com/"
+      ],
+      "deep_research_rank": 13
+    },
+    {
+      "id": "yc-winter-2026-khotan-formerly-pollinate",
+      "name": "Khotan (formerly Pollinate)",
+      "tagline": "FDE as a platform for rebuilding critical operations in software.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "YC reports customers spending ~40% of time on manual operations and $100k+ purchasing volume already processed through automated workflows.",
+      "what_can_kill": "FDE/custom work can become consulting and make deployments non-repeatable.",
+      "sources": [
+        "https://www.ycombinator.com/companies/khotan"
+      ],
+      "deep_research_rank": 14
+    },
+    {
+      "id": "yc-spring-2026-revnu",
+      "name": "Revnu",
+      "tagline": "Your AI growth hire.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Published $1,500/month pricing and full execution across paid/outbound/SEO create a direct comparison with a growth hire/agency.",
+      "what_can_kill": "Extremely crowded GTM market and attribution/churn risk.",
+      "sources": [
+        "https://revnu.com/",
+        "https://revnu.com/pricing"
+      ],
+      "deep_research_rank": 15
+    },
+    {
+      "id": "yc-winter-2026-wideframe",
+      "name": "Wideframe",
+      "tagline": "AI coworker for video editors to ship more video faster",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.9,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Clear $100/month/seat pricing and workflow-level time replacement for professional editors; team expansion path is explicit.",
+      "what_can_kill": "Adobe/creative incumbents can bundle preparation features.",
+      "sources": [
+        "https://www.trywideframe.com/"
+      ],
+      "deep_research_rank": 16
+    },
+    {
+      "id": "yc-fall-2025-the-hog",
+      "name": "The Hog",
+      "tagline": "Real-time web intelligence API for AI agents and GTM teams",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.9,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Published API pricing, concrete replacement set (search/scraping/enrichment/monitoring) and benchmark claims create measurable developer economics.",
+      "what_can_kill": "Data-provider dependence and intense search/enrichment competition.",
+      "sources": [
+        "https://thehog.ai/",
+        "https://www.ycombinator.com/companies/the-hog"
+      ],
+      "deep_research_rank": 17
+    },
+    {
+      "id": "yc-fall-2025-metorial",
+      "name": "Metorial",
+      "tagline": "Agentic infrastructure to power AI-native companies.",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.9,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Clear enterprise MCP/integration layer with 1,000+ integrations and governance/access-control wedge.",
+      "what_can_kill": "MCP infrastructure is crowded and platform vendors can absorb integration/governance.",
+      "sources": [
+        "https://metorial.com/",
+        "https://www.ycombinator.com/companies/metorial"
+      ],
+      "deep_research_rank": 18
+    },
+    {
+      "id": "yc-spring-2026-deep-interactions",
+      "name": "Deep Interactions",
+      "tagline": "Collaborative AI app builder for teams",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "YC reports 12 businesses and 50k+ real-world usage hits; service-to-product wedge attacks expensive AI pilot failure.",
+      "what_can_kill": "May remain bespoke delivery/consulting instead of scalable software.",
+      "sources": [
+        "https://www.ycombinator.com/companies/deep-interactions"
+      ],
+      "deep_research_rank": 19
+    },
+    {
+      "id": "yc-winter-2026-balance",
+      "name": "Balance",
+      "tagline": "Full-Stack AI Accounting",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 7.7,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Very clear SMB payer and recurring monthly-close workflow; full outsourced-finance positioning enables value capture beyond a point tool.",
+      "what_can_kill": "Human review requirement and accounting liability could compress margins.",
+      "sources": [
+        "https://www.ycombinator.com/companies/getbalance"
+      ],
+      "deep_research_rank": 20
+    },
+    {
+      "id": "yc-winter-2026-burt",
+      "name": "Burt",
+      "tagline": "AI teammates for logistics",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 7.6,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Freight brokers/forwarders are explicit buyers; workload includes tracking, documents, carrier booking, invoicing and reconciliation with headcount economics.",
+      "what_can_kill": "Razor-thin broker margins and deep TMS integration.",
+      "sources": [
+        "https://www.ycombinator.com/companies/burt",
+        "https://www.burthq.com/"
+      ],
+      "deep_research_rank": 21
+    },
+    {
+      "id": "yc-winter-2026-haladir",
+      "name": "Haladir",
+      "tagline": "Operational Superintelligence for Global Logistics",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 7.6,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Combines solver-grade optimization with execution agents over WMS/TMS/ERP; raised $4.3M and targets high-value logistics operations.",
+      "what_can_kill": "Custom integration intensity and long enterprise implementations.",
+      "sources": [
+        "https://www.haladir.com/",
+        "https://www.haladir.com/blog/seed-round"
+      ],
+      "deep_research_rank": 22
+    },
+    {
+      "id": "yc-winter-2027-linklane",
+      "name": "LinkLane",
+      "tagline": "AI-powered freight brokerage. Quote, book, and track loads in seconds.",
+      "batch": "Winter 2027",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 7.6,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "End-to-end quote/book/track workflow and transactional monetization; clear shipper value. Brazil gains an additional local wedge from CIOT/piso-frete workflows.",
+      "what_can_kill": "Brokerage margin/liquidity and regulatory/local carrier operations.",
+      "sources": [
+        "https://www.ycombinator.com/companies/linklane",
+        "https://linklane.ai/"
+      ],
+      "deep_research_rank": 23
+    },
+    {
+      "id": "yc-winter-2026-fullseam",
+      "name": "FullSeam",
+      "tagline": "AI agents for corporate accounting teams",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 7.6,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Clear corporate accounting buyer and repetitive AP/AR/reconciliation work outside ERP.",
+      "what_can_kill": "ERP/accounting suites can absorb workflow agents and enterprise controls slow deployment.",
+      "sources": [
+        "https://www.ycombinator.com/companies/fullseam"
+      ],
+      "deep_research_rank": 24
+    },
+    {
+      "id": "yc-spring-2026-bentolabs-ai",
+      "name": "BentoLabs AI",
+      "tagline": "Monitoring and learning layer for long-running agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.5,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Production-agent reliability is a real operational cost; founders cite experience at 5M-user agents and company claims production use with unicorns.",
+      "what_can_kill": "Observability/agent-platform vendors can converge on the same feature set.",
+      "sources": [
+        "https://www.ycombinator.com/companies/bentolabs-ai",
+        "https://bentolabs.ai/"
+      ],
+      "deep_research_rank": 25
+    },
+    {
+      "id": "yc-winter-2026-terminal-use",
+      "name": "Terminal Use",
+      "tagline": "AI-native transformation for operations-heavy companies",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.5,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Starts with one measurable process and sells transformation into operations-heavy companies; strong FDE pedigree.",
+      "what_can_kill": "Consulting intensity and long transformation cycles.",
+      "sources": [
+        "https://www.ycombinator.com/companies/terminal-use"
+      ],
+      "deep_research_rank": 26
+    },
+    {
+      "id": "yc-spring-2026-asendia-ai",
+      "name": "Asendia AI",
+      "tagline": "AI recruiters for staffing agencies",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.4,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Explicit staffing-agency buyer and throughput metric: screen more candidates and deliver shortlists faster without adding recruiter headcount.",
+      "what_can_kill": "Crowded recruiting-agent market and candidate-quality risk.",
+      "sources": [
+        "https://asendia.ai/"
+      ],
+      "deep_research_rank": 27
+    },
+    {
+      "id": "yc-spring-2026-callab-ai",
+      "name": "Callab AI",
+      "tagline": "AI voice agents for on-prem telephony stack.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.4,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "On-prem PBX/SIP integration and live supervision differentiate it from cloud-only voice agents; clear contact-center buyer.",
+      "what_can_kill": "Telephony integrations, compliance and crowded voice-agent market.",
+      "sources": [
+        "https://callab.ai/"
+      ],
+      "deep_research_rank": 28
+    },
+    {
+      "id": "yc-winter-2026-vela",
+      "name": "Vela",
+      "tagline": "AI Recruiting Coordinator for Executive Search",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.4,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Narrow scheduling wedge with no new dashboard/workflow and obvious recruiter-coordinator time replacement.",
+      "what_can_kill": "Calendar/email platforms can commoditize the function.",
+      "sources": [
+        "https://www.ycombinator.com/companies/vela"
+      ],
+      "deep_research_rank": 29
+    },
+    {
+      "id": "yc-winter-2026-eigenpal",
+      "name": "EigenPal",
+      "tagline": "AI Document Workflows for Enterprises",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.4,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Document workflow automation with eval-first, on-prem and auditability addresses real enterprise trust barriers.",
+      "what_can_kill": "Crowded document AI/RPA market and heavy customization.",
+      "sources": [
+        "https://www.eigenpal.com/",
+        "https://www.ycombinator.com/companies/eigenpal"
+      ],
+      "deep_research_rank": 30
+    },
+    {
+      "id": "yc-spring-2026-runtime",
+      "name": "Runtime",
+      "tagline": "The AI agent harness for payment teams",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Payment operations are high-value and compliance-sensitive; agents operate with approval inside customer cloud.",
+      "what_can_kill": "Security/compliance burden and overlap with general agent platforms.",
+      "sources": [
+        "https://www.runtm.com/"
+      ],
+      "deep_research_rank": 31
+    },
+    {
+      "id": "yc-winter-2026-voygr",
+      "name": "VOYGR",
+      "tagline": "Real-world place intelligence for AI apps and agents",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Clear API buyer set and freshness problem for place data; founders have direct Maps expertise.",
+      "what_can_kill": "Google/Mapbox/data suppliers can defend distribution and data rights.",
+      "sources": [
+        "https://www.ycombinator.com/companies/voygr"
+      ],
+      "deep_research_rank": 32
+    },
+    {
+      "id": "yc-winter-2026-veriad",
+      "name": "Veriad",
+      "tagline": "AI operating system for advertising",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Targets enterprises spending $50M+ on ads with regulated review workflows, giving a high-budget compliance/operations wedge.",
+      "what_can_kill": "Enterprise sales cycle and ad-platform/incumbent convergence.",
+      "sources": [
+        "https://www.ycombinator.com/companies/veriad",
+        "https://www.veriad.com/"
+      ],
+      "deep_research_rank": 33
+    },
+    {
+      "id": "yc-winter-2026-maven",
+      "name": "Maven",
+      "tagline": "Payments Infrastructure for Conversational Agents",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Very specific payments wall for voice/chat agents, with PCI-scope reduction and 25 gateway integrations.",
+      "what_can_kill": "Payment processors/voice platforms can bundle the feature.",
+      "sources": [
+        "https://trymaven.com/"
+      ],
+      "deep_research_rank": 34
+    },
+    {
+      "id": "yc-fall-2025-jarmin",
+      "name": "Jarmin",
+      "tagline": "AI Employees for human-level roles",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.3,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Role-level AI employee positioning ties directly to labor budget and real enterprise systems.",
+      "what_can_kill": "Breadth across roles can make reliability/implementation non-repeatable.",
+      "sources": [
+        "https://www.jarmin.ai/",
+        "https://www.ycombinator.com/companies/jarmin"
+      ],
+      "deep_research_rank": 35
+    },
+    {
+      "id": "yc-winter-2027-rote",
+      "name": "Rote",
+      "tagline": "AI-native insurance department for auto body shops",
+      "batch": "Winter 2027",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.2,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Very narrow auto-body-shop insurance workflow has a clear operational buyer and Brazil-localizable claims/authorization process.",
+      "what_can_kill": "Public evidence found for the thesis is still thin; insurer portals/control may dominate the workflow.",
+      "sources": [
+        "https://www.ycombinator.com/companies/rote"
+      ],
+      "deep_research_rank": 36
+    },
+    {
+      "id": "yc-winter-2026-baseframe",
+      "name": "BaseFrame",
+      "tagline": "Detect what AI can automate for your team",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.2,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Workflow discovery solves the upstream question before automation spend; local-data approach addresses privacy.",
+      "what_can_kill": "May be a diagnostic feature rather than a durable system of record.",
+      "sources": [
+        "https://www.ycombinator.com/companies/baseframe",
+        "https://baseframe.co/ai-workflow-discovery"
+      ],
+      "deep_research_rank": 37
+    },
+    {
+      "id": "yc-fall-2025-lemma",
+      "name": "Lemma",
+      "tagline": "Production Monitoring for AI agents",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.2,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Production monitoring for agents addresses silent failures tied to churn and engineering time.",
+      "what_can_kill": "Crowded observability category with low switching costs.",
+      "sources": [
+        "https://www.uselemma.ai/"
+      ],
+      "deep_research_rank": 38
+    },
+    {
+      "id": "yc-spring-2026-saffron",
+      "name": "Saffron",
+      "tagline": "Helping your company find 10x engineers.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Recruiting and Talent"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.1,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "AI-native technical assessment has a concrete hiring buyer and directly tests coding-agent usage on real code.",
+      "what_can_kill": "Hiring-assessment market is crowded and procurement can be episodic.",
+      "sources": [
+        "https://www.ycombinator.com/companies/saffron"
+      ],
+      "deep_research_rank": 39
+    },
+    {
+      "id": "yc-winter-2026-ossus",
+      "name": "Ossus",
+      "tagline": "Intelligence for cultural institutions",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7.1,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Clear vertical OS for libraries plus quantified inventory/vendor/grant productivity claims and compliance posture.",
+      "what_can_kill": "Public-sector/library budgets and sales velocity can be weak.",
+      "sources": [
+        "https://www.ossus.com/",
+        "https://www.ycombinator.com/companies/ossus"
+      ],
+      "deep_research_rank": 40
+    },
+    {
+      "id": "yc-spring-2026-pumpgtm",
+      "name": "PumpGTM",
+      "tagline": "Find and engage with desperate buyers across LinkedIn, Email, and X",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Public customer stories show real founder-led outreach use cases across multiple teams.",
+      "what_can_kill": "Red-ocean outbound tooling and dependency on LinkedIn/X/email policies.",
+      "sources": [
+        "https://pumpgtm.com/customers"
+      ],
+      "deep_research_rank": 41
+    },
+    {
+      "id": "yc-spring-2026-chert",
+      "name": "Chert",
+      "tagline": "iMessage infrastructure for business",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 7,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Programmable iMessage has a crisp developer/customer-engagement wedge with API/webhooks and concrete use cases.",
+      "what_can_kill": "Extreme Apple platform dependency and anti-abuse constraints.",
+      "sources": [
+        "https://www.trychert.com/",
+        "https://www.ycombinator.com/companies/chert"
+      ],
+      "deep_research_rank": 42
+    },
+    {
+      "id": "yc-winter-2026-valgo",
+      "name": "Valgo",
+      "tagline": "Insurance risk layer for physical AI",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 6.8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Technically credible wedge for autonomy insurance where historical claims data is scarce.",
+      "what_can_kill": "Market timing is early and adoption depends on insurers/autonomy volume.",
+      "sources": [
+        "https://www.ycombinator.com/companies/valgo"
+      ],
+      "deep_research_rank": 43
+    },
+    {
+      "id": "yc-spring-2026-agentphone",
+      "name": "AgentPhone",
+      "tagline": "Phone Numbers for AI Agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 6.8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Simple developer API for phone numbers, voice and messaging gives agents a concrete communication primitive.",
+      "what_can_kill": "Likely feature-level moat; telecom/Twilio-like platforms can replicate.",
+      "sources": [
+        "https://agentphone.ai/"
+      ],
+      "deep_research_rank": 44
+    },
+    {
+      "id": "yc-spring-2026-atrisa",
+      "name": "Atrisa",
+      "tagline": "AI Agents for Analog Circuit Design",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 6.8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Analog design is high-value specialized engineering; agent can save scarce expert time.",
+      "what_can_kill": "Very technical validation and deep EDA/incumbent integration barrier.",
+      "sources": [
+        "https://www.ycombinator.com/companies/atrisa",
+        "https://atrisa.ai/"
+      ],
+      "deep_research_rank": 45
+    },
+    {
+      "id": "yc-winter-2026-rubric-ai",
+      "name": "Rubric AI",
+      "tagline": "Reasoning and verification infra for AI",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 6.8,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Expert reasoning/verification is a real bottleneck for high-stakes agents.",
+      "what_can_kill": "Services/data-lab intensity and unclear recurring software buyer.",
+      "sources": [
+        "https://www.ycombinator.com/companies/rubric-ai"
+      ],
+      "deep_research_rank": 46
+    },
+    {
+      "id": "yc-fall-2025-lunavo",
+      "name": "Lunavo",
+      "tagline": "Lunavo is the AI assistant for carriers.",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 6.3,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 47
+    },
+    {
+      "id": "yc-spring-2026-hexa",
+      "name": "Hexa",
+      "tagline": "Autonomous operations for industrial distributors",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 6.3,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 48
+    },
+    {
+      "id": "yc-winter-2026-button-computer",
+      "name": "Button Computer",
+      "tagline": "The tiny computer built for voice AI.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 6.2,
+      "research_status": "DEEP_RESEARCHED",
+      "why": "Distinct low-latency voice hardware experience and preorderable product.",
+      "what_can_kill": "Hardware capital, consumer distribution and phone/wearable substitution.",
+      "sources": [
+        "https://buttoncomputer.com/",
+        "https://www.ycombinator.com/companies/button-computer"
+      ],
+      "deep_research_rank": 49
+    },
+    {
+      "id": "yc-spring-2026-alchemize",
+      "name": "Alchemize",
+      "tagline": "Building AI Native Customs Brokerages",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Supply Chain and Logistics"
+      ],
+      "scout_priority": 4.2,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 50
+    },
+    {
+      "id": "yc-spring-2026-cohesion",
+      "name": "Cohesion",
+      "tagline": "Modern Intelligence for Finance",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 51
+    },
+    {
+      "id": "yc-winter-2026-end-close",
+      "name": "End Close",
+      "tagline": "AI powered reconciliation for high-volume payments companies",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 52
+    },
+    {
+      "id": "yc-winter-2026-q2q",
+      "name": "Q2Q",
+      "tagline": "We help private equity teams find acquisition targets faster",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 53
+    },
+    {
+      "id": "yc-fall-2025-zarna",
+      "name": "Zarna",
+      "tagline": "AI Associates for Middle-Market Private Equity",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 54
+    },
+    {
+      "id": "yc-fall-2025-denki",
+      "name": "Denki",
+      "tagline": "The full-stack AI financial audit firm",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 55
+    },
+    {
+      "id": "yc-fall-2025-crunched",
+      "name": "Crunched",
+      "tagline": "Excel AI analyst for Power Users",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 56
+    },
+    {
+      "id": "yc-fall-2025-alder",
+      "name": "Alder",
+      "tagline": "AI employees for finance, starting with accounts receivable.",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 57
+    },
+    {
+      "id": "yc-fall-2025-clerked",
+      "name": "Clerked",
+      "tagline": "AI clerks that automate your payables",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 58
+    },
+    {
+      "id": "yc-fall-2025-cranston-ai",
+      "name": "Cranston AI",
+      "tagline": "AI Tax prep and accounting software for CPA firms",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 59
+    },
+    {
+      "id": "yc-fall-2025-zalos",
+      "name": "Zalos",
+      "tagline": "Hire Zalos AI workers to run your finance department",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Finance and Accounting"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "BLUE_HYPOTHESIS",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 60
+    },
+    {
+      "id": "yc-spring-2026-huscarl",
+      "name": "Huscarl",
+      "tagline": "AI-native actuary enabling self-insurance for corporations",
+      "batch": "Spring 2026",
+      "categories": [
+        "Fintech",
+        "Insurance"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 61
+    },
+    {
+      "id": "yc-spring-2026-klaimee",
+      "name": "Klaimee",
+      "tagline": "Liability insurance for AI Agents. You deploy agents, we cover you.",
+      "batch": "Spring 2026",
+      "categories": [
+        "Fintech",
+        "Insurance"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 62
+    },
+    {
+      "id": "yc-winter-2026-verdex",
+      "name": "Verdex",
+      "tagline": "AI Verification for Insurance",
+      "batch": "Winter 2026",
+      "categories": [
+        "Fintech",
+        "Insurance"
+      ],
+      "scout_priority": 3.9,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.9,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 63
+    },
+    {
+      "id": "yc-spring-2026-kinro",
+      "name": "Kinro",
+      "tagline": "Autonomous insurance brokerage for small businesses",
+      "batch": "Spring 2026",
+      "categories": [
+        "Fintech",
+        "Insurance"
+      ],
+      "scout_priority": 3.8,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.7,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 64
+    },
+    {
+      "id": "yc-spring-2026-thomas",
+      "name": "Thomas",
+      "tagline": "The first AI founder: a virtual human who runs his own companies.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 65
+    },
+    {
+      "id": "yc-spring-2026-maquoketa-research",
+      "name": "Maquoketa Research",
+      "tagline": "Automated LiveOps for Game Studios",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 66
+    },
+    {
+      "id": "yc-spring-2026-clawvisor",
+      "name": "Clawvisor",
+      "tagline": "The Authorization Layer for AI Agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Security"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 67
+    },
+    {
+      "id": "yc-spring-2026-modern",
+      "name": "Modern",
+      "tagline": "Modern - the ServiceNow killer",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 68
+    },
+    {
+      "id": "yc-spring-2026-manicule",
+      "name": "Manicule",
+      "tagline": "AgentRel — Devrel For Agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 69
+    },
+    {
+      "id": "yc-spring-2026-kinect",
+      "name": "Kinect",
+      "tagline": "The AI revenue platform for D2C brands",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 70
+    },
+    {
+      "id": "yc-spring-2026-pentagon",
+      "name": "Pentagon",
+      "tagline": "The control plane for agent-native work.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Productivity"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 71
+    },
+    {
+      "id": "yc-spring-2026-auxos",
+      "name": "Auxos",
+      "tagline": "Simulations of real people for market research",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 72
+    },
+    {
+      "id": "yc-spring-2026-projectx",
+      "name": "ProjectX",
+      "tagline": "Agent native workspace for heavy parallel workflows on the web",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 73
+    },
+    {
+      "id": "yc-spring-2026-openprose",
+      "name": "OpenProse",
+      "tagline": "An open-source operating system for reliable long-running agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 74
+    },
+    {
+      "id": "yc-spring-2026-saudara-ai",
+      "name": "Saudara AI",
+      "tagline": "AI Native Sourcing Broker For Overseas Manufacturing",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 75
+    },
+    {
+      "id": "yc-spring-2026-silmaril",
+      "name": "Silmaril",
+      "tagline": "Security for agents that self-improves",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 76
+    },
+    {
+      "id": "yc-spring-2026-wato",
+      "name": "Wato",
+      "tagline": "The control point for AI agents at work.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 77
+    },
+    {
+      "id": "yc-spring-2026-chronicle-labs",
+      "name": "Chronicle Labs",
+      "tagline": "Staging Environments for Enterprise AI Agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 78
+    },
+    {
+      "id": "yc-spring-2026-walter",
+      "name": "Walter",
+      "tagline": "AI Employee for Manufacturing Operations",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 79
+    },
+    {
+      "id": "yc-spring-2026-zibra-labs",
+      "name": "Zibra Labs",
+      "tagline": "Distributed runtime for AI workloads at scale",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 80
+    },
+    {
+      "id": "yc-spring-2026-complir",
+      "name": "Complir",
+      "tagline": "Vanta for physical products",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Retail"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 81
+    },
+    {
+      "id": "yc-spring-2026-parrot",
+      "name": "Parrot",
+      "tagline": "Agentic operating system for auto repair shops",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 82
+    },
+    {
+      "id": "yc-spring-2026-ontora",
+      "name": "Ontora",
+      "tagline": "AI agents that interviews every employee to hand context to AI tools.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 83
+    },
+    {
+      "id": "yc-spring-2026-lamina-labs",
+      "name": "Lamina Labs",
+      "tagline": "Near-real-time video infrastructure for LLMs",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 84
+    },
+    {
+      "id": "yc-spring-2026-dreach",
+      "name": "Dreach",
+      "tagline": "staffing firms with dreach grow revenue faster.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 85
+    },
+    {
+      "id": "yc-spring-2026-pavoot",
+      "name": "Pavoot",
+      "tagline": "AI Event Manager for in-person events",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 86
+    },
+    {
+      "id": "yc-spring-2026-zenbu",
+      "name": "Zenbu",
+      "tagline": "The browser for agentic development",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 87
+    },
+    {
+      "id": "yc-spring-2026-scope",
+      "name": "Scope",
+      "tagline": "We help software companies get discovered and used by AI agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 88
+    },
+    {
+      "id": "yc-spring-2026-multiplier",
+      "name": "Multiplier",
+      "tagline": "Agent harnesses for asset managers",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 89
+    },
+    {
+      "id": "yc-spring-2026-stage",
+      "name": "Stage",
+      "tagline": "Code review platform for humans and agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 90
+    },
+    {
+      "id": "yc-spring-2026-primitive",
+      "name": "primitive",
+      "tagline": "communication for agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 91
+    },
+    {
+      "id": "yc-spring-2026-bloom",
+      "name": "Bloom",
+      "tagline": "The brand layer for agents.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 92
+    },
+    {
+      "id": "yc-spring-2026-netter",
+      "name": "Netter",
+      "tagline": "AI native Palantir for mid market.",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Analytics"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 93
+    },
+    {
+      "id": "yc-spring-2026-sazabi",
+      "name": "Sazabi",
+      "tagline": "The AI-native observability platform for fast-moving engineering teams",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 94
+    },
+    {
+      "id": "yc-spring-2026-cignara",
+      "name": "Cignara",
+      "tagline": "AI Customer Support for Fortune 500-scale enterprises",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 95
+    },
+    {
+      "id": "yc-spring-2026-smartbase",
+      "name": "Smartbase",
+      "tagline": "AI-native ERP for manufacturers",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 96
+    },
+    {
+      "id": "yc-spring-2026-humwork",
+      "name": "Humwork",
+      "tagline": "Human experts as API for AI Agents",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 97
+    },
+    {
+      "id": "yc-spring-2026-autostep",
+      "name": "Autostep",
+      "tagline": "The P&L for knowledge work",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 98
+    },
+    {
+      "id": "yc-spring-2026-oddpool",
+      "name": "Oddpool",
+      "tagline": "Institutional infrastructure for prediction markets",
+      "batch": "Spring 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 99
+    },
+    {
+      "id": "yc-winter-2026-cardinal",
+      "name": "Cardinal",
+      "tagline": "Revenue Agents for GTM teams",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 100
+    },
+    {
+      "id": "yc-winter-2026-martini",
+      "name": "Martini",
+      "tagline": "AI Video Production for Professionals",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 101
+    },
+    {
+      "id": "yc-winter-2026-wayco",
+      "name": "Wayco",
+      "tagline": "AI operator for medlegal cases",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 102
+    },
+    {
+      "id": "yc-winter-2026-aurorin-cad",
+      "name": "Aurorin CAD",
+      "tagline": "Claude code for Mechanical Engineers",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 103
+    },
+    {
+      "id": "yc-winter-2026-zymbly",
+      "name": "Zymbly",
+      "tagline": "The decision-support layer for aviation ops teams to know what to do…",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 104
+    },
+    {
+      "id": "yc-winter-2026-mochacare",
+      "name": "MochaCare",
+      "tagline": "Agentic Management Service for Care Organizations",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 105
+    },
+    {
+      "id": "yc-winter-2026-moda",
+      "name": "Moda",
+      "tagline": "Harness Engineering Infrastructure that developers love.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 106
+    },
+    {
+      "id": "yc-winter-2026-corelayer",
+      "name": "Corelayer",
+      "tagline": "AI production engineer for regulated industries",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 107
+    },
+    {
+      "id": "yc-winter-2026-general-legal",
+      "name": "General Legal",
+      "tagline": "Elite AI law firm for high growth companies",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Legal"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 108
+    },
+    {
+      "id": "yc-winter-2026-chasi",
+      "name": "Chasi",
+      "tagline": "AI Revenue Engine for the Equipment Industry",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 109
+    },
+    {
+      "id": "yc-winter-2026-bubble-lab",
+      "name": "Bubble Lab",
+      "tagline": "Turn gatherings into lasting relationships.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 110
+    },
+    {
+      "id": "yc-winter-2026-byteport",
+      "name": "Byteport",
+      "tagline": "Global upload acceleration for 1GB-100TB files.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 111
+    },
+    {
+      "id": "yc-winter-2026-sitefire",
+      "name": "Sitefire",
+      "tagline": "Marketing suite for the agentic web",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 112
+    },
+    {
+      "id": "yc-winter-2026-robby",
+      "name": "Robby",
+      "tagline": "AI agents that grow revenue for home services businesses",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Productivity"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 113
+    },
+    {
+      "id": "yc-winter-2026-revion",
+      "name": "Revion",
+      "tagline": "Intelligence for Automotive Operations",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 114
+    },
+    {
+      "id": "yc-winter-2026-chamber",
+      "name": "Chamber",
+      "tagline": "The AIOps Agent for ML Teams",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 115
+    },
+    {
+      "id": "yc-winter-2026-rhizome-ai",
+      "name": "Rhizome AI",
+      "tagline": "Agent Platform for Life Sciences",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 116
+    },
+    {
+      "id": "yc-winter-2026-sponge",
+      "name": "Sponge",
+      "tagline": "Financial infrastructure for the agent economy",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 117
+    },
+    {
+      "id": "yc-winter-2026-orthogonal",
+      "name": "Orthogonal",
+      "tagline": "Agentic Payments for APIs",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 118
+    },
+    {
+      "id": "yc-winter-2026-skillsync",
+      "name": "Skillsync",
+      "tagline": "Notion for AI chats",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 119
+    },
+    {
+      "id": "yc-winter-2026-avoice",
+      "name": "Avoice",
+      "tagline": "AI-native workspace for AEC",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 120
+    },
+    {
+      "id": "yc-winter-2026-openspec",
+      "name": "OpenSpec",
+      "tagline": "Plan mode for complex features",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 121
+    },
+    {
+      "id": "yc-winter-2026-protent",
+      "name": "Protent",
+      "tagline": "Real time intelligence for law enforcement & security teams.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Security"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 122
+    },
+    {
+      "id": "yc-winter-2026-sentrial",
+      "name": "Sentrial",
+      "tagline": "Datadog for Agent Reliability",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 123
+    },
+    {
+      "id": "yc-winter-2026-10x-science",
+      "name": "10x Science",
+      "tagline": "The AI-native platform for next-generation protein characterization.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 124
+    },
+    {
+      "id": "yc-winter-2026-rev1",
+      "name": "REV1",
+      "tagline": "Claude Code for Mechanical Engineers",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 125
+    },
+    {
+      "id": "yc-winter-2026-lexius",
+      "name": "Lexius",
+      "tagline": "AI for Corporate Security Cameras",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Security"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 126
+    },
+    {
+      "id": "yc-winter-2026-didit",
+      "name": "Didit",
+      "tagline": "Infrastructure for identity and fraud.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 127
+    },
+    {
+      "id": "yc-winter-2026-payna",
+      "name": "Payna",
+      "tagline": "AI Licensing Agent for Regulated Industries",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 128
+    },
+    {
+      "id": "yc-winter-2026-vector-legal",
+      "name": "Vector Legal",
+      "tagline": "A premier AI-native law firm & legal operating system for Startups.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Legal"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 129
+    },
+    {
+      "id": "yc-winter-2026-oxus",
+      "name": "Oxus",
+      "tagline": "AI-powered automation for internal audit workflows",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 130
+    },
+    {
+      "id": "yc-winter-2026-captain",
+      "name": "Captain",
+      "tagline": "Self-tuning search for products and files",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 131
+    },
+    {
+      "id": "yc-winter-2026-agentic-fabriq",
+      "name": "Agentic Fabriq",
+      "tagline": "The control plane for AI agents.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Security"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 132
+    },
+    {
+      "id": "yc-winter-2026-velum-labs",
+      "name": "Velum Labs",
+      "tagline": "The OS for data quality across any stack",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 133
+    },
+    {
+      "id": "yc-winter-2026-pollen",
+      "name": "Pollen",
+      "tagline": "AI employees trained on your firm's workflows.",
+      "batch": "Winter 2026",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 134
+    },
+    {
+      "id": "yc-fall-2025-specific-labs",
+      "name": "Specific Labs",
+      "tagline": "Real World Environments and Data for AI",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 135
+    },
+    {
+      "id": "yc-fall-2025-moss",
+      "name": "Moss",
+      "tagline": "Real-time semantic search for Conversational AI",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 136
+    },
+    {
+      "id": "yc-fall-2025-markit",
+      "name": "MarkIt",
+      "tagline": "Compliance that makes products ready for global markets.",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Operations"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 137
+    },
+    {
+      "id": "yc-fall-2025-fastshot",
+      "name": "Fastshot",
+      "tagline": "Lovable for mobile apps",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 138
+    },
+    {
+      "id": "yc-fall-2025-antigen",
+      "name": "Antigen",
+      "tagline": "Continuous offensive security for the enterprise.",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Engineering, Product and Design"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 139
+    },
+    {
+      "id": "yc-fall-2025-bluma",
+      "name": "Bluma",
+      "tagline": "Canva for short-form video ads",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 140
+    },
+    {
+      "id": "yc-fall-2025-absurd",
+      "name": "Absurd",
+      "tagline": "The production canvas for AI film teams",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Marketing"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 141
+    },
+    {
+      "id": "yc-fall-2025-patent-watch",
+      "name": "Patent Watch",
+      "tagline": "AI for detecting patent infringements",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 142
+    },
+    {
+      "id": "yc-fall-2025-s2-dev",
+      "name": "s2.dev",
+      "tagline": "API for unlimited, durable, real-time streams",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 143
+    },
+    {
+      "id": "yc-fall-2025-lexi",
+      "name": "Lexi",
+      "tagline": "AI Operating System for Legal Teams",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Legal"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 144
+    },
+    {
+      "id": "yc-fall-2025-codyco",
+      "name": "Codyco",
+      "tagline": "The AI Reservation Team for Hotel Groups",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 145
+    },
+    {
+      "id": "yc-fall-2025-bravi",
+      "name": "Bravi",
+      "tagline": "AI operating system for home improvement manufacturers",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 146
+    },
+    {
+      "id": "yc-fall-2025-kestrel-ai",
+      "name": "Kestrel AI",
+      "tagline": "AI Agents for Platform Engineering",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Security"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 147
+    },
+    {
+      "id": "yc-fall-2025-logosguard",
+      "name": "LogosGuard",
+      "tagline": "The sensitive data redaction layer for AI",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 148
+    },
+    {
+      "id": "yc-fall-2025-sciloop",
+      "name": "Sciloop",
+      "tagline": "Expert STEM reasoning data for frontier AI labs.",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Infrastructure"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 149
+    },
+    {
+      "id": "yc-fall-2025-multifactor",
+      "name": "Multifactor",
+      "tagline": "Zero-trust authentication, authorization, and auditing for AI agents",
+      "batch": "Fall 2025",
+      "categories": [
+        "B2B",
+        "Security"
+      ],
+      "scout_priority": 3.7,
+      "ocean": "PURPLE_OCEAN",
+      "research_priority": 5.6,
+      "research_status": "DEEP_RESEARCH_PARTIAL",
+      "why": "Public-web pass confirmed the thesis/category, but did not surface enough specific buyer/economics/traction evidence to justify a >=7 research priority.",
+      "what_can_kill": "Buyer/WTP/economics remain insufficiently evidenced; this thesis needs a second, narrower research pass or customer evidence.",
+      "sources": [],
+      "deep_research_rank": 150
+    }
+  ]
+}

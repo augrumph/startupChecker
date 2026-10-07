@@ -32,6 +32,7 @@ async fn main() {
         .route("/v1/calibration", post(calibration))
         .route("/v1/evidence/update", post(update_evidence))
         .route("/v1/theses", get(list_theses).post(save_thesis))
+        .route("/v1/leaderboards/deep-research", get(deep_research_leaderboard))
         .route("/v1/theses/{id}", get(get_thesis).put(put_thesis))
         .route("/v1/theses/{id}/evidence", post(append_thesis_evidence))
         .route("/v1/theses/{id}/experiments", post(append_thesis_experiment))
@@ -161,6 +162,22 @@ async fn update_experiment(
 
 async fn calibration(Json(records): Json<Vec<CalibrationRecord>>) -> Json<Value> {
     Json(json!(calibration_report(&records)))
+}
+
+async fn deep_research_leaderboard() -> impl IntoResponse {
+    match tokio::fs::read_to_string("data/leaderboards/YC_TOP150_DEEP_RESEARCH_PASS1.json").await {
+        Ok(text) => match serde_json::from_str::<Value>(&text) {
+            Ok(value) => (StatusCode::OK, Json(value)),
+            Err(error) => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                Json(json!({"error": error.to_string()})),
+            ),
+        },
+        Err(error) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
 }
 
 async fn list_theses(
