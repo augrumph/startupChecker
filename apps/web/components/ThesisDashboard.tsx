@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, ArrowLeft, ArrowRight, BarChart3, BrainCircuit, CheckCircle2, ChevronRight, CircleDollarSign, Database, FlaskConical, Gauge, Layers3, LayoutDashboard, Search, ShieldCheck, SlidersHorizontal, Sparkles, Target, Trophy, XCircle, Zap } from "lucide-react";
+import { Activity, AlertTriangle, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, BrainCircuit, CheckCircle2, CircleDollarSign, Database, FlaskConical, Gauge, Layers3, LayoutDashboard, LoaderCircle, LockKeyhole, Minus, Play, RefreshCw, Search, ShieldCheck, SlidersHorizontal, Sparkles, Target, Trophy, XCircle, Zap } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./ThesisDashboard.module.css";
 
@@ -9,6 +9,9 @@ type ThesisSummaryApi = {
   name: string;
   sector: string;
   source: string;
+  payer: string;
+  problem: string;
+  solution: string;
   batch: string;
   area: string;
   macro_area: string;
@@ -53,147 +56,96 @@ type DeepResearchLeaderboard = {
   items: DeepResearchItem[];
 };
 
-type CalibratedThesis = {
-  id: string;
-  name: string;
-  sector: string;
-  engine: string;
-  decision: string;
+type CriterionResult = {
+  key: string;
+  label: string;
   score: number;
-  core: number;
-  expert: number;
-  learning: number;
-  evidence: number;
-  next: string;
-  summary: string;
-  coreWhy: string;
-  expertWhy: string;
-  learningWhy: string;
-  evidenceWhy: string;
-  strengths: string[];
-  risks: string[];
-  whyNotHigher: string;
+  confidence: number;
+  threshold?: number | null;
+  veto_failed?: boolean;
 };
 
-type ListRow = {
-  id: string;
-  name: string;
-  area: string;
-  batch?: string;
-  marketTypes?: string[];
-  productType?: string;
-  macroArea?: string;
-  salesMotion?: string;
-  capitalIntensity?: string;
-  regulatoryIntensity?: string;
-  adaptationMode?: string;
-  analysisStatus?: string;
-  v10Score: number | null;
-  researchPriority: number | null;
-  researchRank: number | null;
-  researchStatus?: DeepResearchItem["research_status"];
-  tagline?: string;
-  why?: string;
-  whatCanKill?: string;
-  sources?: string[];
-  thesisPtbr?: string;
-  buyerPtbr?: string;
-  problemPtbr?: string;
-  valuePtbr?: string;
-  evidencePtbr?: string[];
-  whyRankedPtbr?: string;
-  calibrated?: CalibratedThesis;
+type EngineEvaluation = {
+  engine_version: string;
+  thesis_id: string;
+  thesis_name: string;
+  thesis_score: number;
+  rating_band: string;
+  evidence_cap: number;
+  quality_cap: number;
+  evidence_coverage: number;
+  investigation_priority: number;
+  decision_confidence: number;
+  truth_adjusted_decision_confidence: number;
+  founder_attention_priority: number;
+  selected_experts: string[];
+  primary_expert: string;
+  universal: { raw_score: number; conservative_score: number; criteria: CriterionResult[] };
+  experts: Array<{ engine: string; route_affinity: number; route_confidence: number; scorecard: { raw_score: number; conservative_score: number; criteria: CriterionResult[] } }>;
+  learning: { raw_score: number; conservative_score: number; criteria: CriterionResult[] };
+  potential_score?: number | null;
+  blue_ocean?: { classification: string; empty_ocean_risk: number; scorecard: { raw_score: number; conservative_score: number; criteria: CriterionResult[] } } | null;
+  fatal_vetoes: CriterionResult[];
+  entry_flags: CriterionResult[];
+  decision: string;
+  critical_issue: string;
+  next_experiment: { reason: string; method: string; success_signal: string; failure_signal: string; horizon_hours: number };
+  counterfactuals?: Array<{ target_score?: number; description?: string; changes?: string[] }>;
+  truth?: { truth_score?: number; [key: string]: unknown };
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
-const PAGE_SIZE = 30;
+type ThesisRecordApi = {
+  schema_version: number;
+  thesis: {
+    id: string;
+    name: string;
+    context: {
+      sector: string;
+      payer: string;
+      user: string;
+      problem: string;
+      solution: string;
+      source: string;
+      area: string;
+      macro_area: string;
+      market_types: string[];
+      [key: string]: unknown;
+    };
+    research_readiness: {
+      status: string;
+      dossier_version: string;
+      completeness: number;
+      missing_fields: string[];
+      source_count: number;
+      independent_domains: number;
+      primary_or_official_sources: number;
+      evidence_claim_count: number;
+      field_count?: number;
+      supported_field_count?: number;
+      critical_unknowns: string[];
+    };
+    research_dossier?: Record<string, any> | null;
+    universal?: Record<string, any>;
+    experts?: Record<string, Record<string, any>>;
+    learning?: Record<string, any>;
+    potential?: Record<string, any>;
+    blue_ocean?: Record<string, any>;
+    [key: string]: unknown;
+  };
+  evaluation: EngineEvaluation | null;
+  updated_at_unix: number;
+};
 
-const calibrated: CalibratedThesis[] = [
-  {
-    id: "GYF-01",
-    name: "Gyfted",
-    sector: "Formação esportiva",
-    engine: "Aspiração / Transformação",
-    decision: "48h Falsification",
-    score: 6.8,
-    core: 6.7,
-    expert: 6.9,
-    learning: 7.4,
-    evidence: 2,
-    next: "Conseguir compromisso real no ticket: reserva, depósito ou matrícula.",
-    summary: "A tese tem um motor de valor legítimo: pais já gastam para desenvolver filhos no futebol, e evolução, vídeo, dados e scouting podem transformar essa aspiração em produto. O problema é que ainda não provamos que a proposta específica da Gyfted recebe dinheiro no ticket necessário.",
-    coreWhy: "Pagador e comportamento de gasto existem, mas o excedente valor-preço ainda é hipótese. O core para em 6,7 porque gostar da proposta não basta: precisamos provar pagamento e retenção.",
-    expertWhy: "Aspiração, transformação e status têm intensidade alta. A oferta pode tornar evolução mensurável, mas ainda falta provar que essa transformação é percebida como superior a escolinhas, treinadores e alternativas existentes.",
-    learningWhy: "É barato aprender: não precisamos construir plataforma completa. Uma landing page, avaliação inicial, turma piloto e cobrança real conseguem testar a tese rapidamente.",
-    evidenceWhy: "2/5 porque temos tese + sinais de comportamento do mercado, mas ainda não temos PAGAMENTO REAL nem RESULTADO OBSERVADO suficientes da própria Gyfted.",
-    strengths: ["Mercado já gasta dinheiro com formação esportiva", "Valor aspiracional forte para pais e atletas", "Piloto pode ser vendido antes de tecnologia completa", "Evolução pode ser transformada em métricas, vídeo e scouting"],
-    risks: ["Pais elogiarem a proposta sem pagar", "CAC local destruir unit economics", "Operação presencial limitar escala", "Scouting não ser percebido como diferencial suficiente"],
-    whyNotHigher: "Para passar de 7, a tese precisa de compromisso comercial real. Para chegar perto de 8, precisa de pagamento + sinais de retenção/outcome, não apenas interesse.",
-  },
-  {
-    id: "OLY-01",
-    name: "Olympia",
-    sector: "Legaltech trabalhista",
-    engine: "ROI Econômico",
-    decision: "48h Falsification",
-    score: 6.8,
-    core: 6.8,
-    expert: 6.7,
-    learning: 7.0,
-    evidence: 3,
-    next: "Fechar piloto pago e medir horas economizadas, custo de entrega e outcome.",
-    summary: "A Olympia ataca um trabalho recorrente, caro e operacional em escritórios trabalhistas patronais. O comprador é identificável e o ROI pode ser traduzido em horas, velocidade, controle e perda operacional evitada.",
-    coreWhy: "Dor, pagador e mecanismo econômico são claros. A nota não sobe porque ticket, frequência de uso e margem real por caso ainda precisam ser provados com clientes pagantes.",
-    expertWhy: "O motor Economic ROI é forte: automação substitui trabalho humano mensurável. O risco está em custos de IA, suporte, integrações e revisão jurídica consumirem a economia prometida.",
-    learningWhy: "É possível rodar concierge/manual-first e piloto pago antes de automatizar tudo, reduzindo o custo de aprendizagem.",
-    evidenceWhy: "3/5 porque já há validação operacional e comportamento do buyer, mas falta uma série consistente de PAGAMENTO REAL + outcome observado.",
-    strengths: ["Buyer claro", "Dor frequente", "ROI mensurável", "Piloto vendável antes do produto completo"],
-    risks: ["Ticket premium não fechar", "IA/suporte comprimirem margem", "Integrações gerarem implantação pesada", "Economia de tempo ser menor que a esperada"],
-    whyNotHigher: "O próximo salto de score depende de piloto pago com horas economizadas e margem demonstrada.",
-  },
-  {
-    id: "RHU-01",
-    name: "Rhubius",
-    sector: "Fintech / PME",
-    engine: "ROI Econômico",
-    decision: "48h Falsification",
-    score: 6.1,
-    core: 6.1,
-    expert: 6.0,
-    learning: 6.8,
-    evidence: 1,
-    next: "Tentar destruir a hipótese com donos/CFOs antes de qualquer build.",
-    summary: "Existe uma hipótese econômica plausível em decisões financeiras de PMEs, mas hoje a tese é muito mais hipótese do que evidência.",
-    coreWhy: "O problema pode ter impacto em caixa e decisão, porém payer clarity, frequência e WTP ainda estão insuficientemente provados.",
-    expertWhy: "Se a recomendação realmente alterar decisões financeiras, o ROI pode ser alto. O risco é confiança, dados ruins e substituição por contador, ERP ou banco.",
-    learningWhy: "É possível testar com donos/CFOs e dados históricos antes de construir integrações pesadas.",
-    evidenceWhy: "1/5: praticamente tudo ainda está no nível de hipótese.",
-    strengths: ["Consequência econômica real", "Buyer acessível para entrevistas", "Pode ser testada sem build completo"],
-    risks: ["Baixa confiança em recomendação automática", "Dados fragmentados", "WTP baixo", "Integrações caras"],
-    whyNotHigher: "Precisa primeiro provar uma dor frequente e um comportamento de pagamento. Sem isso, não merece tempo relevante de build.",
-  },
-  {
-    id: "COR-01",
-    name: "Cori Insight",
-    sector: "Healthtech",
-    engine: "ROI Econômico",
-    decision: "Kill / Reformulate",
-    score: 3.0,
-    core: 3.2,
-    expert: 2.8,
-    learning: 4.0,
-    evidence: 4,
-    next: "Não investir mais sem uma nova economia de valor e um pagador claro.",
-    summary: "É o caso negativo de calibração: produto tecnicamente sofisticado não compensou alinhamento com o comprador, orçamento e excedente entre valor e preço fracos.",
-    coreWhy: "O pagador institucional não demonstrou urgência e orçamento suficientes para justificar a solução no formato original.",
-    expertWhy: "Mesmo que o produto melhore decisão clínica, o mecanismo de captura econômica não ficou forte para quem assina o contrato.",
-    learningWhy: "Há bastante aprendizado acumulado, mas a próxima descoberta útil exige reformular pagador/wedge, não otimizar mais o produto atual.",
-    evidenceWhy: "4/5 porque existe muita evidência acumulada — inclusive evidência negativa. Evidência forte não significa tese boa.",
-    strengths: ["Produto tecnicamente profundo", "Conhecimento de domínio acumulado", "Capacidade de execução técnica"],
-    risks: ["Buyer sem orçamento", "ROI difícil de capturar", "Procurement institucional", "Tecnologia virar solução à procura de comprador"],
-    whyNotHigher: "Não falta pesquisa: falta uma nova tese econômica. Mais features não resolvem o problema central.",
-  },
-];
+type RunState = {
+  running: boolean;
+  total: number;
+  processed: number;
+  scored: number;
+  failed: number;
+  blocked: number;
+  currentName: string;
+  message: string;
+};
 
 function scoreTone(score: number) {
   if (score >= 8) return styles.good;
