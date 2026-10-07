@@ -186,6 +186,26 @@ BLUE OCEAN — obrigatório em TODA tese:
 Blue Ocean NÃO pode resgatar uma tese com pagador, capacidade de pagar ou valor fracos.
 O objetivo é descobrir criação de demanda e value innovation, não premiar novidade.
 
+SCORING V7 — use esta régua com extrema severidade para TODO score 0-10:
+- 0–2: evidência contrária / mecanismo praticamente inexistente.
+- 3–4: fraco; abaixo do necessário; tese não deve consumir founder time.
+- 5: plausível/mediano, mas sem edge forte.
+- 6: interessante, porém comum ou ainda pouco provado.
+- 7: FORTE e específico; já merece investigação profunda. Não dê 7 por simpatia.
+- 8: RARO; múltiplas evidências independentes e economics/utility muito convincentes.
+- 9: EXCEPCIONAL; comportamento comercial/dinheiro real ou evidência quase incontestável.
+- 10: praticamente reservado a outcome observado repetível; use rarissimamente.
+
+CAPS DE EVIDÊNCIA:
+- hipótese/opinião não deve sustentar >6;
+- desk research, benchmarks e mercado público não devem sustentar >7;
+- comportamento real de clientes pode sustentar ~7–8;
+- compromisso comercial pode sustentar ~8–8.5;
+- dinheiro real pode sustentar ~9;
+- outcome repetível é necessário para 9.5–10.
+Se estiver em dúvida entre duas notas, escolha a MENOR.
+Uma tese com vários 8/9 sem evidência comportamental/comercial está mal avaliada.
+
 Priorize fontes oficiais brasileiras, reguladores, associações setoriais, dados de mercado e sites de concorrentes.
 Use mídia/comunidade somente como complemento.
 Não invente números. Se não encontrar, marque como desconhecido.
