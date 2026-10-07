@@ -134,6 +134,39 @@ pub struct ThesisContext {
     pub filter_confidence: String,
 }
 
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ResearchStatus {
+    #[default]
+    Sparse,
+    ResearchIncomplete,
+    ResearchComplete,
+    EngineReady,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct ResearchReadiness {
+    #[serde(default)]
+    pub status: ResearchStatus,
+    #[serde(default)]
+    pub dossier_version: String,
+    #[serde(default)]
+    pub completeness: f64,
+    #[serde(default)]
+    pub missing_fields: Vec<String>,
+    #[serde(default)]
+    pub source_count: usize,
+    #[serde(default)]
+    pub independent_domains: usize,
+    #[serde(default)]
+    pub primary_or_official_sources: usize,
+    #[serde(default)]
+    pub evidence_claim_count: usize,
+    #[serde(default)]
+    pub critical_unknowns: Vec<String>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ThesisInput {
     pub id: String,
@@ -205,6 +238,15 @@ pub struct ThesisInput {
     /// If omitted, the newest evidence timestamp is used.
     #[serde(default)]
     pub evidence_as_of_unix: Option<u64>,
+
+    /// Research-first architecture: raw structured dossier persisted in Markdown.
+    /// The deterministic engine never infers missing facts from this JSON.
+    #[serde(default)]
+    pub research_dossier: Option<serde_json::Value>,
+
+    /// Hard gate evaluated before any V10 scoring.
+    #[serde(default)]
+    pub research_readiness: ResearchReadiness,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -404,6 +446,13 @@ pub enum EngineError {
 
     #[error("no viable engine route")]
     NoViableRoute,
+
+    #[error("research dossier is not ENGINE_READY (status={status:?}, completeness={completeness:.2}, missing={missing:?})")]
+    ResearchNotReady {
+        status: ResearchStatus,
+        completeness: f64,
+        missing: Vec<String>,
+    },
 }
 
 #[derive(Clone, Copy)]
@@ -1007,6 +1056,50 @@ pub type EngineV10 = EngineV4;
 
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
+        const MIN_RESEARCH_COMPLETENESS: f64 = 0.95;
+        const MIN_SOURCES: usize = 12;
+        const MIN_INDEPENDENT_DOMAINS: usize = 6;
+        const MIN_PRIMARY_OR_OFFICIAL: usize = 2;
+        const MIN_EVIDENCE_CLAIMS: usize = 12;
+
+        let readiness = &input.research_readiness;
+        let engine_ready = matches!(readiness.status, ResearchStatus::EngineReady)
+            && readiness.completeness >= MIN_RESEARCH_COMPLETENESS
+            && readiness.missing_fields.is_empty()
+            && readiness.critical_unknowns.is_empty()
+            && readiness.source_count >= MIN_SOURCES
+            && readiness.independent_domains >= MIN_INDEPENDENT_DOMAINS
+            && readiness.primary_or_official_sources >= MIN_PRIMARY_OR_OFFICIAL
+            && readiness.evidence_claim_count >= MIN_EVIDENCE_CLAIMS;
+
+        if !engine_ready {
+            let mut missing = readiness.missing_fields.clone();
+            if readiness.completeness < MIN_RESEARCH_COMPLETENESS {
+                missing.push("research_completeness<0.95".to_string());
+            }
+            if readiness.source_count < MIN_SOURCES {
+                missing.push("source_count<12".to_string());
+            }
+            if readiness.independent_domains < MIN_INDEPENDENT_DOMAINS {
+                missing.push("independent_domains<6".to_string());
+            }
+            if readiness.primary_or_official_sources < MIN_PRIMARY_OR_OFFICIAL {
+                missing.push("primary_or_official_sources<2".to_string());
+            }
+            if readiness.evidence_claim_count < MIN_EVIDENCE_CLAIMS {
+                missing.push("evidence_claim_count<12".to_string());
+            }
+            missing.extend(readiness.critical_unknowns.iter().cloned());
+            missing.sort();
+            missing.dedup();
+
+            return Err(EngineError::ResearchNotReady {
+                status: readiness.status,
+                completeness: readiness.completeness,
+                missing,
+            });
+        }
+
         let selected = selected_engines(input)?;
         let universal = scorecard("universal", &input.universal, &UNIVERSAL)?;
         let learning = scorecard("learning", &input.learning, &LEARNING)?;
