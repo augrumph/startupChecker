@@ -1,7 +1,7 @@
 use std::{collections::{BTreeMap, HashMap}, sync::OnceLock};
 use serde::{Deserialize, Serialize};
 
-pub const SCOUT_MODEL_VERSION: &str = "scoutnet-v1-ultra";
+pub const SCOUT_MODEL_VERSION: &str = "scoutnet-v1-ultra-v7-legacy";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SparseThesisInput { pub name:String, pub tagline:String, #[serde(default)] pub category:String }
@@ -39,6 +39,10 @@ fn vectorize(input:&SparseThesisInput,a:&Artifact)->Vec<f64>{
 fn dot(a:&[f64],b:&[f64])->f64{a.iter().zip(b).map(|(x,y)|x*y).sum()}
 fn r1(v:f64)->f64{(v*10.0).round()/10.0}
 fn r4(v:f64)->f64{(v*10000.0).round()/10000.0}
+fn strict_v7(v_0_100:f64)->f64{
+    let x=(v_0_100.clamp(0.0,100.0)/100.0).powf(1.7)*10.0;
+    r1(x.clamp(0.0,10.0))
+}
 
 pub fn scout_sparse_thesis(input:&SparseThesisInput)->ScoutPrediction{
     let a=model(); let v=vectorize(input,a); let mut scores=BTreeMap::new();
@@ -50,6 +54,7 @@ pub fn scout_sparse_thesis(input:&SparseThesisInput)->ScoutPrediction{
     let priority=dot(&a.priority.coef,&v)+a.priority.intercept;
     ScoutPrediction{model_version:a.version.clone(),teacher:a.teacher.clone(),
         blue_ocean_class:a.classifier.classes[winner].clone(),class_scores:scores,
-        research_priority:r1(priority.clamp(0.0,100.0)),teacher_only:true,
-        can_change_rust_decision:false,note:a.guardrail.clone()}
+        research_priority:strict_v7(priority),teacher_only:true,
+        can_change_rust_decision:false,
+        note:format!("{}; legacy V6 weak-label model, V7 priority recalibrated to 0-10 and advisory only",a.guardrail)}
 }
