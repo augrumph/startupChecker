@@ -1,0 +1,29 @@
+# Structured AI
+
+> Sparse YC thesis imported into StartupChecker. No V10 thesis score has been assigned yet because payer, WTP and evidence have not been researched.
+
+- **ID:** `yc-fall-2025-structured-ai`
+- **Source:** Y Combinator
+- **Batch:** Fall 2025
+- **Location:** New York City, NY, USA
+- **Area:** Construction & Real Estate
+- **Categories:** Real Estate and Construction / Construction
+- **Adaptation mode:** LOCALIZE_BRAZIL
+- **Analysis status:** `SPARSE_TRIAGED_RESEARCH_PENDING`
+- **Thesis score:** N/A — intentionally unscored
+
+## Sparse thesis
+
+The AI drawing review platform for architects and engineers.
+
+## Preliminary analysis
+
+This is a routing-only pass. The area and adaptation mode are preliminary metadata for the research queue; they are **not** evidence and do not affect Thesis Score or Truth Score.
+
+## Machine record
+
+<!-- STARTUPCHECKER_RECORD_V1 -->
+~~~json
+{"schema_version":1,"thesis":{"id":"yc-fall-2025-structured-ai","name":"Structured AI","context":{"sector":"Real Estate and Construction / Construction","business_models":["Real Estate and Construction","Construction"],"payer":"","user":"","problem":"UNKNOWN — requires Deep Research V10","solution":"The AI drawing review platform for architects and engineers.","source":"Y Combinator","batch":"Fall 2025","location":"New York City, NY, USA","area":"Construction & Real Estate","source_url":"","analysis_status":"SPARSE_TRIAGED_RESEARCH_PENDING","adaptation_mode":"LOCALIZE_BRAZIL"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[],"evidence_as_of_unix":null},"evaluation":null,"created_at_unix":1791337692,"updated_at_unix":1791337692}
+~~~
+<!-- END_STARTUPCHECKER_RECORD_V1 -->

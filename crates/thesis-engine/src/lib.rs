@@ -100,6 +100,22 @@ pub struct ThesisContext {
     pub user: String,
     pub problem: String,
     pub solution: String,
+
+    // Sparse-universe metadata used for navigation and research queues.
+    #[serde(default)]
+    pub source: String,
+    #[serde(default)]
+    pub batch: String,
+    #[serde(default)]
+    pub location: String,
+    #[serde(default)]
+    pub area: String,
+    #[serde(default)]
+    pub source_url: String,
+    #[serde(default)]
+    pub analysis_status: String,
+    #[serde(default)]
+    pub adaptation_mode: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
