@@ -1,4 +1,4 @@
-# startupChecker — Thesis Engine V6
+# startupChecker — Thesis Engine V7
 
 Decision engine for rapidly killing weak startup theses and identifying the cheapest next experiment for promising ones.
 
@@ -11,7 +11,7 @@ Decision engine for rapidly killing weak startup theses and identifying the chea
 - **Rust remains the final decision authority**: LLM output cannot overwrite scores, vetoes, thresholds or decisions.
 - Future predictive ML is **not trained inside the transactional core**. Outcomes will be collected and models can be trained offline, then versioned and plugged into the engine as an overlay.
 
-## V6 principles
+## V7 principles
 
 1. Business-model agnostic: B2C, B2B, B2B2C, B2G, marketplaces, transactions, services, industrial models, etc.
 2. Multi-expert routing: a thesis may be evaluated by more than one value engine.
@@ -110,3 +110,24 @@ Actual 5-fold CV:
 The neural models were trained and lost, so they are not promoted.
 
 OutcomeNet remains locked until enough real market outcomes exist. See `docs/ENGINE_V6.md`.
+
+
+## V7 — hard calibration
+
+V7 changes the meaning of the score.
+
+- **<5.0** — reject
+- **5.0–5.9** — weak
+- **6.0–6.9** — watchlist / cheap falsification only
+- **7.0–7.9** — investigate seriously
+- **8.0–8.9** — priority; strong enough to justify real commercial/pilot work
+- **9.0+** — exceptional; rare and evidence-heavy
+
+The score is now 0–10, not 0–100.
+
+Three mechanisms prevent inflation:
+1. nonlinear compression: ordinary weighted averages are pushed down;
+2. evidence cap: desk research alone cannot meaningfully exceed ~7;
+3. quality cap: barely clearing veto thresholds cannot produce a high overall score.
+
+A 9 requires both exceptional fundamentals and mature evidence. A 10 should be nearly absent.
