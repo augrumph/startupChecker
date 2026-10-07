@@ -1,5 +1,5 @@
-import { ThesisWorkbench } from "@/components/ThesisWorkbench";
+import { ThesisDashboard } from "@/components/ThesisDashboard";
 
 export default function Home() {
-  return <ThesisWorkbench />;
+  return <ThesisDashboard />;
 }
