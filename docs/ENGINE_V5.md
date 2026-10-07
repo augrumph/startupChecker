@@ -77,3 +77,41 @@ Authentication uses `AI_GATEWAY_API_KEY` locally or supported Vercel authenticat
 **LLM interprets. Rust decides.**
 
 Do not move vetoes, scoring, thresholds or final decisions into prompts.
+
+
+## Sparse-input autonomous research
+
+The corrected V5 entrypoint is a YC-style sparse thesis, not a long founder questionnaire.
+
+`POST /api/ai/research`
+
+Minimum input:
+
+```json
+{
+  "name": "Asakana",
+  "tagline": "AI order entry for food distributors: emails and texts to ERP",
+  "category": "Supply Chain and Logistics"
+}
+```
+
+The Research Orchestrator gets live web access through AI Gateway Browserbase Search + Fetch and researches Brazil autonomously:
+
+- payer and buyer density,
+- market size/proxies,
+- current workflow/workaround,
+- existing spend,
+- local/global competitors,
+- regulation,
+- pricing/WTP proxies,
+- integrations,
+- distribution and sales cycle,
+- Brazil adaptation,
+- fastest falsification,
+- preliminary source-backed signals.
+
+The founder should only be asked for information the web cannot know, such as proprietary connections, team-specific advantages, capital constraints or private customer feedback.
+
+AI SDK 7.0.116+ is required for Browserbase Search/Fetch through AI Gateway.
+
+**Sparse thesis in. Evidence pack out. Rust decision last.**
