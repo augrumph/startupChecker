@@ -164,6 +164,10 @@ pub struct ResearchReadiness {
     #[serde(default)]
     pub evidence_claim_count: usize,
     #[serde(default)]
+    pub field_count: usize,
+    #[serde(default)]
+    pub supported_field_count: usize,
+    #[serde(default)]
     pub critical_unknowns: Vec<String>,
 }
 
@@ -1056,7 +1060,7 @@ pub type EngineV10 = EngineV4;
 
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
-        const MIN_RESEARCH_COMPLETENESS: f64 = 0.95;
+        const MIN_RESEARCH_COMPLETENESS: f64 = 1.0;
         const MIN_SOURCES: usize = 12;
         const MIN_INDEPENDENT_DOMAINS: usize = 6;
         const MIN_PRIMARY_OR_OFFICIAL: usize = 2;
@@ -1075,7 +1079,7 @@ impl EngineV4 {
         if !engine_ready {
             let mut missing = readiness.missing_fields.clone();
             if readiness.completeness < MIN_RESEARCH_COMPLETENESS {
-                missing.push("research_completeness<0.95".to_string());
+                missing.push("research_completeness<1.0".to_string());
             }
             if readiness.source_count < MIN_SOURCES {
                 missing.push("source_count<12".to_string());
