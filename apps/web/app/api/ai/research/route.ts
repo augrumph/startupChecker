@@ -483,6 +483,7 @@ export async function POST(request: Request) {
   const name = String(body?.name ?? "").trim();
   const tagline = String(body?.tagline ?? body?.text ?? "").trim();
   const category = String(body?.category ?? "").trim();
+  const knownContext = body?.knownContext ?? null;
 
   if (!name || tagline.length < 8) {
     return Response.json(
@@ -499,6 +500,15 @@ TAGLINE: ${tagline}
 CATEGORIA: ${category || "não informada"}
 PAÍS-ALVO: Brasil
 DATA DE REFERÊNCIA: outubro de 2026
+
+CONTEXTO JÁ CONHECIDO DO PROJETO:
+${knownContext ? JSON.stringify(knownContext, null, 2) : "Nenhum contexto adicional fornecido."}
+
+Regra para o contexto conhecido:
+- use como seed para formular buscas, buyer, workflow, pricing e hipóteses;
+- NÃO trate como evidência externa;
+- quando o contexto contiver números, decisões ou fatos internos, preserve-os como "contexto do projeto" e procure confirmação/contradição externa quando aplicável;
+- não sobrescreva silenciosamente contexto interno com marketing de concorrente;
 
 Sua função é FAZER O TRABALHO QUE O FOUNDER NÃO DEVE PREENCHER MANUALMENTE.
 
