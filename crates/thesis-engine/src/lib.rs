@@ -663,19 +663,29 @@ impl EngineV4 {
     }
 }
 
-pub fn public_config() -> BTreeMap<&'static str, Vec<(&'static str, &'static str, f64, Option<f64>)>> {
+type PublicCriterion = (&'static str, &'static str, f64, Option<f64>);
+
+fn public_defs(defs: &[CriterionDef]) -> Vec<PublicCriterion> {
+    defs.iter()
+        .map(|d| (d.key, d.label, d.weight, d.veto))
+        .collect()
+}
+
+pub fn public_config() -> BTreeMap<&'static str, Vec<PublicCriterion>> {
     let mut out = BTreeMap::new();
-    out.insert(
-        "universal",
-        UNIVERSAL.iter().map(|d| (d.key, d.label, d.weight, d.veto)).collect(),
-    );
-    out.insert(
-        "learning",
-        LEARNING.iter().map(|d| (d.key, d.label, d.weight, d.veto)).collect(),
-    );
-    out.insert(
-        "potential",
-        POTENTIAL.iter().map(|d| (d.key, d.label, d.weight, d.veto)).collect(),
-    );
+    out.insert("universal", public_defs(&UNIVERSAL));
+    out.insert("learning", public_defs(&LEARNING));
+    out.insert("potential", public_defs(&POTENTIAL));
+    out
+}
+
+pub fn public_expert_config() -> BTreeMap<&'static str, Vec<PublicCriterion>> {
+    let mut out = BTreeMap::new();
+    out.insert("ECONOMIC_ROI", public_defs(&ECONOMIC));
+    out.insert("ASPIRATION_TRANSFORMATION", public_defs(&ASPIRATION));
+    out.insert("RISK_MANDATORY", public_defs(&RISK));
+    out.insert("TRANSACTION_ASSET", public_defs(&TRANSACTION));
+    out.insert("NETWORK_MARKETPLACE", public_defs(&NETWORK));
+    out.insert("CONVENIENCE_EXPERIENCE", public_defs(&CONVENIENCE));
     out
 }

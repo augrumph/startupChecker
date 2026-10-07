@@ -6,7 +6,9 @@ use axum::{
     Json, Router,
 };
 use serde_json::{json, Value};
-use thesis_engine::{public_config, EngineV4, ThesisInput, ENGINE_VERSION};
+use thesis_engine::{
+    public_config, public_expert_config, EngineV4, ThesisInput, ENGINE_VERSION,
+};
 use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Clone, Default)]
@@ -48,14 +50,39 @@ async fn health() -> Json<Value> {
 async fn config() -> Json<Value> {
     Json(json!({
         "engine_version": ENGINE_VERSION,
-        "universal_learning_potential": public_config(),
-        "expert_engines": [
-            "ECONOMIC_ROI",
-            "ASPIRATION_TRANSFORMATION",
-            "RISK_MANDATORY",
-            "TRANSACTION_ASSET",
-            "NETWORK_MARKETPLACE",
-            "CONVENIENCE_EXPERIENCE"
+        "criteria": public_config(),
+        "experts": public_expert_config(),
+        "router": [
+            {
+                "key": "ECONOMIC_ROI",
+                "label": "Economic ROI",
+                "description": "Reduz custo, aumenta receita, libera tempo monetizável ou cria valor financeiro direto."
+            },
+            {
+                "key": "ASPIRATION_TRANSFORMATION",
+                "label": "Aspiration / Transformation",
+                "description": "Sonho, identidade, status, desenvolvimento, educação, esporte ou transformação pessoal."
+            },
+            {
+                "key": "RISK_MANDATORY",
+                "label": "Risk / Mandatory",
+                "description": "Obrigação, compliance, segurança, risco jurídico/regulatório ou perda relevante."
+            },
+            {
+                "key": "TRANSACTION_ASSET",
+                "label": "Transaction / Asset",
+                "description": "Ativos, investimentos, arbitragem, spreads, deals, turnaround ou capital."
+            },
+            {
+                "key": "NETWORK_MARKETPLACE",
+                "label": "Network / Marketplace",
+                "description": "Matching, dois ou mais lados, liquidez e valor criado pela rede."
+            },
+            {
+                "key": "CONVENIENCE_EXPERIENCE",
+                "label": "Convenience / Experience",
+                "description": "Remove fricção, economiza esforço/tempo ou melhora muito a experiência."
+            }
         ]
     }))
 }
