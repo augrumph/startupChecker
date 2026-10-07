@@ -14,7 +14,7 @@ use thesis_engine::{
 };
 use tower_http::cors::{Any, CorsLayer};
 
-#[derive(Clone, Default)]
+#[derive(Clone)]
 struct AppState {
     engine: EngineV9,
     store: MarkdownStore,
@@ -185,7 +185,7 @@ async fn save_thesis(
 async fn put_thesis(
     State(state): State<AppState>,
     Path(id): Path<String>,
-    Json(mut record): Json<ThesisRecord>,
+    Json(record): Json<ThesisRecord>,
 ) -> impl IntoResponse {
     if record.thesis.id != id {
         return (
