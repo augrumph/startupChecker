@@ -10,7 +10,7 @@ use serde_json::{json, Value};
 mod store;
 use store::{MarkdownStore, ThesisRecord};
 use thesis_engine::{
-    calibration_report, public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, update_with_evidence, update_with_experiment, EngineV10, AppendEvidenceRequest, ExperimentUpdateRequest, CalibrationRecord, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
+    calibration_report, public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, update_with_evidence, update_with_experiment, EngineV10, AppendEvidenceRequest, EvidenceRecord, ExperimentLedgerEntry, ExperimentUpdateRequest, CalibrationRecord, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
 use tower_http::cors::{Any, CorsLayer};
 
@@ -33,6 +33,8 @@ async fn main() {
         .route("/v1/evidence/update", post(update_evidence))
         .route("/v1/theses", get(list_theses).post(save_thesis))
         .route("/v1/theses/{id}", get(get_thesis).put(put_thesis))
+        .route("/v1/theses/{id}/evidence", post(append_thesis_evidence))
+        .route("/v1/theses/{id}/experiments", post(append_thesis_experiment))
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)
@@ -181,6 +183,84 @@ async fn get_thesis(
         Ok(record) => (StatusCode::OK, Json(json!(record))),
         Err(error) => (
             StatusCode::NOT_FOUND,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
+}
+
+async fn append_thesis_evidence(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+    Json(evidence): Json<Vec<EvidenceRecord>>,
+) -> impl IntoResponse {
+    let mut record = match state.store.read(&id).await {
+        Ok(record) => record,
+        Err(error) => {
+            return (
+                StatusCode::NOT_FOUND,
+                Json(json!({"error": error.to_string()})),
+            )
+        }
+    };
+
+    let request = AppendEvidenceRequest {
+        thesis: record.thesis.clone(),
+        evidence,
+    };
+
+    match update_with_evidence(&state.engine, &request) {
+        Ok(result) => {
+            record.thesis = result.thesis;
+            record.evaluation = Some(result.evaluation);
+            match state.store.write_record(record).await {
+                Ok(record) => (StatusCode::OK, Json(json!(record))),
+                Err(error) => (
+                    StatusCode::UNPROCESSABLE_ENTITY,
+                    Json(json!({"error": error.to_string()})),
+                ),
+            }
+        }
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
+}
+
+async fn append_thesis_experiment(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+    Json(result): Json<ExperimentLedgerEntry>,
+) -> impl IntoResponse {
+    let mut record = match state.store.read(&id).await {
+        Ok(record) => record,
+        Err(error) => {
+            return (
+                StatusCode::NOT_FOUND,
+                Json(json!({"error": error.to_string()})),
+            )
+        }
+    };
+
+    let request = ExperimentUpdateRequest {
+        thesis: record.thesis.clone(),
+        result,
+    };
+
+    match update_with_experiment(&state.engine, &request) {
+        Ok(result) => {
+            record.thesis = result.thesis;
+            record.evaluation = Some(result.evaluation);
+            match state.store.write_record(record).await {
+                Ok(record) => (StatusCode::OK, Json(json!(record))),
+                Err(error) => (
+                    StatusCode::UNPROCESSABLE_ENTITY,
+                    Json(json!({"error": error.to_string()})),
+                ),
+            }
+        }
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
             Json(json!({"error": error.to_string()})),
         ),
     }
