@@ -929,3 +929,174 @@ button { color: inherit; }
   .ai-intake-output { grid-template-columns: 1fr; }
   .ai-assist-head, .ai-lab-header { align-items: flex-start; flex-direction: column; }
 }
+
+
+/* V8 Decision & Research OS */
+.ai-action-row {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.research-summary {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.research-summary > div {
+  background: rgba(255,255,255,.82);
+  border-radius: 11px;
+  padding: 9px;
+}
+
+.research-summary span {
+  display: block;
+  color: var(--label-3);
+  font-size: 9px;
+}
+
+.research-summary strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.section-helper {
+  color: var(--label-2);
+  font-size: 11px;
+  margin: 0 4px 10px;
+}
+
+.v8-priority {
+  background: rgba(88,86,214,.07) !important;
+}
+
+.v8-priority strong {
+  color: var(--indigo);
+}
+
+.v8-decision-card {
+  margin-top: 10px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(0,122,255,.09), rgba(88,86,214,.08));
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  color: #194a88;
+}
+
+.v8-decision-card span {
+  display: block;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.v8-decision-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 15px;
+  color: #163e70;
+}
+
+.v8-decision-card p {
+  margin: 5px 0 0;
+  color: var(--label-2);
+  font-size: 10px;
+}
+
+.failure-patterns {
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 15px;
+}
+
+.failure-pattern {
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 48px 1fr 38px;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--separator);
+}
+
+.failure-pattern > b {
+  color: var(--red);
+  font-size: 10px;
+}
+
+.failure-pattern div strong,
+.failure-pattern div span {
+  display: block;
+}
+
+.failure-pattern div strong {
+  font-size: 11px;
+}
+
+.failure-pattern div span {
+  margin-top: 2px;
+  color: var(--label-2);
+  font-size: 10px;
+}
+
+.failure-pattern em {
+  font-style: normal;
+  color: var(--label-3);
+  font-size: 10px;
+  text-align: right;
+}
+
+.counterfactual-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.counterfactual-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 13px;
+  min-height: 120px;
+}
+
+.counterfactual-card > span {
+  display: block;
+  color: var(--label-3);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.counterfactual-card > strong {
+  display: block;
+  margin: 5px 0 7px;
+  font-size: 14px;
+}
+
+.counterfactual-card small {
+  display: block;
+  color: var(--label-2);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.counterfactual-card small + small {
+  margin-top: 4px;
+}
+
+@media (max-width: 700px) {
+  .research-summary,
+  .counterfactual-grid {
+    grid-template-columns: 1fr;
+  }
+}
