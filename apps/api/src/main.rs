@@ -1,11 +1,14 @@
 use axum::{
-    extract::State,
+    extract::{Path, State},
     http::StatusCode,
     response::IntoResponse,
     routing::{get, post},
     Json, Router,
 };
 use serde_json::{json, Value};
+
+mod store;
+use store::{MarkdownStore, ThesisRecord};
 use thesis_engine::{
     calibration_report, public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, update_with_experiment, EngineV9, ExperimentUpdateRequest, CalibrationRecord, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
@@ -14,6 +17,7 @@ use tower_http::cors::{Any, CorsLayer};
 #[derive(Clone, Default)]
 struct AppState {
     engine: EngineV9,
+    store: MarkdownStore,
 }
 
 #[tokio::main]
@@ -26,13 +30,18 @@ async fn main() {
         .route("/v1/portfolio", post(portfolio))
         .route("/v1/experiment/update", post(update_experiment))
         .route("/v1/calibration", post(calibration))
+        .route("/v1/theses", get(list_theses).post(save_thesis))
+        .route("/v1/theses/{id}", get(get_thesis).put(put_thesis))
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)
                 .allow_methods(Any)
                 .allow_headers(Any),
         )
-        .with_state(AppState::default());
+        .with_state(AppState {
+            engine: EngineV9::default(),
+            store: MarkdownStore::from_env(),
+        });
 
     let addr = std::env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:8080".into());
     let listener = tokio::net::TcpListener::bind(&addr)
@@ -133,6 +142,65 @@ async fn update_experiment(
 
 async fn calibration(Json(records): Json<Vec<CalibrationRecord>>) -> Json<Value> {
     Json(json!(calibration_report(&records)))
+}
+
+async fn list_theses(
+    State(state): State<AppState>,
+) -> impl IntoResponse {
+    match state.store.list().await {
+        Ok(items) => (StatusCode::OK, Json(json!(items))),
+        Err(error) => (
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
+}
+
+async fn get_thesis(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+) -> impl IntoResponse {
+    match state.store.read(&id).await {
+        Ok(record) => (StatusCode::OK, Json(json!(record))),
+        Err(error) => (
+            StatusCode::NOT_FOUND,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
+}
+
+async fn save_thesis(
+    State(state): State<AppState>,
+    Json(thesis): Json<ThesisInput>,
+) -> impl IntoResponse {
+    match state.store.save_evaluated(&state.engine, thesis).await {
+        Ok(record) => (StatusCode::OK, Json(json!(record))),
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
+}
+
+async fn put_thesis(
+    State(state): State<AppState>,
+    Path(id): Path<String>,
+    Json(mut record): Json<ThesisRecord>,
+) -> impl IntoResponse {
+    if record.thesis.id != id {
+        return (
+            StatusCode::BAD_REQUEST,
+            Json(json!({"error": "path id must match record thesis id"})),
+        );
+    }
+
+    match state.store.write_record(record).await {
+        Ok(record) => (StatusCode::OK, Json(json!(record))),
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({"error": error.to_string()})),
+        ),
+    }
 }
 
 async fn evaluate(
