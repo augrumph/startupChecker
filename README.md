@@ -1,4 +1,4 @@
-# startupChecker — Thesis Engine V8
+# startupChecker — Thesis Engine V10
 
 Decision engine for rapidly killing weak startup theses and identifying the cheapest next experiment for promising ones.
 
@@ -154,3 +154,36 @@ POST /v1/portfolio
 ```
 
 See `docs/ENGINE_V8.md`.
+
+
+## V10 — Truth Layer
+
+V10 adds evidence provenance and a deterministic Truth Score.
+
+Every researched claim can be persisted in the thesis Markdown record with:
+- source type,
+- source URL,
+- criterion mapping,
+- support / contradiction direction,
+- strength / reliability,
+- timestamp,
+- independence group.
+
+The engine reports:
+- Truth Score 0–10,
+- audit grade A–F,
+- critical-claim coverage,
+- source quality/diversity/independence,
+- freshness,
+- contradiction load,
+- duplicate load,
+- synthetic-evidence share,
+- future-training eligibility.
+
+Truth Score **never increases Thesis Score**. It only limits how much confidence we should place in the current decision and whether the thesis record is clean enough to train future models.
+
+New endpoint:
+
+```
+POST /v1/evidence/update
+```
