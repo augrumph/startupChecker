@@ -79,6 +79,34 @@ const schema = z.object({
       rationale: z.string(),
     }),
   ).max(6),
+  blueOcean: z.object({
+    competitiveArena: z.string(),
+    conventionalFactors: z.array(z.string()).max(12),
+    noncustomers: z.object({
+      tier1SoonToBe: z.array(z.string()).max(6),
+      tier2Refusing: z.array(z.string()).max(6),
+      tier3Unexplored: z.array(z.string()).max(6),
+    }),
+    utilityBlocks: z.array(z.string()).max(10),
+    errc: z.object({
+      eliminate: z.array(z.string()).max(8),
+      reduce: z.array(z.string()).max(8),
+      raise: z.array(z.string()).max(8),
+      create: z.array(z.string()).max(8),
+    }),
+    valueInnovationThesis: z.string(),
+    whyNotEmptyOcean: z.string(),
+    classificationHypothesis: z.enum([
+      "BLUE_HYPOTHESIS",
+      "PURPLE_OCEAN",
+      "RED_OCEAN",
+      "EMPTY_OCEAN_RISK",
+      "UNKNOWN",
+    ]),
+    emptyOceanRisk: z.number().min(0).max(1),
+    proposedSignals: z.array(scoredCriterion).length(6),
+    sourceUrls: z.array(z.string().url()).max(12),
+  }),
   proposedSignals: z.object({
     universal: z.array(scoredCriterion),
     experts: z.array(
@@ -139,6 +167,25 @@ Pesquise ativamente a web e descubra:
 9. se devemos copiar, verticalizar, adaptar profundamente, ou NÃO adaptar e vender globalmente do Brasil;
 10. qual é o teste mais barato para matar a tese em <=30 dias.
 
+BLUE OCEAN — obrigatório em TODA tese:
+11. defina a arena competitiva real e os fatores em que o setor compete hoje;
+12. identifique os 3 tiers de não-clientes: soon-to-be, refusing e unexplored;
+13. identifique os principais bloqueios de utilidade ao longo da experiência do comprador;
+14. construa ERRC: ELIMINAR, REDUZIR, ELEVAR e CRIAR;
+15. avalie se existe VALUE INNOVATION real: salto de utilidade + estrutura de custo melhor;
+16. diferencie explicitamente BLUE OCEAN de EMPTY OCEAN. Ausência de concorrentes sem demanda latente comprovável é sinal negativo;
+17. proponha exatamente estes 6 sinais 0-10 para o Rust:
+    - value_curve_departure
+    - noncustomer_unlock
+    - utility_leap
+    - cost_curve_break
+    - new_demand_creation
+    - latent_demand_evidence
+18. classifique preliminarmente como BLUE_HYPOTHESIS, PURPLE_OCEAN, RED_OCEAN, EMPTY_OCEAN_RISK ou UNKNOWN.
+
+Blue Ocean NÃO pode resgatar uma tese com pagador, capacidade de pagar ou valor fracos.
+O objetivo é descobrir criação de demanda e value innovation, não premiar novidade.
+
 Priorize fontes oficiais brasileiras, reguladores, associações setoriais, dados de mercado e sites de concorrentes.
 Use mídia/comunidade somente como complemento.
 Não invente números. Se não encontrar, marque como desconhecido.
@@ -171,6 +218,7 @@ Você pesquisa; não vende a ideia.
 Você é adversarial, econômico e local.
 Uma tese YC não ganha pontos por ser YC.
 Uma ausência de concorrente pode significar ausência de mercado.
+Blue Ocean exige simultaneamente valor para o comprador e lógica econômica/custo, além de nova demanda ou não-clientes plausíveis.
 Use URLs reais obtidas nas ferramentas.
 O output deve permitir que outro sistema audite cada conclusão.`,
     prompt,

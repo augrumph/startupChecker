@@ -108,6 +108,12 @@ pub struct ThesisInput {
     /// payer_density, profit_pool, adjacency, capital_efficiency.
     #[serde(default)]
     pub potential: BTreeMap<String, Signal>,
+
+    /// V5 Blue Ocean layer. This does NOT rescue a weak thesis.
+    /// value_curve_departure, noncustomer_unlock, utility_leap,
+    /// cost_curve_break, new_demand_creation, latent_demand_evidence.
+    #[serde(default)]
+    pub blue_ocean: BTreeMap<String, Signal>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -160,6 +166,25 @@ pub struct ExperimentRecommendation {
     pub information_priority: f64,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum BlueOceanClass {
+    NotAssessed,
+    RedOcean,
+    PurpleOcean,
+    BlueHypothesis,
+    BlueValidated,
+    EmptyOceanRisk,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BlueOceanEvaluation {
+    pub classification: BlueOceanClass,
+    pub scorecard: ScoreCard,
+    pub empty_ocean_risk: f64,
+    pub value_innovation_valid: bool,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Evaluation {
     pub engine_version: String,
@@ -171,6 +196,7 @@ pub struct Evaluation {
     pub experts: Vec<ExpertEvaluation>,
     pub learning: ScoreCard,
     pub potential_score: Option<f64>,
+    pub blue_ocean: Option<BlueOceanEvaluation>,
 
     /// Strength of the thesis assuming the supplied scores are true.
     pub structural_strength: f64,
@@ -297,6 +323,15 @@ const POTENTIAL: [CriterionDef; 4] = [
     CriterionDef { key: "profit_pool", label: "Profit pool/upside", weight: 30.0, veto: None },
     CriterionDef { key: "adjacency", label: "Expansão adjacente", weight: 25.0, veto: None },
     CriterionDef { key: "capital_efficiency", label: "Capital efficiency", weight: 20.0, veto: None },
+];
+
+const BLUE_OCEAN: [CriterionDef; 6] = [
+    CriterionDef { key: "value_curve_departure", label: "Ruptura da curva de valor", weight: 20.0, veto: None },
+    CriterionDef { key: "noncustomer_unlock", label: "Capacidade de converter não-clientes", weight: 20.0, veto: None },
+    CriterionDef { key: "utility_leap", label: "Salto de utilidade para o comprador", weight: 20.0, veto: None },
+    CriterionDef { key: "cost_curve_break", label: "Quebra da estrutura de custo", weight: 15.0, veto: None },
+    CriterionDef { key: "new_demand_creation", label: "Criação de nova demanda", weight: 15.0, veto: None },
+    CriterionDef { key: "latent_demand_evidence", label: "Evidência de demanda latente", weight: 10.0, veto: None },
 ];
 
 fn expert_defs(engine: EngineKind) -> &'static [CriterionDef; 5] {
@@ -562,6 +597,66 @@ fn potential_score(input: &ThesisInput) -> Option<f64> {
         .map(|s| s.raw_score)
 }
 
+fn signal_score(signals: &BTreeMap<String, Signal>, key: &str) -> f64 {
+    signals.get(key).map(Signal::score).unwrap_or(0.0)
+}
+
+fn blue_ocean_evaluation(
+    input: &ThesisInput,
+) -> Result<Option<BlueOceanEvaluation>, EngineError> {
+    if input.blue_ocean.is_empty() {
+        return Ok(None);
+    }
+
+    let scorecard = scorecard("blue_ocean", &input.blue_ocean, &BLUE_OCEAN)?;
+    let latent = signal_score(&input.blue_ocean, "latent_demand_evidence");
+    let utility = signal_score(&input.blue_ocean, "utility_leap");
+    let cost_break = signal_score(&input.blue_ocean, "cost_curve_break");
+    let noncustomers = signal_score(&input.blue_ocean, "noncustomer_unlock");
+    let current_behavior = input
+        .universal
+        .get("current_behavior")
+        .map(Signal::score)
+        .unwrap_or(5.0);
+
+    // Guardrail: an apparently uncontested market with little evidence of latent
+    // demand and little existing behavior may simply be an empty ocean.
+    let empty_ocean_risk = round1(
+        (((10.0 - latent) * 0.55
+            + (10.0 - current_behavior) * 0.25
+            + (noncustomers * (1.0 - scorecard.evidence_coverage)) * 0.20)
+            * 10.0)
+            .clamp(0.0, 100.0),
+    );
+
+    let value_innovation_valid =
+        utility >= 6.0 && cost_break >= 5.0 && latent >= 5.0;
+
+    let classification = if empty_ocean_risk >= 65.0 {
+        BlueOceanClass::EmptyOceanRisk
+    } else if scorecard.raw_score >= 80.0
+        && scorecard.evidence_coverage >= 0.70
+        && utility >= 7.0
+        && cost_break >= 6.0
+        && latent >= 7.0
+    {
+        BlueOceanClass::BlueValidated
+    } else if scorecard.raw_score >= 75.0 && value_innovation_valid {
+        BlueOceanClass::BlueHypothesis
+    } else if scorecard.raw_score >= 60.0 {
+        BlueOceanClass::PurpleOcean
+    } else {
+        BlueOceanClass::RedOcean
+    };
+
+    Ok(Some(BlueOceanEvaluation {
+        classification,
+        scorecard,
+        empty_ocean_risk,
+        value_innovation_valid,
+    }))
+}
+
 fn veto_criteria<'a>(
     universal: &'a ScoreCard,
     experts: &'a [ExpertEvaluation],
@@ -748,6 +843,8 @@ impl EngineV4 {
         let review_required =
             confidence < 55.0 || sensitivity >= 45.0 || disagreement >= 35.0;
 
+        let blue_ocean = blue_ocean_evaluation(input)?;
+
         Ok(Evaluation {
             engine_version: ENGINE_VERSION.to_string(),
             thesis_id: input.id.clone(),
@@ -758,6 +855,7 @@ impl EngineV4 {
             experts,
             learning,
             potential_score: potential_score(input),
+            blue_ocean,
             structural_strength: round1(structural_strength),
             conservative_strength: round1(conservative_strength),
             evidence_coverage: round3(evidence_coverage),
@@ -789,6 +887,7 @@ pub fn public_config() -> BTreeMap<&'static str, Vec<PublicCriterion>> {
     out.insert("universal", public_defs(&UNIVERSAL));
     out.insert("learning", public_defs(&LEARNING));
     out.insert("potential", public_defs(&POTENTIAL));
+    out.insert("blue_ocean", public_defs(&BLUE_OCEAN));
     out
 }
 
