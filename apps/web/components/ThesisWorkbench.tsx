@@ -413,12 +413,15 @@ function Metric({
   title,
   subtitle,
   value,
+  percent = false,
 }: {
   icon: ReactNode;
   title: string;
   subtitle: string;
   value: number;
+  percent?: boolean;
 }) {
+  const toneValue = percent ? value / 10 : value;
   return (
     <div className="metric-row">
       <div className="metric-icon">{icon}</div>
@@ -426,7 +429,9 @@ function Metric({
         <strong>{title}</strong>
         <span>{subtitle}</span>
       </div>
-      <div className={scoreTone(value)}>{value.toFixed(1)}</div>
+      <div className={scoreTone(toneValue)}>
+        {value.toFixed(1)}{percent ? "%" : ""}
+      </div>
     </div>
   );
 }
@@ -987,7 +992,7 @@ export function ThesisWorkbench() {
               <h3>{thesis.evaluation?.critical_issue ?? "Vale founder time?"}</h3>
               <p>
                 {thesis.evaluation
-                  ? `A V5 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
+                  ? `A V7 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
                   : "Referência de calibração. Crie uma nova tese para rodar o motor real ponta a ponta."}
               </p>
 
@@ -1032,8 +1037,8 @@ export function ThesisWorkbench() {
               {currentConservative != null ? (
                 <Metric
                   icon={<TrendingUp size={18} />}
-                  title="Força conservadora"
-                  subtitle="Estrutura retraída pela qualidade da evidência."
+                  title="Score V7"
+                  subtitle="Score final após compressão, evidência e folga sobre vetos."
                   value={currentConservative}
                 />
               ) : null}
@@ -1051,6 +1056,7 @@ export function ThesisWorkbench() {
                   title="Confiança da decisão"
                   subtitle="Evidência + distância dos vetos + concordância entre experts."
                   value={thesis.evaluation.decision_confidence}
+                  percent
                 />
               ) : null}
               {thesis.evaluation ? (
@@ -1059,6 +1065,7 @@ export function ThesisWorkbench() {
                   title="Estabilidade da decisão"
                   subtitle="100 menos o risco de pequenas mudanças alterarem a conclusão."
                   value={100 - thesis.evaluation.sensitivity_risk}
+                  percent
                 />
               ) : null}
 
