@@ -243,3 +243,21 @@ npm run score:all
 This command intentionally aborts if even one YC thesis is not `ENGINE_READY`.
 
 The research corpus and the score corpus are separate by design. The model may research and interpret; incomplete research may never masquerade as a deterministic thesis score.
+
+
+## Frontend V10 execution
+
+The canonical UI is driven by `data/theses/*.md`.
+
+Rules:
+
+- founder/internal theses and YC theses live in the same canonical universe;
+- no hardcoded scores are allowed in the frontend;
+- incomplete research renders as blocked / N/A;
+- `ENGINE_READY` requires 100% dossier completeness before evaluation;
+- the **Rodar motor V10** button evaluates only `ENGINE_READY` records;
+- each successful evaluation is persisted back into the corresponding Markdown record;
+- the V10 ranking is recalculated in the browser after every completed thesis, so rank changes appear progressively during execution;
+- research priority / ScoutNet are research-routing signals only and never replace the deterministic V10 ranking.
+
+The current founder universe includes Gyfted, Olympia, Rhubius, Cori Insight, Cori ARTA, Cori ENAMED B2B, CoriEdu, Cori Staffing, Cori Revalida OSCE B2C, Kroupi Partner Network, Freedom Wealth, AI Turnaround / Distressed Discovery, the white-label supplements factory thesis, and the specialty cement/materials thesis.
