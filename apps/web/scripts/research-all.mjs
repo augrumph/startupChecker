@@ -12,6 +12,65 @@ async function json(url, init) {
   return text ? JSON.parse(text) : null;
 }
 
+
+const EVIDENCE_MAP = {
+  HYPOTHESIS: "Hypothesis",
+  DESK_RESEARCH: "DeskResearch",
+  CUSTOMER_BEHAVIOR: "CustomerBehavior",
+  COMMERCIAL_COMMITMENT: "CommercialCommitment",
+  MONEY: "Money",
+  OBSERVED_OUTCOME: "ObservedOutcome",
+};
+
+function toSignal(criterion) {
+  return {
+    score: criterion.score,
+    evidence: EVIDENCE_MAP[criterion.evidenceLevel] ?? "Hypothesis",
+    quality: criterion.confidence ?? 0.5,
+    contradictions: 0,
+    note: criterion.rationale ?? null,
+  };
+}
+
+function signalMap(criteria = []) {
+  return Object.fromEntries(criteria.map((criterion) => [criterion.key, toSignal(criterion)]));
+}
+
+function applyResearchInterpretation(record, research) {
+  record.thesis.universal = signalMap(research.proposedSignals?.universal);
+  record.thesis.learning = signalMap(research.proposedSignals?.learning);
+  record.thesis.potential = signalMap(research.proposedSignals?.potential);
+  record.thesis.blue_ocean = signalMap(research.blueOcean?.proposedSignals);
+
+  record.thesis.experts = Object.fromEntries(
+    (research.proposedSignals?.experts ?? []).map((expert) => [
+      expert.engine,
+      signalMap(expert.criteria),
+    ])
+  );
+
+  record.thesis.router = Object.fromEntries(
+    (research.engineSuggestions ?? []).map((engine) => [
+      engine.engine,
+      {
+        score: engine.affinity,
+        evidence: "DeskResearch",
+        quality: research.researchConfidence ?? 0.5,
+        contradictions: 0,
+        note: engine.rationale ?? null,
+      },
+    ])
+  );
+
+  const dossier = research.researchDossier;
+  if (dossier) {
+    record.thesis.context.payer = dossier.buyer?.economicBuyer?.answer ?? record.thesis.context.payer;
+    record.thesis.context.user = dossier.buyer?.endUser?.answer ?? record.thesis.context.user;
+    record.thesis.context.problem = dossier.problem?.jobToBeDone?.answer ?? record.thesis.context.problem;
+    record.thesis.context.solution = dossier.thesis?.rewrittenPtBr?.answer ?? record.thesis.context.solution;
+  }
+}
+
 function toEvidenceRecords(research) {
   return (research.evidenceGraph?.claims ?? []).flatMap((claim) =>
     (claim.sourceUrls ?? []).map((url, index) => ({
@@ -56,8 +115,20 @@ async function researchOne(summary) {
     body: JSON.stringify(body),
   });
 
-  record.thesis.research_dossier = research.researchDossier;
+  record.thesis.research_dossier = {
+    ...research.researchDossier,
+    _analysis: {
+      brazilAdaptation: research.brazilAdaptation,
+      blueOcean: research.blueOcean,
+      criticalHypotheses: research.criticalHypotheses,
+      candidateExperiments: research.candidateExperiments,
+      fastestFalsification: research.fastestFalsification,
+      researchConfidence: research.researchConfidence,
+      sources: research.sources,
+    },
+  };
   record.thesis.research_readiness = research.researchReadiness;
+  applyResearchInterpretation(record, research);
   record.thesis.evidence_records = toEvidenceRecords(research);
   record.thesis.evidence_as_of_unix = Math.floor(Date.now() / 1000);
   record.thesis.context.analysis_status = research.researchReadiness.status;
@@ -90,8 +161,8 @@ async function worker(queue, results) {
 }
 
 const all = await json(`${API_BASE_URL}/v1/theses`);
-const targets = all.filter((item) => item.source === "Y Combinator" || item.id.startsWith("yc-"));
-console.log(`Researching ${targets.length} YC theses with concurrency=${CONCURRENCY}`);
+const targets = all;
+console.log(`Researching ${targets.length} canonical theses with concurrency=${CONCURRENCY}`);
 
 const queue = [...targets];
 const results = [];
