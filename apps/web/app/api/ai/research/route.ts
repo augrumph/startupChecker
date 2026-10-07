@@ -124,6 +124,16 @@ const schema = z.object({
         criterionKeys: z.array(z.string()).max(8),
         direction: z.enum(["SUPPORTS", "CONTRADICTS", "CONTEXT"]),
         confidence: z.number().min(0).max(1),
+        sourceKind: z.enum([
+          "OFFICIAL",
+          "REGULATOR",
+          "ACADEMIC_RESEARCH",
+          "COMPANY_PRIMARY",
+          "INDUSTRY_ASSOCIATION",
+          "REPUTABLE_MEDIA",
+          "COMMUNITY",
+          "UNKNOWN"
+        ]),
       }),
     ).max(40),
   }),
