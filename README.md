@@ -187,3 +187,59 @@ New endpoint:
 ```
 POST /v1/evidence/update
 ```
+
+
+## Research-first doctrine
+
+StartupChecker no longer scores sparse or partially researched theses.
+
+The mandatory order is:
+
+```
+Sparse thesis
+  -> exhaustive Research Dossier
+  -> deterministic completeness audit
+  -> ENGINE_READY
+  -> map evidence to V10 signals
+  -> Thesis Engine V10
+  -> Truth-adjusted decision
+```
+
+The Rust engine refuses evaluation unless all hard research gates are met:
+
+- research completeness >= 95%
+- zero critical missing fields
+- zero critical unknowns
+- >= 12 sources
+- >= 6 independent domains
+- >= 2 primary / official sources
+- >= 12 evidence-graph claims
+
+A `RESEARCH_COMPLETE` thesis is still not necessarily `ENGINE_READY`.
+
+### Research all YC theses
+
+With the API and web app running:
+
+```bash
+cd apps/web
+npm run research:all
+```
+
+The runner is resumable: records already marked `ENGINE_READY` are skipped unless `--force` is passed.
+
+It persists each structured research dossier and evidence ledger back into:
+
+```
+data/theses/<ID>.md
+```
+
+### Score only after the universe is ready
+
+```bash
+npm run score:all
+```
+
+This command intentionally aborts if even one YC thesis is not `ENGINE_READY`.
+
+The research corpus and the score corpus are separate by design. The model may research and interpret; incomplete research may never masquerade as a deterministic thesis score.
