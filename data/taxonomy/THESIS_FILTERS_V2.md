@@ -11,7 +11,7 @@ Total sparse YC records: **539**
 ## Macro areas
 - Enterprise Software: 171
 - Software & AI: 103
-- Financial Services & Risk: 63
+- Financial Services & Risk: 68
 - Industrial & Physical World: 51
 - Healthcare & Life Sciences: 48
 - Government & Defense: 29
@@ -19,7 +19,6 @@ Total sparse YC records: **539**
 - Commerce & Logistics: 21
 - Built World: 14
 - Climate & Energy: 9
-- Other: 5
 
 ## Areas
 - AI Infrastructure & Developer Tools: 71
@@ -27,7 +26,7 @@ Total sparse YC records: **539**
 - Industrial, Manufacturing & Robotics: 51
 - Healthcare & Bio: 48
 - Sales, Marketing & Growth: 35
-- Fintech & Capital Markets: 34
+- Fintech & Capital Markets: 39
 - Defense, Aerospace & Drones: 27
 - Consumer, Media & Gaming: 25
 - Enterprise Operations & Vertical SaaS: 24
@@ -43,7 +42,6 @@ Total sparse YC records: **539**
 - Recruiting & HR: 8
 - Supply Chain & Logistics: 6
 - Analytics & Decision Intelligence: 6
-- Unclassified / Research Needed: 5
 - Customer Operations & CX: 4
 - Knowledge, Memory & Collaboration: 4
 - GovTech: 2
