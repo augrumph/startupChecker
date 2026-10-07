@@ -1222,7 +1222,7 @@ export function ThesisWorkbench() {
               <h3>{thesis.evaluation?.critical_issue ?? "Vale founder time?"}</h3>
               <p>
                 {thesis.evaluation
-                  ? `A V7 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
+                  ? `A V8 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
                   : "Referência de calibração. Crie uma nova tese para rodar o motor real ponta a ponta."}
               </p>
 
@@ -1267,7 +1267,7 @@ export function ThesisWorkbench() {
               {currentConservative != null ? (
                 <Metric
                   icon={<TrendingUp size={18} />}
-                  title="Score V7"
+                  title="Score V8"
                   subtitle="Score final após compressão, evidência e folga sobre vetos."
                   value={currentConservative}
                 />
