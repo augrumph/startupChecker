@@ -7,13 +7,13 @@ use axum::{
 };
 use serde_json::{json, Value};
 use thesis_engine::{
-    public_config, public_expert_config, scout_sparse_thesis, EngineV7, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
+    public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, EngineV8, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
 use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Clone, Default)]
 struct AppState {
-    engine: EngineV7,
+    engine: EngineV8,
 }
 
 #[tokio::main]
@@ -23,6 +23,7 @@ async fn main() {
         .route("/v1/config", get(config))
         .route("/v1/evaluate", post(evaluate))
         .route("/v1/scout", post(scout))
+        .route("/v1/portfolio", post(portfolio))
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)
@@ -43,7 +44,7 @@ async fn main() {
 async fn health() -> Json<Value> {
     Json(json!({
         "ok": true,
-        "engine": "Thesis Engine V7",
+        "engine": "Thesis Engine V8",
         "version": ENGINE_VERSION
     }))
 }
@@ -94,6 +95,22 @@ async fn scout(Json(input): Json<SparseThesisInput>) -> Json<Value> {
         "scout_model_version": SCOUT_MODEL_VERSION,
         "prediction": scout_sparse_thesis(&input)
     }))
+}
+
+async fn portfolio(
+    State(state): State<AppState>,
+    Json(input): Json<PortfolioRequest>,
+) -> impl IntoResponse {
+    match rank_portfolio(&state.engine, &input) {
+        Ok(result) => (StatusCode::OK, Json(json!(result))),
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({
+                "error": error.to_string(),
+                "engine_version": ENGINE_VERSION
+            })),
+        ),
+    }
 }
 
 async fn evaluate(

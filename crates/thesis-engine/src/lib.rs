@@ -3,7 +3,14 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const ENGINE_VERSION: &str = "7.0.0";
+pub const ENGINE_VERSION: &str = "8.0.0";
+
+mod v8;
+pub use v8::{
+    rank_portfolio, CandidateExperiment, Counterfactual, EvidenceDirection, FailurePattern,
+    FounderFitEvaluation, HypothesisInput, HypothesisObservation, HypothesisPosterior,
+    PortfolioEntry, PortfolioRequest, PortfolioResponse, V8ExperimentEvaluation,
+};
 
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
@@ -114,6 +121,18 @@ pub struct ThesisInput {
     /// cost_curve_break, new_demand_creation, latent_demand_evidence.
     #[serde(default)]
     pub blue_ocean: BTreeMap<String, Signal>,
+
+    /// V8: team-specific capability. It never changes thesis_score.
+    #[serde(default)]
+    pub founder_fit: BTreeMap<String, Signal>,
+
+    /// V8: explicit uncertain assumptions with Bayesian-style posterior updates.
+    #[serde(default)]
+    pub hypotheses: Vec<HypothesisInput>,
+
+    /// V8: candidate experiments used for Value of Information ranking.
+    #[serde(default)]
+    pub candidate_experiments: Vec<CandidateExperiment>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -247,6 +266,30 @@ pub struct Evaluation {
 
     /// V5: true when a human should inspect the decision before acting.
     pub review_required: bool,
+
+    /// V8: team fit is separate from market opportunity.
+    pub founder_fit: Option<FounderFitEvaluation>,
+
+    /// V8: posterior belief state for explicit hypotheses.
+    pub hypothesis_posteriors: Vec<HypothesisPosterior>,
+
+    /// V8: highest-value next learning action.
+    pub best_v8_experiment: Option<V8ExperimentEvaluation>,
+
+    /// V8: 0-10 expected value of information of the best available experiment.
+    pub value_of_information: f64,
+
+    /// V8: probability that the best experiment kills the thesis if its key hypothesis fails.
+    pub kill_probability: f64,
+
+    /// V8: where founder time should go next. Separate from thesis_score.
+    pub founder_attention_priority: f64,
+
+    /// V8: what must change to reach 7, 8, and 9.
+    pub counterfactuals: Vec<Counterfactual>,
+
+    /// V8: recurring failure modes learned from our dead/weak theses.
+    pub failure_patterns: Vec<FailurePattern>,
 
     pub fatal_vetoes: Vec<CriterionResult>,
     pub entry_flags: Vec<CriterionResult>,
@@ -862,6 +905,7 @@ pub struct EngineV4;
 
 pub type EngineV6 = EngineV4;
 pub type EngineV7 = EngineV4;
+pub type EngineV8 = EngineV4;
 
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
@@ -960,6 +1004,21 @@ impl EngineV4 {
 
         let blue_ocean = blue_ocean_evaluation(input)?;
 
+        let v8_overlay = v8::build_overlay(
+            input,
+            thesis_score,
+            &universal,
+            &experts,
+            &learning,
+            blue_ocean.as_ref(),
+            &fatal_vetoes,
+            &flags,
+            &critical,
+            evidence_cap,
+            quality_cap,
+            structural_strength,
+        )?;
+
         Ok(Evaluation {
             engine_version: ENGINE_VERSION.to_string(),
             thesis_id: input.id.clone(),
@@ -984,6 +1043,14 @@ impl EngineV4 {
             expert_disagreement: disagreement,
             decision_margin: margin,
             review_required,
+            founder_fit: v8_overlay.founder_fit,
+            hypothesis_posteriors: v8_overlay.hypothesis_posteriors,
+            best_v8_experiment: v8_overlay.best_experiment,
+            value_of_information: v8_overlay.value_of_information,
+            kill_probability: v8_overlay.kill_probability,
+            founder_attention_priority: v8_overlay.founder_attention_priority,
+            counterfactuals: v8_overlay.counterfactuals,
+            failure_patterns: v8_overlay.failure_patterns,
             fatal_vetoes,
             entry_flags: flags,
             decision,
@@ -1007,6 +1074,7 @@ pub fn public_config() -> BTreeMap<&'static str, Vec<PublicCriterion>> {
     out.insert("learning", public_defs(&LEARNING));
     out.insert("potential", public_defs(&POTENTIAL));
     out.insert("blue_ocean", public_defs(&BLUE_OCEAN));
+    out.insert("founder_fit", v8::public_founder_fit());
     out
 }
 
