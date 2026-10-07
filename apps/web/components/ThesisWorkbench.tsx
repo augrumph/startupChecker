@@ -110,6 +110,23 @@ type Evaluation = {
   expert_disagreement: number;
   decision_margin: number;
   review_required: boolean;
+  truth: {
+    truth_score: number;
+    audit_grade: "A" | "B" | "C" | "D" | "F";
+    evidence_count: number;
+    claim_coverage: number;
+    source_quality: number;
+    source_diversity: number;
+    independence_score: number;
+    freshness_score: number;
+    contradiction_rate: number;
+    duplicate_rate: number;
+    synthetic_share: number;
+    unsupported_critical_claims: number;
+    blocking_reasons: string[];
+  };
+  truth_adjusted_decision_confidence: number;
+  training_eligible: boolean;
   founder_fit: { scorecard: ScoreCard; interpretation: string } | null;
   hypothesis_posteriors: Array<{
     id: string;
@@ -257,6 +274,17 @@ type AiResearch = {
     experts: Array<{ engine: EngineKey; criteria: Array<ResearchSignal> }>;
     learning: Array<ResearchSignal>;
     potential: Array<ResearchSignal>;
+  };
+  evidenceGraph: {
+    claims: Array<{
+      id: string;
+      claim: string;
+      sourceUrls: string[];
+      criterionKeys: string[];
+      direction: "SUPPORTS" | "CONTRADICTS" | "CONTEXT";
+      confidence: number;
+      sourceKind: "OFFICIAL" | "REGULATOR" | "ACADEMIC_RESEARCH" | "COMPANY_PRIMARY" | "INDUSTRY_ASSOCIATION" | "REPUTABLE_MEDIA" | "COMMUNITY" | "UNKNOWN";
+    }>;
   };
   criticalHypotheses: Array<{
     id: string;
@@ -758,6 +786,33 @@ export function ThesisWorkbench() {
       founder_fit: founderFitEnabled ? founderFitSignals : {},
       hypotheses,
       candidate_experiments: candidateExperiments,
+      evidence_records: (aiResearch?.evidenceGraph.claims ?? []).flatMap((claim) =>
+        claim.sourceUrls.map((url, index) => ({
+          id: `${claim.id}-${index + 1}`,
+          claim: claim.claim,
+          source_kind: claim.sourceKind,
+          source_url: url,
+          source_title: null,
+          published_at_unix: null,
+          observed_at_unix: null,
+          fetched_at_unix: Math.floor(Date.now() / 1000),
+          criterion_keys: claim.criterionKeys,
+          direction:
+            claim.direction === "SUPPORTS"
+              ? "SUPPORTS"
+              : claim.direction === "CONTRADICTS"
+                ? "CONTRADICTS"
+                : "NEUTRAL",
+          strength: claim.confidence,
+          reliability: claim.confidence,
+          independence_group: (() => {
+            try { return new URL(url).hostname; } catch { return null; }
+          })(),
+          content_hash: null,
+          note: "Deep Research V10",
+        })),
+      ),
+      evidence_as_of_unix: Math.floor(Date.now() / 1000),
     };
 
     try {
@@ -1058,7 +1113,7 @@ export function ThesisWorkbench() {
           </div>
           <div>
             <strong>Startup Checker</strong>
-            <span>Thesis Engine V8</span>
+            <span>Thesis Engine V10</span>
           </div>
         </div>
 
@@ -1187,7 +1242,7 @@ export function ThesisWorkbench() {
               <div className="big-ring">
                 <div>
                   <strong>{currentHeroScore.toFixed(1)}</strong>
-                  <span>score V8</span>
+                  <span>score V10</span>
                 </div>
               </div>
             </div>
@@ -1358,7 +1413,7 @@ export function ThesisWorkbench() {
             </div>
 
             {!config && !configError ? (
-              <div className="wizard-state">Carregando Thesis Engine V8…</div>
+              <div className="wizard-state">Carregando Thesis Engine V10…</div>
             ) : null}
 
             {configError ? (
@@ -1742,7 +1797,7 @@ export function ThesisWorkbench() {
                     disabled={evaluating}
                     onClick={evaluateThesis}
                   >
-                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V8"}
+                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V10"}
                     {!evaluating ? <Sparkles size={15} /> : null}
                   </button>
                 </div>
@@ -1754,7 +1809,7 @@ export function ThesisWorkbench() {
                 <div className="result-hero">
                   <div className="result-score">
                     <strong>{lastEvaluation.thesis_score.toFixed(1)}</strong>
-                    <span>score V8</span>
+                    <span>score V10</span>
                   </div>
                   <div>
                     <span className={decisionTone(formatDecision(lastEvaluation.decision))}>
@@ -1797,6 +1852,22 @@ export function ThesisWorkbench() {
                   <div>
                     <span>Founder Fit</span>
                     <strong>{lastEvaluation.founder_fit ? lastEvaluation.founder_fit.scorecard.conservative_score.toFixed(1) : "N/A"}</strong>
+                  </div>
+                  <div className="v8-priority">
+                    <span>Truth Score</span>
+                    <strong>{lastEvaluation.truth.truth_score.toFixed(1)} · {lastEvaluation.truth.audit_grade}</strong>
+                  </div>
+                  <div>
+                    <span>Claims críticos cobertos</span>
+                    <strong>{Math.round(lastEvaluation.truth.claim_coverage * 100)}%</strong>
+                  </div>
+                  <div>
+                    <span>Confiança auditada</span>
+                    <strong>{lastEvaluation.truth_adjusted_decision_confidence.toFixed(1)}%</strong>
+                  </div>
+                  <div>
+                    <span>Treino futuro</span>
+                    <strong>{lastEvaluation.training_eligible ? "ELIGIBLE" : "BLOCKED"}</strong>
                   </div>
                   <div>
                     <span>Learning</span>
