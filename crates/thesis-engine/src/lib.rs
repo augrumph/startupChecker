@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const ENGINE_VERSION: &str = "9.0.0";
+pub const ENGINE_VERSION: &str = "10.0.0";
 
 mod v8;
 pub use v8::{
@@ -18,6 +18,12 @@ pub use v9::{
     DecisionSnapshotInput, DecisionDrift, EmpiricalOutcomeLabel, ExperimentLedgerEntry,
     ExperimentUpdateRequest, ExperimentUpdateResponse, LearningLedgerSummary, OutcomeEvent,
     OutcomeKind, RobustnessSimulation, ScenarioValueInput, V9Overlay,
+};
+
+mod v10;
+pub use v10::{
+    update_with_evidence, AppendEvidenceRequest, AppendEvidenceResponse, AuditGrade,
+    EvidenceRecord, SourceKind, TruthEvaluation, V10Overlay,
 };
 
 #[derive(
@@ -157,6 +163,16 @@ pub struct ThesisInput {
     /// V9: optional economic payoff proxy. Never inferred silently by Rust.
     #[serde(default)]
     pub scenario_value: Option<ScenarioValueInput>,
+
+    /// V10: auditable evidence ledger. Research should append facts here instead of
+    /// silently inflating signal confidence.
+    #[serde(default)]
+    pub evidence_records: Vec<EvidenceRecord>,
+
+    /// V10: deterministic reference time for freshness calculations.
+    /// If omitted, the newest evidence timestamp is used.
+    #[serde(default)]
+    pub evidence_as_of_unix: Option<u64>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -329,6 +345,15 @@ pub struct Evaluation {
 
     /// V9: normalized real-world outcome label for future OutcomeNet training.
     pub empirical_outcome_label: EmpiricalOutcomeLabel,
+
+    /// V10: factual quality of the evidence base. It never increases thesis_score.
+    pub truth: TruthEvaluation,
+
+    /// V10: confidence after applying the Truth Score ceiling.
+    pub truth_adjusted_decision_confidence: f64,
+
+    /// V10: whether this record is clean enough to become future training data.
+    pub training_eligible: bool,
 
     pub fatal_vetoes: Vec<CriterionResult>,
     pub entry_flags: Vec<CriterionResult>,
@@ -946,6 +971,7 @@ pub type EngineV6 = EngineV4;
 pub type EngineV7 = EngineV4;
 pub type EngineV8 = EngineV4;
 pub type EngineV9 = EngineV4;
+pub type EngineV10 = EngineV4;
 
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
@@ -1070,6 +1096,8 @@ impl EngineV4 {
             &v8_overlay,
         );
 
+        let v10_overlay = v10::build_overlay(input, confidence);
+
         Ok(Evaluation {
             engine_version: ENGINE_VERSION.to_string(),
             thesis_id: input.id.clone(),
@@ -1107,6 +1135,9 @@ impl EngineV4 {
             decision_drift: v9_overlay.decision_drift,
             expected_option_value_brl: v9_overlay.expected_option_value_brl,
             empirical_outcome_label: v9_overlay.empirical_outcome_label,
+            truth: v10_overlay.truth,
+            truth_adjusted_decision_confidence: v10_overlay.truth_adjusted_decision_confidence,
+            training_eligible: v10_overlay.training_eligible,
             fatal_vetoes,
             entry_flags: flags,
             decision,

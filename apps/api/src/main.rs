@@ -10,13 +10,13 @@ use serde_json::{json, Value};
 mod store;
 use store::{MarkdownStore, ThesisRecord};
 use thesis_engine::{
-    calibration_report, public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, update_with_experiment, EngineV9, ExperimentUpdateRequest, CalibrationRecord, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
+    calibration_report, public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, update_with_evidence, update_with_experiment, EngineV10, AppendEvidenceRequest, ExperimentUpdateRequest, CalibrationRecord, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
 use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Clone)]
 struct AppState {
-    engine: EngineV9,
+    engine: EngineV10,
     store: MarkdownStore,
 }
 
@@ -30,6 +30,7 @@ async fn main() {
         .route("/v1/portfolio", post(portfolio))
         .route("/v1/experiment/update", post(update_experiment))
         .route("/v1/calibration", post(calibration))
+        .route("/v1/evidence/update", post(update_evidence))
         .route("/v1/theses", get(list_theses).post(save_thesis))
         .route("/v1/theses/{id}", get(get_thesis).put(put_thesis))
         .layer(
@@ -39,7 +40,7 @@ async fn main() {
                 .allow_headers(Any),
         )
         .with_state(AppState {
-            engine: EngineV9::default(),
+            engine: EngineV10::default(),
             store: MarkdownStore::from_env(),
         });
 
@@ -55,7 +56,7 @@ async fn main() {
 async fn health() -> Json<Value> {
     Json(json!({
         "ok": true,
-        "engine": "Thesis Engine V9",
+        "engine": "Thesis Engine V10",
         "version": ENGINE_VERSION
     }))
 }
@@ -113,6 +114,22 @@ async fn portfolio(
     Json(input): Json<PortfolioRequest>,
 ) -> impl IntoResponse {
     match rank_portfolio(&state.engine, &input) {
+        Ok(result) => (StatusCode::OK, Json(json!(result))),
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({
+                "error": error.to_string(),
+                "engine_version": ENGINE_VERSION
+            })),
+        ),
+    }
+}
+
+async fn update_evidence(
+    State(state): State<AppState>,
+    Json(input): Json<AppendEvidenceRequest>,
+) -> impl IntoResponse {
+    match update_with_evidence(&state.engine, &input) {
         Ok(result) => (StatusCode::OK, Json(json!(result))),
         Err(error) => (
             StatusCode::UNPROCESSABLE_ENTITY,
