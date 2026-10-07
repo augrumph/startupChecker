@@ -4,7 +4,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-use thesis_engine::{EngineV9, Evaluation, ThesisInput};
+use thesis_engine::{EngineV9, Evaluation, ResearchStatus, ThesisInput};
 use tokio::fs;
 
 const RECORD_START: &str = "<!-- STARTUPCHECKER_RECORD_V1 -->";
@@ -205,7 +205,12 @@ fn summary(record: &ThesisRecord, path: &Path) -> ThesisSummary {
         adaptation_mode: record.thesis.context.adaptation_mode.clone(),
         location: record.thesis.context.location.clone(),
         analysis_status: record.thesis.context.analysis_status.clone(),
-        research_status: format!("{:?}", record.thesis.research_readiness.status).to_uppercase(),
+        research_status: match record.thesis.research_readiness.status {
+            ResearchStatus::Sparse => "SPARSE",
+            ResearchStatus::ResearchIncomplete => "RESEARCH_INCOMPLETE",
+            ResearchStatus::ResearchComplete => "RESEARCH_COMPLETE",
+            ResearchStatus::EngineReady => "ENGINE_READY",
+        }.to_string(),
         research_completeness: record.thesis.research_readiness.completeness,
         research_missing_fields: record.thesis.research_readiness.missing_fields.len()
             + record.thesis.research_readiness.critical_unknowns.len(),
