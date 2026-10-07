@@ -1,4 +1,4 @@
-# startupChecker — Thesis Engine V4
+# startupChecker — Thesis Engine V5
 
 Decision engine for rapidly killing weak startup theses and identifying the cheapest next experiment for promising ones.
 
@@ -7,9 +7,11 @@ Decision engine for rapidly killing weak startup theses and identifying the chea
 - **Rust 2024** for the deterministic/auditable decision core.
 - **Axum** API (added in this initial backend phase).
 - **Next.js 16** frontend is implemented as a guided thesis wizard, using the Olympia visual contract (Apple-like iOS/macOS 27 / Liquid Glass chrome).
-- Future ML is **not trained inside the transactional core**. Outcomes will be collected and models can be trained offline, then versioned and plugged into the engine as an overlay.
+- Optional LLM advisory layer in Next.js for intake, evidence mapping and red-team analysis.
+- **Rust remains the final decision authority**: LLM output cannot overwrite scores, vetoes, thresholds or decisions.
+- Future predictive ML is **not trained inside the transactional core**. Outcomes will be collected and models can be trained offline, then versioned and plugged into the engine as an overlay.
 
-## V4 principles
+## V5 principles
 
 1. Business-model agnostic: B2C, B2B, B2B2C, B2G, marketplaces, transactions, services, industrial models, etc.
 2. Multi-expert routing: a thesis may be evaluated by more than one value engine.
@@ -19,7 +21,7 @@ Decision engine for rapidly killing weak startup theses and identifying the chea
 6. Potential is informational and does not rescue weak value.
 7. The primary output is **decision + critical uncertainty + next experiment**.
 
-See `docs/ENGINE_V4.md` for the full model.
+See `docs/ENGINE_V5.md` for the current model. `docs/ENGINE_V4.md` remains as historical context.
 
 
 ## Run locally
@@ -49,7 +51,7 @@ npm run dev
 
 Frontend: `http://localhost:3000`
 
-The frontend reads all criteria, weights, veto thresholds and expert definitions from `GET /v1/config`. It does not duplicate the V4 scoring rules.
+The frontend reads all criteria, weights, veto thresholds and expert definitions from `GET /v1/config`. It does not duplicate the V5 scoring rules.
 
 ## Current flow
 
@@ -60,3 +62,30 @@ The frontend reads all criteria, weights, veto thresholds and expert definitions
 5. Learning + potential: estimates founder-time cost and upside.
 6. Rust evaluation: returns vetoes, structural/conservative strength, investigation priority and next experiment.
 7. Result is kept locally in the browser for fast iteration.
+
+
+## V5 selective LLM layer
+
+The LLM is used only where unstructured language interpretation helps:
+
+- `POST /api/ai/intake` — structure messy founder prose and suggest value-engine routing.
+- `POST /api/ai/evidence` — map interviews/research to existing criteria without mutating scores.
+- `POST /api/ai/red-team` — attack assumptions and propose cheap falsification tests.
+
+The deterministic Rust evaluation also exposes:
+
+- decision confidence,
+- sensitivity risk,
+- expert disagreement,
+- decision margin,
+- human-review flag.
+
+Local LLM setup:
+
+```bash
+AI_GATEWAY_API_KEY=...
+AI_MODEL_FAST=openai/gpt-5.6-luna
+AI_MODEL_DEEP=openai/gpt-6-sol
+```
+
+**Rule: LLM interprets. Rust decides.**
