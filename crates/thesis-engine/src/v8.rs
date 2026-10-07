@@ -273,7 +273,10 @@ fn detect_failure_patterns(
     if adoption < 3.0 {
         p.push(FailurePattern { code:"FP-05".into(), label:"IMPLEMENTATION_KILLS".into(), severity:4, reason:"A fricção de adoção pode consumir o valor criado.".into() });
     }
-    if signal_score(&input.potential, "payer_density") < 5.0 && signal_score(&input.universal, "value_price_surplus") >= 7.0 {
+    if input.potential.contains_key("payer_density")
+        && signal_score(&input.potential, "payer_density") < 5.0
+        && signal_score(&input.universal, "value_price_surplus") >= 7.0
+    {
         p.push(FailurePattern { code:"FP-06".into(), label:"SMALL_MARKET_HIGH_WTP".into(), severity:3, reason:"Pode existir WTP, mas pouca densidade de compradores.".into() });
     }
     if expert_criterion(experts, EngineKind::ConvenienceExperience, "substitution_resistance").is_some_and(|c| c.score < 5.0) {
@@ -285,7 +288,9 @@ fn detect_failure_patterns(
     if entry < 3.0 {
         p.push(FailurePattern { code:"FP-09".into(), label:"GATEKEEPER_DEPENDENCY".into(), severity:5, reason:"A entrada depende de incumbente, lobby, procurement ou autorização rara.".into() });
     }
-    if signal_score(&input.potential, "capital_efficiency") < 4.0 {
+    if input.potential.contains_key("capital_efficiency")
+        && signal_score(&input.potential, "capital_efficiency") < 4.0
+    {
         p.push(FailurePattern { code:"FP-10".into(), label:"ECONOMICS_ONLY_AT_SCALE".into(), severity:3, reason:"A tese pode exigir capital/escala antes de provar economics.".into() });
     }
 
@@ -452,6 +457,7 @@ pub fn rank_portfolio(
         let exp_brl = eval.best_v8_experiment.as_ref().map(|e| e.cost_brl).unwrap_or(0.0);
 
         let selected = allocation_enabled
+            && eval.best_v8_experiment.is_some()
             && spent_hours + exp_hours <= hours_budget
             && spent_brl + exp_brl <= brl_budget
             && eval.founder_attention_priority >= 5.0;
