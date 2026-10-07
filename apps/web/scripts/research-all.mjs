@@ -106,6 +106,13 @@ async function researchOne(summary) {
     name: record.thesis.name,
     tagline: context.solution || context.problem || record.thesis.name,
     category: context.sector || context.area || "",
+    knownContext: {
+      context: record.thesis.context,
+      existingResearchDossier: record.thesis.research_dossier,
+      existingEvidenceRecords: record.thesis.evidence_records,
+      hypotheses: record.thesis.hypotheses,
+      outcomes: record.thesis.outcomes,
+    },
   };
 
   console.log(`RESEARCH ${summary.id} :: ${record.thesis.name}`);
