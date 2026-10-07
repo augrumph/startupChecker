@@ -245,13 +245,19 @@ fn render_markdown(record: &ThesisRecord) -> Result<String, StoreError> {
     let outcomes = record.thesis.outcomes.len();
 
     Ok(format!(
-        "# {name}\n\n> StartupChecker thesis record. The JSON block is the machine source of truth; the rest is a human-readable projection.\n\n- **ID:** `{id}`\n- **Sector:** {sector}\n- **Source:** {source}\n- **Batch:** {batch}\n- **Area:** {area}\n- **Location:** {location}\n- **Analysis status:** {analysis_status}\n- **Adaptation mode:** {adaptation_mode}\n- **Payer:** {payer}\n- **User:** {user}\n- **Thesis score:** {score}\n- **Founder attention:** {attention}\n- **Decision:** {decision}\n- **Experiments logged:** {experiments}\n- **Outcomes logged:** {outcomes}\n\n## Problem\n\n{problem}\n\n## Solution / wedge\n\n{solution}\n\n## Machine record\n\n{start}\n~~~json\n{json}\n~~~\n{end}\n",
+        "# {name}\n\n> StartupChecker thesis record. The JSON block is the machine source of truth; the rest is a human-readable projection.\n\n- **ID:** `{id}`\n- **Sector:** {sector}\n- **Source:** {source}\n- **Batch:** {batch}\n- **Market:** {market}\n- **Macro area:** {macro_area}\n- **Area:** {area}\n- **Product type:** {product_type}\n- **Sales motion:** {sales_motion}\n- **Capital intensity:** {capital_intensity}\n- **Regulatory intensity:** {regulatory_intensity}\n- **Location:** {location}\n- **Analysis status:** {analysis_status}\n- **Adaptation mode:** {adaptation_mode}\n- **Payer:** {payer}\n- **User:** {user}\n- **Thesis score:** {score}\n- **Founder attention:** {attention}\n- **Decision:** {decision}\n- **Experiments logged:** {experiments}\n- **Outcomes logged:** {outcomes}\n\n## Problem\n\n{problem}\n\n## Solution / wedge\n\n{solution}\n\n## Machine record\n\n{start}\n~~~json\n{json}\n~~~\n{end}\n",
         name = record.thesis.name,
         id = record.thesis.id,
         sector = record.thesis.context.sector,
         source = record.thesis.context.source,
         batch = record.thesis.context.batch,
+        market = if record.thesis.context.market_types.is_empty() { "Unknown".to_string() } else { record.thesis.context.market_types.join(" / ") },
+        macro_area = record.thesis.context.macro_area,
         area = record.thesis.context.area,
+        product_type = record.thesis.context.product_type,
+        sales_motion = record.thesis.context.sales_motion,
+        capital_intensity = record.thesis.context.capital_intensity,
+        regulatory_intensity = record.thesis.context.regulatory_intensity,
         location = record.thesis.context.location,
         analysis_status = record.thesis.context.analysis_status,
         adaptation_mode = record.thesis.context.adaptation_mode,
