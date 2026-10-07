@@ -1,29 +1,35 @@
 # Dome
 
-> Sparse YC thesis imported into StartupChecker. No V10 thesis score has been assigned yet because payer, WTP and evidence have not been researched.
+> Sparse YC thesis imported into StartupChecker. Filter taxonomy below is heuristic routing metadata, not V10 evidence.
 
 - **ID:** `yc-fall-2025-dome`
 - **Source:** Y Combinator
 - **Batch:** Fall 2025
 - **Location:** Not provided
-- **Area:** AI Infrastructure & Developer Tools
-- **Categories:** B2B / Infrastructure
-- **Adaptation mode:** GLOBAL_FROM_BRAZIL
+- **Market:** B2B
+- **Macro area:** Financial Services & Risk
+- **Area:** Fintech & Capital Markets
+- **Product type:** Platform / API
+- **Sales motion:** Developer-Led
+- **Capital intensity:** LOW
+- **Regulatory intensity:** HIGH
+- **Adaptation mode:** LOCALIZE_BRAZIL
 - **Analysis status:** `SPARSE_TRIAGED_RESEARCH_PENDING`
+- **Filter confidence:** `TRIAGE_HEURISTIC`
 - **Thesis score:** N/A — intentionally unscored
 
 ## Sparse thesis
 
 A unified API for prediction markets, like Kalshi and Polymarket
 
-## Preliminary analysis
+## Important
 
-This is a routing-only pass. The area and adaptation mode are preliminary metadata for the research queue; they are **not** evidence and do not affect Thesis Score or Truth Score.
+B2B/B2C/B2G, area, product type and sales motion are navigation hypotheses derived from the sparse YC description. Deep Research may correct them. They do not affect Thesis Score, Truth Score or evidence coverage.
 
 ## Machine record
 
 <!-- STARTUPCHECKER_RECORD_V1 -->
 ~~~json
-{"schema_version":1,"thesis":{"id":"yc-fall-2025-dome","name":"Dome","context":{"sector":"B2B / Infrastructure","business_models":["B2B","Infrastructure"],"payer":"","user":"","problem":"UNKNOWN — requires Deep Research V10","solution":"A unified API for prediction markets, like Kalshi and Polymarket","source":"Y Combinator","batch":"Fall 2025","location":"","area":"AI Infrastructure & Developer Tools","source_url":"","analysis_status":"SPARSE_TRIAGED_RESEARCH_PENDING","adaptation_mode":"GLOBAL_FROM_BRAZIL"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[],"evidence_as_of_unix":null},"evaluation":null,"created_at_unix":1791337692,"updated_at_unix":1791337692}
+{"schema_version":1,"thesis":{"id":"yc-fall-2025-dome","name":"Dome","context":{"sector":"B2B / Infrastructure","business_models":["B2B","Infrastructure"],"payer":"","user":"","problem":"UNKNOWN — requires Deep Research V10","solution":"A unified API for prediction markets, like Kalshi and Polymarket","source":"Y Combinator","batch":"Fall 2025","location":"","area":"Fintech & Capital Markets","source_url":"","analysis_status":"SPARSE_TRIAGED_RESEARCH_PENDING","adaptation_mode":"LOCALIZE_BRAZIL","market_types":["B2B"],"macro_area":"Financial Services & Risk","product_type":"Platform / API","sales_motion":"Developer-Led","capital_intensity":"LOW","regulatory_intensity":"HIGH","filter_confidence":"TRIAGE_HEURISTIC"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[],"evidence_as_of_unix":null},"evaluation":null,"created_at_unix":1791338227,"updated_at_unix":1791338227}
 ~~~
 <!-- END_STARTUPCHECKER_RECORD_V1 -->

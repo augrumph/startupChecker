@@ -1,29 +1,35 @@
 # Traverse
 
-> Sparse YC thesis imported into StartupChecker. No V10 thesis score has been assigned yet because payer, WTP and evidence have not been researched.
+> Sparse YC thesis imported into StartupChecker. Filter taxonomy below is heuristic routing metadata, not V10 evidence.
 
 - **ID:** `yc-winter-2026-traverse`
 - **Source:** Y Combinator
 - **Batch:** Winter 2026
 - **Location:** San Francisco, CA, USA
-- **Area:** Other B2B
-- **Categories:** B2B
-- **Adaptation mode:** BRAZIL_OR_GLOBAL
+- **Market:** B2B
+- **Macro area:** Software & AI
+- **Area:** Research, Data & Simulation
+- **Product type:** Data / Analytics
+- **Sales motion:** B2B Sales
+- **Capital intensity:** LOW
+- **Regulatory intensity:** LOW
+- **Adaptation mode:** GLOBAL_FROM_BRAZIL
 - **Analysis status:** `SPARSE_TRIAGED_RESEARCH_PENDING`
+- **Filter confidence:** `TRIAGE_HEURISTIC`
 - **Thesis score:** N/A — intentionally unscored
 
 ## Sparse thesis
 
 Research lab solving non-verifiable work
 
-## Preliminary analysis
+## Important
 
-This is a routing-only pass. The area and adaptation mode are preliminary metadata for the research queue; they are **not** evidence and do not affect Thesis Score or Truth Score.
+B2B/B2C/B2G, area, product type and sales motion are navigation hypotheses derived from the sparse YC description. Deep Research may correct them. They do not affect Thesis Score, Truth Score or evidence coverage.
 
 ## Machine record
 
 <!-- STARTUPCHECKER_RECORD_V1 -->
 ~~~json
-{"schema_version":1,"thesis":{"id":"yc-winter-2026-traverse","name":"Traverse","context":{"sector":"B2B","business_models":["B2B"],"payer":"","user":"","problem":"UNKNOWN — requires Deep Research V10","solution":"Research lab solving non-verifiable work","source":"Y Combinator","batch":"Winter 2026","location":"San Francisco, CA, USA","area":"Other B2B","source_url":"","analysis_status":"SPARSE_TRIAGED_RESEARCH_PENDING","adaptation_mode":"BRAZIL_OR_GLOBAL"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[],"evidence_as_of_unix":null},"evaluation":null,"created_at_unix":1791337692,"updated_at_unix":1791337692}
+{"schema_version":1,"thesis":{"id":"yc-winter-2026-traverse","name":"Traverse","context":{"sector":"B2B","business_models":["B2B"],"payer":"","user":"","problem":"UNKNOWN — requires Deep Research V10","solution":"Research lab solving non-verifiable work","source":"Y Combinator","batch":"Winter 2026","location":"San Francisco, CA, USA","area":"Research, Data & Simulation","source_url":"","analysis_status":"SPARSE_TRIAGED_RESEARCH_PENDING","adaptation_mode":"GLOBAL_FROM_BRAZIL","market_types":["B2B"],"macro_area":"Software & AI","product_type":"Data / Analytics","sales_motion":"B2B Sales","capital_intensity":"LOW","regulatory_intensity":"LOW","filter_confidence":"TRIAGE_HEURISTIC"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[],"evidence_as_of_unix":null},"evaluation":null,"created_at_unix":1791338227,"updated_at_unix":1791338227}
 ~~~
 <!-- END_STARTUPCHECKER_RECORD_V1 -->

@@ -116,6 +116,22 @@ pub struct ThesisContext {
     pub analysis_status: String,
     #[serde(default)]
     pub adaptation_mode: String,
+
+    // Navigation/filter taxonomy. These are triage metadata, not evidence.
+    #[serde(default)]
+    pub market_types: Vec<String>,
+    #[serde(default)]
+    pub macro_area: String,
+    #[serde(default)]
+    pub product_type: String,
+    #[serde(default)]
+    pub sales_motion: String,
+    #[serde(default)]
+    pub capital_intensity: String,
+    #[serde(default)]
+    pub regulatory_intensity: String,
+    #[serde(default)]
+    pub filter_confidence: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

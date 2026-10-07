@@ -327,6 +327,39 @@ type Thesis = {
   evidence: number;
   next: string;
   evaluation?: Evaluation;
+  source?: string;
+  batch?: string;
+  location?: string;
+  macroArea?: string;
+  area?: string;
+  marketTypes?: string[];
+  productType?: string;
+  salesMotion?: string;
+  capitalIntensity?: string;
+  regulatoryIntensity?: string;
+  adaptationMode?: string;
+  analysisStatus?: string;
+};
+
+type ThesisSummaryApi = {
+  id: string;
+  name: string;
+  sector: string;
+  source: string;
+  batch: string;
+  area: string;
+  macro_area: string;
+  market_types: string[];
+  product_type: string;
+  sales_motion: string;
+  capital_intensity: string;
+  regulatory_intensity: string;
+  adaptation_mode: string;
+  location: string;
+  analysis_status: string;
+  thesis_score: number | null;
+  founder_attention_priority: number | null;
+  decision: string | null;
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
@@ -568,6 +601,12 @@ export function ThesisWorkbench() {
   const [theses, setTheses] = useState<Thesis[]>(seeded);
   const [selected, setSelected] = useState(seeded[0].id);
   const [query, setQuery] = useState("");
+  const [marketFilter, setMarketFilter] = useState("ALL");
+  const [macroFilter, setMacroFilter] = useState("ALL");
+  const [areaFilter, setAreaFilter] = useState("ALL");
+  const [batchFilter, setBatchFilter] = useState("ALL");
+  const [productFilter, setProductFilter] = useState("ALL");
+  const [statusFilter, setStatusFilter] = useState("ALL");
   const [showNew, setShowNew] = useState(false);
 
   const [config, setConfig] = useState<EngineConfig | null>(null);
@@ -637,6 +676,46 @@ export function ThesisWorkbench() {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(`${API_URL}/v1/theses`)
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`API ${response.status}`);
+        return (await response.json()) as ThesisSummaryApi[];
+      })
+      .then((items) => {
+        const imported: Thesis[] = items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          sector: item.sector,
+          engine: item.analysis_status === "SPARSE_TRIAGED_RESEARCH_PENDING" ? "Research pending" : "V10",
+          decision: item.decision ?? "Research pending",
+          core: item.thesis_score ?? 0,
+          expert: item.thesis_score ?? 0,
+          learning: item.founder_attention_priority ?? 0,
+          evidence: 0,
+          next: item.analysis_status === "SPARSE_TRIAGED_RESEARCH_PENDING"
+            ? "Rodar Deep Research V10 antes de atribuir qualquer score."
+            : "Abrir registro completo.",
+          source: item.source,
+          batch: item.batch,
+          location: item.location,
+          macroArea: item.macro_area,
+          area: item.area,
+          marketTypes: item.market_types,
+          productType: item.product_type,
+          salesMotion: item.sales_motion,
+          capitalIntensity: item.capital_intensity,
+          regulatoryIntensity: item.regulatory_intensity,
+          adaptationMode: item.adaptation_mode,
+          analysisStatus: item.analysis_status,
+        }));
+        setTheses([...seeded, ...imported]);
+      })
+      .catch(() => {
+        // The curated seeds remain usable if the repository index is unavailable.
+      });
+  }, []);
+
   const selectedEngines = useMemo(
     () => selectEngines(routerSignals),
     [routerSignals],
@@ -656,15 +735,54 @@ export function ThesisWorkbench() {
     });
   }, [config, selectedEngines.join("|")]);
 
+  const filterOptions = useMemo(() => {
+    const unique = (values: Array<string | undefined>) =>
+      [...new Set(values.filter((value): value is string => Boolean(value)))].sort();
+
+    return {
+      markets: unique(theses.flatMap((item) => item.marketTypes ?? [])),
+      macros: unique(theses.map((item) => item.macroArea)),
+      areas: unique(
+        theses
+          .filter((item) => macroFilter === "ALL" || item.macroArea === macroFilter)
+          .map((item) => item.area),
+      ),
+      batches: unique(theses.map((item) => item.batch)),
+      products: unique(theses.map((item) => item.productType)),
+      statuses: unique(theses.map((item) => item.analysisStatus)),
+    };
+  }, [theses, macroFilter]);
+
   const visibleTheses = useMemo(
     () =>
-      theses.filter((item) =>
-        [item.name, item.sector, item.engine, item.decision]
+      theses.filter((item) => {
+        const matchesText = [
+          item.name,
+          item.sector,
+          item.engine,
+          item.decision,
+          item.macroArea,
+          item.area,
+          item.productType,
+          item.salesMotion,
+          item.batch,
+          ...(item.marketTypes ?? []),
+        ]
           .join(" ")
           .toLowerCase()
-          .includes(query.toLowerCase()),
-      ),
-    [query, theses],
+          .includes(query.toLowerCase());
+
+        return (
+          matchesText &&
+          (marketFilter === "ALL" || item.marketTypes?.includes(marketFilter)) &&
+          (macroFilter === "ALL" || item.macroArea === macroFilter) &&
+          (areaFilter === "ALL" || item.area === areaFilter) &&
+          (batchFilter === "ALL" || item.batch === batchFilter) &&
+          (productFilter === "ALL" || item.productType === productFilter) &&
+          (statusFilter === "ALL" || item.analysisStatus === statusFilter)
+        );
+      }),
+    [query, theses, marketFilter, macroFilter, areaFilter, batchFilter, productFilter, statusFilter],
   );
 
   const thesis = theses.find((item) => item.id === selected) ?? theses[0];
@@ -1198,6 +1316,68 @@ export function ThesisWorkbench() {
           />
         </label>
 
+        <div className="filter-bar">
+          <div className="market-tabs">
+            {["ALL", "B2B", "B2C", "B2G", "B2B2C"].map((market) => (
+              <button
+                key={market}
+                className={marketFilter === market ? "filter-chip filter-chip-active" : "filter-chip"}
+                onClick={() => setMarketFilter(market)}
+              >
+                {market === "ALL" ? "Todos" : market}
+              </button>
+            ))}
+          </div>
+
+          <div className="filter-selects">
+            <select
+              value={macroFilter}
+              onChange={(e) => {
+                setMacroFilter(e.target.value);
+                setAreaFilter("ALL");
+              }}
+            >
+              <option value="ALL">Todas as macro áreas</option>
+              {filterOptions.macros.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={areaFilter} onChange={(e) => setAreaFilter(e.target.value)}>
+              <option value="ALL">Todas as áreas</option>
+              {filterOptions.areas.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={batchFilter} onChange={(e) => setBatchFilter(e.target.value)}>
+              <option value="ALL">Todos os batches</option>
+              {filterOptions.batches.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={productFilter} onChange={(e) => setProductFilter(e.target.value)}>
+              <option value="ALL">Todos os produtos</option>
+              {filterOptions.products.map((value) => <option key={value}>{value}</option>)}
+            </select>
+            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <option value="ALL">Todos os status</option>
+              {filterOptions.statuses.map((value) => <option key={value}>{value}</option>)}
+            </select>
+          </div>
+
+          <div className="filter-result-count">
+            <strong>{visibleTheses.length}</strong>
+            <span>teses</span>
+            {(marketFilter !== "ALL" || macroFilter !== "ALL" || areaFilter !== "ALL" || batchFilter !== "ALL" || productFilter !== "ALL" || statusFilter !== "ALL") ? (
+              <button
+                onClick={() => {
+                  setMarketFilter("ALL");
+                  setMacroFilter("ALL");
+                  setAreaFilter("ALL");
+                  setBatchFilter("ALL");
+                  setProductFilter("ALL");
+                  setStatusFilter("ALL");
+                }}
+              >
+                Limpar filtros
+              </button>
+            ) : null}
+          </div>
+        </div>
+
         <div className="thesis-list">
           {visibleTheses.map((item) => (
             <button
@@ -1217,8 +1397,12 @@ export function ThesisWorkbench() {
                   <strong>{item.name}</strong>
                   <span>{item.evidence}/5</span>
                 </div>
-                <p>{item.sector}</p>
-                <small>{item.decision}</small>
+                <p>{item.area ?? item.sector}</p>
+                <small>
+                  {[...(item.marketTypes ?? []), item.batch, item.productType]
+                    .filter(Boolean)
+                    .join(" · ") || item.decision}
+                </small>
               </div>
             </button>
           ))}
@@ -1252,7 +1436,7 @@ export function ThesisWorkbench() {
               <h3>{thesis.evaluation?.critical_issue ?? "Vale founder time?"}</h3>
               <p>
                 {thesis.evaluation
-                  ? `A V8 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
+                  ? `A V10 encontrou ${thesis.evaluation.fatal_vetoes.length} veto(s) fatal(is) e ${thesis.evaluation.entry_flags.length} flag(s) de entrada. O score potencial não participa do resgate da tese.`
                   : "Referência de calibração. Crie uma nova tese para rodar o motor real ponta a ponta."}
               </p>
 

@@ -1100,3 +1100,76 @@ button { color: inherit; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Thesis universe filters */
+.filter-bar {
+  padding: 0 14px 12px;
+  border-bottom: 1px solid var(--separator);
+}
+
+.market-tabs {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding-bottom: 7px;
+}
+
+.filter-chip {
+  border: 0;
+  border-radius: 999px;
+  background: rgba(118,118,128,.10);
+  color: var(--label-2);
+  font: inherit;
+  font-size: 10px;
+  font-weight: 650;
+  padding: 6px 9px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.filter-chip-active {
+  background: var(--label);
+  color: #fff;
+}
+
+.filter-selects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.filter-selects select {
+  width: 100%;
+  border: 1px solid var(--separator);
+  background: rgba(255,255,255,.8);
+  border-radius: 9px;
+  padding: 7px 9px;
+  color: var(--label);
+  font: inherit;
+  font-size: 10px;
+}
+
+.filter-result-count {
+  margin-top: 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--label-3);
+  font-size: 9px;
+}
+
+.filter-result-count strong {
+  color: var(--label);
+  font-size: 12px;
+}
+
+.filter-result-count button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: var(--blue);
+  font: inherit;
+  font-size: 9px;
+  cursor: pointer;
+}
