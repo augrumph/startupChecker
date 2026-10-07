@@ -1595,52 +1595,64 @@ export function ThesisWorkbench() {
             </div>
           </section>
 
-          {selectedShortlist && !thesis.evaluation ? (
-            <section className="shortlist-explanation">
-              <div className="shortlist-explanation-head">
-                <div>
-                  <span className="eyebrow">Top {selectedShortlist.rank} / 539</span>
-                  <h3>Por que está no shortlist</h3>
+          {(selectedDeepResearch || selectedShortlist) && !thesis.evaluation ? (
+            <>
+              <section className="shortlist-explanation">
+                <div className="shortlist-explanation-head">
+                  <div>
+                    <span className="eyebrow">
+                      Top {selectedDeepResearch?.deep_research_rank ?? selectedShortlist?.rank} / 150 pesquisadas
+                    </span>
+                    <h3>Por que está aqui</h3>
+                  </div>
+                  <span className={(selectedDeepResearch?.ocean ?? selectedShortlist?.ocean) === "BLUE_HYPOTHESIS" ? "pill pill-good" : "pill pill-warn"}>
+                    {(selectedDeepResearch?.ocean ?? selectedShortlist?.ocean) === "BLUE_HYPOTHESIS" ? "Blue candidate" : "Purple ocean"}
+                  </span>
                 </div>
-                <span className={selectedShortlist.ocean === "BLUE_HYPOTHESIS" ? "pill pill-good" : "pill pill-warn"}>
-                  {selectedShortlist.ocean === "BLUE_HYPOTHESIS" ? "Blue candidate" : "Purple ocean"}
-                </span>
-              </div>
-              <p>{selectedShortlist.whyImportant}</p>
-              <div className="shortlist-why-grid">
-                <div>
-                  <span>O que o treino enxergou</span>
-                  <strong>Scout {selectedShortlist.scoutPriority.toFixed(1)} · {selectedShortlist.area}</strong>
-                  <small>Ranking model-informed, diversificado por área para reduzir viés do vocabulário do ScoutNet.</small>
+                <p>{selectedDeepResearch?.why ?? selectedShortlist?.whyImportant}</p>
+                <div className="shortlist-why-grid">
+                  <div>
+                    <span>Leitura atual</span>
+                    <strong>
+                      {selectedDeepResearch
+                        ? `Research ${selectedDeepResearch.research_priority.toFixed(1)} · Scout ${selectedDeepResearch.scout_priority.toFixed(1)}`
+                        : `Scout ${selectedShortlist?.scoutPriority.toFixed(1)}`}
+                    </strong>
+                    <small>
+                      {selectedDeepResearch?.research_status === "DEEP_RESEARCHED"
+                        ? "Há evidência pública específica além da tagline."
+                        : "A busca pública foi executada, mas a evidência ainda é insuficiente para nota V10."}
+                    </small>
+                  </div>
+                  <div>
+                    <span>O que pode matar</span>
+                    <strong>{selectedDeepResearch?.what_can_kill ?? selectedShortlist?.whatCanKill}</strong>
+                    <small>Esse risco deve orientar o próximo experimento ou nova rodada de evidência.</small>
+                  </div>
                 </div>
-                <div>
-                  <span>O que pode matar</span>
-                  <strong>{selectedShortlist.whatCanKill}</strong>
-                  <small>Isso precisa ser atacado no Deep Research/experimento antes de qualquer score V10 comparável.</small>
+                <div className="not-final-warning">
+                  <BrainCircuit size={16} />
+                  <span>
+                    Research Priority não é Thesis Score V10. V10 continua N/A até os critérios e o Truth Layer terem evidência suficiente.
+                  </span>
                 </div>
-              </div>
-              <div className="not-final-warning">
-                <BrainCircuit size={16} />
-                <span>Não é Thesis Score V10. É prioridade de investigação entre as 539 teses sparse.</span>
-              </div>
-            </section>
-          ) : null}
+              </section>
 
-          {selectedShortlist && !thesis.evaluation ? (
-            <section className="section sparse-status-card">
-              <div className="section-title">
-                <div>
-                  <h3>Aguardando Deep Research V10</h3>
-                  <p>Não mostramos Core/Expert/Truth como zero porque ainda não foram medidos.</p>
+              <section className="section sparse-status-card">
+                <div className="section-title">
+                  <div>
+                    <h3>{selectedDeepResearch?.research_status === "DEEP_RESEARCHED" ? "Deep Research Pass 1 concluído" : "Deep Research parcial"}</h3>
+                    <p>Core/Expert/Truth não são mostrados como zero quando ainda não foram medidos pelo motor completo.</p>
+                  </div>
                 </div>
-              </div>
-              <div className="sparse-status-grid">
-                <div><span>Scout priority</span><strong>{selectedShortlist.scoutPriority.toFixed(1)}</strong></div>
-                <div><span>Ocean hypothesis</span><strong>{selectedShortlist.ocean === "BLUE_HYPOTHESIS" ? "Blue" : "Purple"}</strong></div>
-                <div><span>Posição</span><strong>#{selectedShortlist.rank} / 539</strong></div>
-                <div><span>V10 Thesis Score</span><strong>N/A</strong></div>
-              </div>
-            </section>
+                <div className="sparse-status-grid">
+                  <div><span>Research priority</span><strong>{selectedDeepResearch?.research_priority.toFixed(1) ?? selectedShortlist?.scoutPriority.toFixed(1)}</strong></div>
+                  <div><span>Scout</span><strong>{selectedDeepResearch?.scout_priority.toFixed(1) ?? selectedShortlist?.scoutPriority.toFixed(1)}</strong></div>
+                  <div><span>Evidência pública</span><strong>{selectedDeepResearch?.research_status === "DEEP_RESEARCHED" ? "ESPECÍFICA" : "PARCIAL"}</strong></div>
+                  <div><span>V10 Thesis Score</span><strong>N/A</strong></div>
+                </div>
+              </section>
+            </>
           ) : (
             <section className="section">
               <div className="section-title">
@@ -1650,73 +1662,72 @@ export function ThesisWorkbench() {
                 </div>
               </div>
 
-            <div className="metric-list">
-              <Metric
-                icon={<Target size={18} />}
-                title="Core"
-                subtitle="Fundamentos universais do valor e do pagador."
-                value={thesis.core}
-              />
-              <Metric
-                icon={<CircleDollarSign size={18} />}
-                title="Expert"
-                subtitle={`Critérios específicos de ${thesis.engine}.`}
-                value={thesis.expert}
-              />
-              <Metric
-                icon={<Gauge size={18} />}
-                title="Learning velocity"
-                subtitle="Quanto rápido e barato conseguimos descobrir a verdade."
-                value={thesis.learning}
-              />
-              {currentConservative != null ? (
+              <div className="metric-list">
                 <Metric
-                  icon={<TrendingUp size={18} />}
-                  title="Score V8"
-                  subtitle="Score final após compressão, evidência e folga sobre vetos."
-                  value={currentConservative}
+                  icon={<Target size={18} />}
+                  title="Core"
+                  subtitle="Fundamentos universais do valor e do pagador."
+                  value={thesis.core}
                 />
-              ) : null}
-              {currentPriority != null ? (
                 <Metric
-                  icon={<FlaskConical size={18} />}
-                  title="Investigation priority"
-                  subtitle="Estrutura forte + incerteza relevante + aprendizado rápido."
-                  value={currentPriority}
+                  icon={<CircleDollarSign size={18} />}
+                  title="Expert"
+                  subtitle={`Critérios específicos de ${thesis.engine}.`}
+                  value={thesis.expert}
                 />
-              ) : null}
-              {thesis.evaluation ? (
-                <Metric
-                  icon={<BrainCircuit size={18} />}
-                  title="Confiança da decisão"
-                  subtitle="Evidência + distância dos vetos + concordância entre experts."
-                  value={thesis.evaluation.decision_confidence}
-                  percent
-                />
-              ) : null}
-              {thesis.evaluation ? (
                 <Metric
                   icon={<Gauge size={18} />}
-                  title="Estabilidade da decisão"
-                  subtitle="100 menos o risco de pequenas mudanças alterarem a conclusão."
-                  value={100 - thesis.evaluation.sensitivity_risk}
-                  percent
+                  title="Learning velocity"
+                  subtitle="Quanto rápido e barato conseguimos descobrir a verdade."
+                  value={thesis.learning}
                 />
-              ) : null}
-
-              <div className="metric-row">
-                <div className="metric-icon"><TrendingUp size={18} /></div>
-                <div className="metric-copy">
-                  <strong>Força da evidência</strong>
-                  <span>Hipótese → comportamento → dinheiro → outcome observado.</span>
-                </div>
-                <div className="evidence-dots" aria-label={`Evidência ${thesis.evidence} de 5`}>
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <i key={n} className={n <= thesis.evidence ? "dot dot-on" : "dot"} />
-                  ))}
+                {currentConservative != null ? (
+                  <Metric
+                    icon={<TrendingUp size={18} />}
+                    title="Score V10"
+                    subtitle="Score final após compressão, evidência e folga sobre vetos."
+                    value={currentConservative}
+                  />
+                ) : null}
+                {currentPriority != null ? (
+                  <Metric
+                    icon={<FlaskConical size={18} />}
+                    title="Investigation priority"
+                    subtitle="Estrutura forte + incerteza relevante + aprendizado rápido."
+                    value={currentPriority}
+                  />
+                ) : null}
+                {thesis.evaluation ? (
+                  <Metric
+                    icon={<BrainCircuit size={18} />}
+                    title="Confiança da decisão"
+                    subtitle="Evidência + distância dos vetos + concordância entre experts."
+                    value={thesis.evaluation.decision_confidence}
+                    percent
+                  />
+                ) : null}
+                {thesis.evaluation ? (
+                  <Metric
+                    icon={<Gauge size={18} />}
+                    title="Estabilidade da decisão"
+                    subtitle="100 menos o risco de pequenas mudanças alterarem a conclusão."
+                    value={100 - thesis.evaluation.sensitivity_risk}
+                    percent
+                  />
+                ) : null}
+                <div className="metric-row">
+                  <div className="metric-icon"><TrendingUp size={18} /></div>
+                  <div className="metric-copy">
+                    <strong>Força da evidência</strong>
+                    <span>Hipótese → comportamento → dinheiro → outcome observado.</span>
+                  </div>
+                  <div className="evidence-dots" aria-label={`Evidência ${thesis.evidence} de 5`}>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <i key={n} className={n <= thesis.evidence ? "dot dot-on" : "dot"} />
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
             </section>
           )}
 
