@@ -1,5 +1,6 @@
 "use client";
 
+import { Activity, ArrowLeft, ArrowRight, BarChart3, BrainCircuit, CheckCircle2, ChevronRight, CircleDollarSign, Database, FlaskConical, Gauge, Layers3, LayoutDashboard, Search, ShieldCheck, SlidersHorizontal, Sparkles, Target, Trophy, XCircle, Zap } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import styles from "./ThesisDashboard.module.css";
 
@@ -346,37 +347,38 @@ export function ThesisDashboard() {
     <main className={styles.shell}>
       <aside className={styles.sidebar}>
         <div className={styles.brand}>
-          <div className={styles.mark}>SC</div>
+          <div className={styles.mark}><BrainCircuit size={17} strokeWidth={2.25} /></div>
           <div><strong>Startup Checker</strong><span>Thesis Engine V10</span></div>
         </div>
         <nav className={styles.nav}>
-          <button className={styles.navActive}>Teses</button>
-          <button>Experimentos</button>
-          <button>Outcomes</button>
+          <button className={styles.navActive}><LayoutDashboard size={16} /><span>Teses</span></button>
+          <button><FlaskConical size={16} /><span>Experimentos</span></button>
+          <button><Activity size={16} /><span>Outcomes</span></button>
         </nav>
         <div className={styles.stats}>
-          <div><span>Universo</span><strong>{allRows.length || 543}</strong></div>
-          <div><span>Deep research</span><strong>{research.length}</strong></div>
-          <div><span>Evidence-rich</span><strong>{evidenceRich}</strong></div>
-          <div><span>Parcial</span><strong>{partial}</strong></div>
+          <div><Database size={14} /><span>Universo</span><strong>{allRows.length || 543}</strong></div>
+          <div><BrainCircuit size={14} /><span>Deep research</span><strong>{research.length}</strong></div>
+          <div><ShieldCheck size={14} /><span>Evidence-rich</span><strong>{evidenceRich}</strong></div>
+          <div><Layers3 size={14} /><span>Parcial</span><strong>{partial}</strong></div>
         </div>
         <div className={styles.sidebarNote}>Sparse ≠ nota zero. Sem avaliação, o sistema mostra N/A.</div>
       </aside>
 
       <section className={styles.listPane}>
         <header className={styles.listHeader}>
-          <div><h1>Teses</h1><p>Mate cedo. Aprofunde só onde há sinal.</p></div>
+          <div><span className={styles.kicker}><Sparkles size={13} /> Intelligence Workspace</span><h1>Teses</h1><p>Mate cedo. Aprofunde só onde há sinal.</p></div>
+          <button className={styles.iconButton} aria-label="Filtros"><SlidersHorizontal size={16} /></button>
         </header>
 
         <div className={styles.tabs}>
-          <button onClick={() => setMode("BEST")} className={mode === "BEST" ? styles.tabActive : ""}>Melhores</button>
-          <button onClick={() => setMode("ALL")} className={mode === "ALL" ? styles.tabActive : ""}>Todas</button>
-          <button onClick={() => setMode("TRAINING")} className={mode === "TRAINING" ? styles.tabActive : ""}>Treino</button>
+          <button onClick={() => setMode("BEST")} className={mode === "BEST" ? styles.tabActive : ""}><Trophy size={13} />Melhores</button>
+          <button onClick={() => setMode("ALL")} className={mode === "ALL" ? styles.tabActive : ""}><Layers3 size={13} />Todas</button>
+          <button onClick={() => setMode("TRAINING")} className={mode === "TRAINING" ? styles.tabActive : ""}><BrainCircuit size={13} />Treino</button>
         </div>
 
         {mode !== "TRAINING" ? (
           <>
-            <div className={styles.search}><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar tese, área, batch..." /></div>
+            <div className={styles.search}><Search size={15} /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Buscar tese, área, batch..." /></div>
             {mode === "ALL" ? (
               <div className={styles.filters}>
                 <div className={styles.marketTabs}>{["ALL", "B2B", "B2C", "B2G", "B2B2C"].map((value) => <button key={value} className={market === value ? styles.chipActive : ""} onClick={() => setMarket(value)}>{value === "ALL" ? "Todos" : value}</button>)}</div>
@@ -405,14 +407,14 @@ export function ThesisDashboard() {
               ))}
             </div>
             <div className={styles.pagination}>
-              <button disabled={safePage <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Anterior</button>
+              <button disabled={safePage <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ArrowLeft size={13} />Anterior</button>
               <span>{safePage} / {totalPages}</span>
-              <button disabled={safePage >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Próxima</button>
+              <button disabled={safePage >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Próxima<ArrowRight size={13} /></button>
             </div>
           </>
         ) : (
           <div className={styles.training}>
-            <span>ScoutNet · advisory only</span>
+            <span><BrainCircuit size={13} /> ScoutNet · advisory only</span>
             <h2>Treino atual</h2>
             <div><strong>363</strong><small>teses no treino</small></div>
             <div><strong>0.7664</strong><small>LinearSVC macro-F1</small></div>
@@ -433,20 +435,20 @@ export function ThesisDashboard() {
 function CalibratedDetail({ thesis }: { thesis: CalibratedThesis }) {
   return (
     <div className={styles.detailContent}>
-      <header className={styles.detailHeader}><div><span>{thesis.engine}</span><h2>{thesis.name}</h2></div><span className={styles.status}>{thesis.decision}</span></header>
+      <header className={styles.detailHeader}><div><span className={styles.kicker}><Target size={13} />{thesis.engine}</span><h2>{thesis.name}</h2></div><span className={styles.status}><FlaskConical size={12} />{thesis.decision}</span></header>
       <section className={styles.hero}>
-        <div className={`${styles.heroScore} ${scoreTone(thesis.score)}`}><strong>{thesis.score.toFixed(1)}</strong><span>score V10</span></div>
-        <div><h3>Por que essa nota?</h3><p>{thesis.summary}</p><div className={styles.next}><span>Próximo experimento</span><strong>{thesis.next}</strong></div></div>
+        <div className={styles.scoreOrb}><div className={`${styles.heroScore} ${scoreTone(thesis.score)}`}><strong>{thesis.score.toFixed(1)}</strong><span>score V10</span></div></div>
+        <div className={styles.heroNarrative}><span className={styles.sectionEyebrow}><Sparkles size={13} /> decisão explicável</span><h3>Por que essa nota?</h3><p>{thesis.summary}</p><div className={styles.next}><Zap size={16} /><div><span>Próximo experimento</span><strong>{thesis.next}</strong></div><ChevronRight size={16} /></div></div>
       </section>
 
-      <section className={styles.card}><h3>Leitura do motor — com explicação</h3><MetricExplain label="Core" score={thesis.core} text={thesis.coreWhy} /><MetricExplain label="Expert" score={thesis.expert} text={thesis.expertWhy} /><MetricExplain label="Learning velocity" score={thesis.learning} text={thesis.learningWhy} /><MetricExplain label="Força da evidência" score={`${thesis.evidence}/5`} text={thesis.evidenceWhy} /></section>
+      <section className={styles.card}><h3><Gauge size={17} />Leitura do motor — com explicação</h3><MetricExplain label="Core" score={thesis.core} text={thesis.coreWhy} /><MetricExplain label="Expert" score={thesis.expert} text={thesis.expertWhy} /><MetricExplain label="Learning velocity" score={thesis.learning} text={thesis.learningWhy} /><MetricExplain label="Força da evidência" score={`${thesis.evidence}/5`} text={thesis.evidenceWhy} /></section>
 
       <section className={styles.twoCols}>
-        <div className={styles.card}><h3>O que sustenta a tese</h3><ul>{thesis.strengths.map((item) => <li key={item}>{item}</li>)}</ul></div>
-        <div className={styles.card}><h3>O que pode matar</h3><ul>{thesis.risks.map((item) => <li key={item}>{item}</li>)}</ul></div>
+        <div className={styles.card}><h3><CheckCircle2 size={17} />O que sustenta a tese</h3><ul>{thesis.strengths.map((item) => <li key={item}>{item}</li>)}</ul></div>
+        <div className={styles.card}><h3><XCircle size={17} />O que pode matar</h3><ul>{thesis.risks.map((item) => <li key={item}>{item}</li>)}</ul></div>
       </section>
 
-      <section className={styles.card}><h3>Por que não está mais alto?</h3><p>{thesis.whyNotHigher}</p></section>
+      <section className={styles.card}><h3><BarChart3 size={17} />Por que não está mais alto?</h3><p>{thesis.whyNotHigher}</p></section>
     </div>
   );
 }
@@ -455,21 +457,22 @@ function ResearchDetail({ thesis }: { thesis: ListRow }) {
   const hasResearch = thesis.researchPriority != null;
   return (
     <div className={styles.detailContent}>
-      <header className={styles.detailHeader}><div><span>{thesis.area}</span><h2>{thesis.name}</h2></div><span className={styles.status}>{hasResearch ? statusLabel(thesis.researchStatus) : "research pending"}</span></header>
+      <header className={styles.detailHeader}><div><span className={styles.kicker}><Layers3 size={13} />{thesis.area}</span><h2>{thesis.name}</h2></div><span className={styles.status}><BrainCircuit size={12} />{hasResearch ? statusLabel(thesis.researchStatus) : "research pending"}</span></header>
       <section className={styles.hero}>
-        <div className={`${styles.heroScore} ${hasResearch ? scoreTone(thesis.researchPriority!) : styles.neutral}`}><strong>{hasResearch ? thesis.researchPriority!.toFixed(1) : "N/A"}</strong><span>{hasResearch ? "research priority" : "sem avaliação"}</span></div>
-        <div><h3>{hasResearch ? "Por que está no ranking?" : "Ainda não foi avaliada"}</h3><p>{thesis.why || "Esta tese está no universo, mas ainda não tem Deep Research suficiente. N/A é intencional: ausência de evidência não é nota zero."}</p>{thesis.tagline ? <div className={styles.quote}>{thesis.tagline}</div> : null}</div>
+        <div className={styles.scoreOrb}><div className={`${styles.heroScore} ${hasResearch ? scoreTone(thesis.researchPriority!) : styles.neutral}`}><strong>{hasResearch ? thesis.researchPriority!.toFixed(1) : "N/A"}</strong><span>{hasResearch ? "research priority" : "sem avaliação"}</span></div></div>
+        <div className={styles.heroNarrative}><span className={styles.sectionEyebrow}><BrainCircuit size={13} /> research intelligence</span><h3>{hasResearch ? "Por que está no ranking?" : "Ainda não foi avaliada"}</h3><p>{thesis.why || "Esta tese está no universo, mas ainda não tem Deep Research suficiente. N/A é intencional: ausência de evidência não é nota zero."}</p>{thesis.tagline ? <div className={styles.quote}>{thesis.tagline}</div> : null}</div>
       </section>
 
-      <section className={styles.card}><h3>Estado da evidência</h3><div className={styles.factGrid}><div><span>V10 Thesis Score</span><strong>{thesis.v10Score != null ? thesis.v10Score.toFixed(1) : "N/A"}</strong></div><div><span>Research priority</span><strong>{hasResearch ? thesis.researchPriority!.toFixed(1) : "N/A"}</strong></div><div><span>Rank research</span><strong>{thesis.researchRank ? `#${thesis.researchRank}` : "N/A"}</strong></div><div><span>Status</span><strong>{hasResearch ? statusLabel(thesis.researchStatus) : "sparse"}</strong></div></div></section>
+      <section className={styles.card}><h3><ShieldCheck size={17} />Estado da evidência</h3><div className={styles.factGrid}><div><span>V10 Thesis Score</span><strong>{thesis.v10Score != null ? thesis.v10Score.toFixed(1) : "N/A"}</strong></div><div><span>Research priority</span><strong>{hasResearch ? thesis.researchPriority!.toFixed(1) : "N/A"}</strong></div><div><span>Rank research</span><strong>{thesis.researchRank ? `#${thesis.researchRank}` : "N/A"}</strong></div><div><span>Status</span><strong>{hasResearch ? statusLabel(thesis.researchStatus) : "sparse"}</strong></div></div></section>
 
-      {thesis.whatCanKill ? <section className={styles.card}><h3>O que pode matar</h3><p>{thesis.whatCanKill}</p></section> : null}
-      {thesis.sources?.length ? <section className={styles.card}><h3>Fontes usadas no Pass 1</h3><div className={styles.sources}>{thesis.sources.map((url) => <a key={url} href={url} target="_blank" rel="noreferrer">{url}</a>)}</div></section> : null}
+      {thesis.whatCanKill ? <section className={styles.card}><h3><XCircle size={17} />O que pode matar</h3><p>{thesis.whatCanKill}</p></section> : null}
+      {thesis.sources?.length ? <section className={styles.card}><h3><Database size={17} />Fontes usadas no Pass 1</h3><div className={styles.sources}>{thesis.sources.map((url) => <a key={url} href={url} target="_blank" rel="noreferrer">{url}</a>)}</div></section> : null}
       <section className={styles.warning}>Research Priority não é Thesis Score V10. Só vira V10 quando os critérios e o Truth Layer tiverem evidência suficiente.</section>
     </div>
   );
 }
 
 function MetricExplain({ label, score, text }: { label: string; score: number | string; text: string }) {
-  return <div className={styles.metric}><div><strong>{label}</strong><p>{text}</p></div><span>{typeof score === "number" ? score.toFixed(1) : score}</span></div>;
+  const icon = label === "Core" ? <Target size={16} /> : label === "Expert" ? <CircleDollarSign size={16} /> : label === "Learning velocity" ? <Gauge size={16} /> : <ShieldCheck size={16} />;
+  return <div className={styles.metric}><div className={styles.metricIcon}>{icon}</div><div><strong>{label}</strong><p>{text}</p></div><span>{typeof score === "number" ? score.toFixed(1) : score}</span></div>;
 }
