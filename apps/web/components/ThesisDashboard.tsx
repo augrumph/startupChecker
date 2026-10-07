@@ -396,7 +396,7 @@ export function ThesisDashboard() {
       .then((record) => active && setSelectedRecord(record))
       .catch(() => active && setSelectedRecord(null));
     return () => { active = false; };
-  }, [selectedId, theses]);
+  }, [selectedId]);
 
   const researchById = useMemo(() => new Map(research.map((item) => [item.id, item])), [research]);
 
