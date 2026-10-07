@@ -3,13 +3,21 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const ENGINE_VERSION: &str = "8.0.0";
+pub const ENGINE_VERSION: &str = "9.0.0";
 
 mod v8;
 pub use v8::{
     rank_portfolio, CandidateExperiment, Counterfactual, EvidenceDirection, FailurePattern,
     FounderFitEvaluation, HypothesisInput, HypothesisObservation, HypothesisPosterior,
     PortfolioEntry, PortfolioRequest, PortfolioResponse, V8ExperimentEvaluation,
+};
+
+mod v9;
+pub use v9::{
+    calibration_report, update_with_experiment, CalibrationRecord, CalibrationReport,
+    DecisionSnapshotInput, DecisionDrift, EmpiricalOutcomeLabel, ExperimentLedgerEntry,
+    ExperimentUpdateRequest, ExperimentUpdateResponse, LearningLedgerSummary, OutcomeEvent,
+    OutcomeKind, RobustnessSimulation, ScenarioValueInput, V9Overlay,
 };
 
 #[derive(
@@ -133,6 +141,22 @@ pub struct ThesisInput {
     /// V8: candidate experiments used for Value of Information ranking.
     #[serde(default)]
     pub candidate_experiments: Vec<CandidateExperiment>,
+
+    /// V9: immutable-ish audit trail of executed experiments.
+    #[serde(default)]
+    pub experiment_ledger: Vec<ExperimentLedgerEntry>,
+
+    /// V9: observed commercial/product outcomes.
+    #[serde(default)]
+    pub outcomes: Vec<OutcomeEvent>,
+
+    /// V9: prior decision snapshots for drift/regret analysis.
+    #[serde(default)]
+    pub decision_history: Vec<DecisionSnapshotInput>,
+
+    /// V9: optional economic payoff proxy. Never inferred silently by Rust.
+    #[serde(default)]
+    pub scenario_value: Option<ScenarioValueInput>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -290,6 +314,21 @@ pub struct Evaluation {
 
     /// V8: recurring failure modes learned from our dead/weak theses.
     pub failure_patterns: Vec<FailurePattern>,
+
+    /// V9: uncertainty stress test over the latent opportunity.
+    pub robustness: RobustnessSimulation,
+
+    /// V9: accumulated experiment economics and evidence velocity.
+    pub learning_ledger: LearningLedgerSummary,
+
+    /// V9: how much the current decision moved since the previous snapshot.
+    pub decision_drift: Option<DecisionDrift>,
+
+    /// V9: optional EV proxy when the user/research provides grounded payoff inputs.
+    pub expected_option_value_brl: Option<f64>,
+
+    /// V9: normalized real-world outcome label for future OutcomeNet training.
+    pub empirical_outcome_label: EmpiricalOutcomeLabel,
 
     pub fatal_vetoes: Vec<CriterionResult>,
     pub entry_flags: Vec<CriterionResult>,
@@ -906,6 +945,7 @@ pub struct EngineV4;
 pub type EngineV6 = EngineV4;
 pub type EngineV7 = EngineV4;
 pub type EngineV8 = EngineV4;
+pub type EngineV9 = EngineV4;
 
 impl EngineV4 {
     pub fn evaluate(&self, input: &ThesisInput) -> Result<Evaluation, EngineError> {
@@ -1019,6 +1059,16 @@ impl EngineV4 {
             structural_strength,
         )?;
 
+        let v9_overlay = v9::build_overlay(
+            input,
+            thesis_score,
+            decision,
+            structural_strength,
+            evidence_coverage,
+            sensitivity,
+            &v8_overlay,
+        );
+
         Ok(Evaluation {
             engine_version: ENGINE_VERSION.to_string(),
             thesis_id: input.id.clone(),
@@ -1051,6 +1101,11 @@ impl EngineV4 {
             founder_attention_priority: v8_overlay.founder_attention_priority,
             counterfactuals: v8_overlay.counterfactuals,
             failure_patterns: v8_overlay.failure_patterns,
+            robustness: v9_overlay.robustness,
+            learning_ledger: v9_overlay.learning_ledger,
+            decision_drift: v9_overlay.decision_drift,
+            expected_option_value_brl: v9_overlay.expected_option_value_brl,
+            empirical_outcome_label: v9_overlay.empirical_outcome_label,
             fatal_vetoes,
             entry_flags: flags,
             decision,

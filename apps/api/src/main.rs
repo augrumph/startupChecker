@@ -7,13 +7,13 @@ use axum::{
 };
 use serde_json::{json, Value};
 use thesis_engine::{
-    public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, EngineV8, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
+    calibration_report, public_config, public_expert_config, rank_portfolio, scout_sparse_thesis, update_with_experiment, EngineV9, ExperimentUpdateRequest, CalibrationRecord, PortfolioRequest, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
 use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Clone, Default)]
 struct AppState {
-    engine: EngineV8,
+    engine: EngineV9,
 }
 
 #[tokio::main]
@@ -24,6 +24,8 @@ async fn main() {
         .route("/v1/evaluate", post(evaluate))
         .route("/v1/scout", post(scout))
         .route("/v1/portfolio", post(portfolio))
+        .route("/v1/experiment/update", post(update_experiment))
+        .route("/v1/calibration", post(calibration))
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)
@@ -44,7 +46,7 @@ async fn main() {
 async fn health() -> Json<Value> {
     Json(json!({
         "ok": true,
-        "engine": "Thesis Engine V8",
+        "engine": "Thesis Engine V9",
         "version": ENGINE_VERSION
     }))
 }
@@ -111,6 +113,26 @@ async fn portfolio(
             })),
         ),
     }
+}
+
+async fn update_experiment(
+    State(state): State<AppState>,
+    Json(input): Json<ExperimentUpdateRequest>,
+) -> impl IntoResponse {
+    match update_with_experiment(&state.engine, &input) {
+        Ok(result) => (StatusCode::OK, Json(json!(result))),
+        Err(error) => (
+            StatusCode::UNPROCESSABLE_ENTITY,
+            Json(json!({
+                "error": error.to_string(),
+                "engine_version": ENGINE_VERSION
+            })),
+        ),
+    }
+}
+
+async fn calibration(Json(records): Json<Vec<CalibrationRecord>>) -> Json<Value> {
+    Json(json!(calibration_report(&records)))
 }
 
 async fn evaluate(

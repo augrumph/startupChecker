@@ -72,8 +72,8 @@ pub struct V8ExperimentEvaluation {
     pub label: String,
     pub hypothesis_id: String,
     pub expected_information_gain_bits: f64,
-    pub value_of_information: f64,
-    pub kill_probability: f64,
+    pub(crate) value_of_information: f64,
+    pub(crate) kill_probability: f64,
     pub cost_brl: f64,
     pub hours: f64,
 }
@@ -100,15 +100,15 @@ pub struct FailurePattern {
 }
 
 #[derive(Debug, Clone)]
-pub(super) struct V8Overlay {
-    pub founder_fit: Option<FounderFitEvaluation>,
-    pub hypothesis_posteriors: Vec<HypothesisPosterior>,
-    pub best_experiment: Option<V8ExperimentEvaluation>,
+pub(crate) struct V8Overlay {
+    pub(crate) founder_fit: Option<FounderFitEvaluation>,
+    pub(crate) hypothesis_posteriors: Vec<HypothesisPosterior>,
+    pub(crate) best_experiment: Option<V8ExperimentEvaluation>,
     pub value_of_information: f64,
     pub kill_probability: f64,
-    pub founder_attention_priority: f64,
-    pub counterfactuals: Vec<Counterfactual>,
-    pub failure_patterns: Vec<FailurePattern>,
+    pub(crate) founder_attention_priority: f64,
+    pub(crate) counterfactuals: Vec<Counterfactual>,
+    pub(crate) failure_patterns: Vec<FailurePattern>,
 }
 
 const FOUNDER_FIT: [CriterionDef; 6] = [
