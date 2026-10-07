@@ -50,6 +50,8 @@ type EngineConfig = {
     universal: CriterionDef[];
     learning: CriterionDef[];
     potential: CriterionDef[];
+    blue_ocean: CriterionDef[];
+    founder_fit: CriterionDef[];
   };
   experts: Record<EngineKey, CriterionDef[]>;
   router: EngineMeta[];
@@ -108,6 +110,40 @@ type Evaluation = {
   expert_disagreement: number;
   decision_margin: number;
   review_required: boolean;
+  founder_fit: { scorecard: ScoreCard; interpretation: string } | null;
+  hypothesis_posteriors: Array<{
+    id: string;
+    label: string;
+    prior_probability: number;
+    posterior_probability: number;
+    entropy_bits: number;
+    observation_count: number;
+    kill_if_false: boolean;
+  }>;
+  best_v8_experiment: {
+    id: string;
+    label: string;
+    hypothesis_id: string;
+    expected_information_gain_bits: number;
+    value_of_information: number;
+    kill_probability: number;
+    cost_brl: number;
+    hours: number;
+  } | null;
+  value_of_information: number;
+  kill_probability: number;
+  founder_attention_priority: number;
+  counterfactuals: Array<{
+    target_score: number;
+    already_reached: boolean;
+    blockers: string[];
+  }>;
+  failure_patterns: Array<{
+    code: string;
+    label: string;
+    severity: number;
+    reason: string;
+  }>;
   fatal_vetoes: CriterionResult[];
   entry_flags: CriterionResult[];
   decision:
@@ -186,6 +222,71 @@ type AiEvidence = {
   warnings: string[];
 };
 
+type AiResearch = {
+  brazilAdaptation: {
+    verdict: string;
+    adaptedThesis: string;
+    payer: string;
+    user: string;
+    wedge: string;
+    whyBrazil: string;
+  };
+  engineSuggestions: Array<{
+    engine: EngineKey;
+    affinity: number;
+    rationale: string;
+  }>;
+  blueOcean: {
+    proposedSignals: Array<{
+      key: string;
+      score: number;
+      evidenceLevel: Evidence;
+      confidence: number;
+      rationale: string;
+      sourceUrls: string[];
+    }>;
+    strategyCanvas: Array<{
+      factor: string;
+      incumbents: number;
+      proposed: number;
+      rationale: string;
+    }>;
+  };
+  proposedSignals: {
+    universal: Array<ResearchSignal>;
+    experts: Array<{ engine: EngineKey; criteria: Array<ResearchSignal> }>;
+    learning: Array<ResearchSignal>;
+    potential: Array<ResearchSignal>;
+  };
+  criticalHypotheses: Array<{
+    id: string;
+    label: string;
+    priorProbability: number;
+    killIfFalse: boolean;
+    rationale: string;
+  }>;
+  candidateExperiments: Array<{
+    id: string;
+    label: string;
+    hypothesisId: string;
+    costBRL: number;
+    hours: number;
+    decisiveness: number;
+    rationale: string;
+  }>;
+  founderFitQuestions: string[];
+  researchConfidence: number;
+};
+
+type ResearchSignal = {
+  key: string;
+  score: number;
+  evidenceLevel: Evidence;
+  confidence: number;
+  rationale: string;
+  sourceUrls: string[];
+};
+
 type Thesis = {
   id: string;
   name: string;
@@ -201,7 +302,7 @@ type Thesis = {
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
-const STORAGE_KEY = "startup-checker-v4-theses";
+const STORAGE_KEY = "startup-checker-v8-theses";
 
 const seeded: Thesis[] = [
   {
@@ -453,8 +554,9 @@ export function ThesisWorkbench() {
   const [aiIntake, setAiIntake] = useState<AiIntake | null>(null);
   const [aiRedTeam, setAiRedTeam] = useState<AiRedTeam | null>(null);
   const [aiEvidence, setAiEvidence] = useState<AiEvidence | null>(null);
+  const [aiResearch, setAiResearch] = useState<AiResearch | null>(null);
   const [evidenceText, setEvidenceText] = useState("");
-  const [aiBusy, setAiBusy] = useState<"intake" | "redteam" | "evidence" | null>(null);
+  const [aiBusy, setAiBusy] = useState<"intake" | "research" | "redteam" | "evidence" | null>(null);
   const [aiError, setAiError] = useState("");
 
   const [context, setContext] = useState({
@@ -472,6 +574,11 @@ export function ThesisWorkbench() {
   const [expertSignals, setExpertSignals] = useState<Record<string, Record<string, SignalDraft>>>({});
   const [learningSignals, setLearningSignals] = useState<Record<string, SignalDraft>>({});
   const [potentialSignals, setPotentialSignals] = useState<Record<string, SignalDraft>>({});
+  const [blueOceanSignals, setBlueOceanSignals] = useState<Record<string, SignalDraft>>({});
+  const [founderFitSignals, setFounderFitSignals] = useState<Record<string, SignalDraft>>({});
+  const [founderFitEnabled, setFounderFitEnabled] = useState(false);
+  const [hypotheses, setHypotheses] = useState<Array<Record<string, unknown>>>([]);
+  const [candidateExperiments, setCandidateExperiments] = useState<Array<Record<string, unknown>>>([]);
 
   useEffect(() => {
     try {
@@ -507,6 +614,8 @@ export function ThesisWorkbench() {
         setUniversalSignals(makeSignals(nextConfig.criteria.universal));
         setLearningSignals(makeSignals(nextConfig.criteria.learning));
         setPotentialSignals(makeSignals(nextConfig.criteria.potential));
+        setBlueOceanSignals({});
+        setFounderFitSignals({});
       })
       .catch((error) => {
         setConfigError(
@@ -555,6 +664,7 @@ export function ThesisWorkbench() {
     setAiIntake(null);
     setAiRedTeam(null);
     setAiEvidence(null);
+    setAiResearch(null);
     setEvidenceText("");
     setAiError("");
     setAiBusy(null);
@@ -580,6 +690,11 @@ export function ThesisWorkbench() {
       setUniversalSignals(makeSignals(config.criteria.universal));
       setLearningSignals(makeSignals(config.criteria.learning));
       setPotentialSignals(makeSignals(config.criteria.potential));
+      setBlueOceanSignals({});
+      setFounderFitSignals({});
+      setFounderFitEnabled(false);
+      setHypotheses([]);
+      setCandidateExperiments([]);
       setExpertSignals({});
     }
   }
@@ -661,6 +776,10 @@ export function ThesisWorkbench() {
       experts,
       learning: learningSignals,
       potential: potentialSignals,
+      blue_ocean: blueOceanSignals,
+      founder_fit: founderFitEnabled ? founderFitSignals : {},
+      hypotheses,
+      candidate_experiments: candidateExperiments,
     };
 
     try {
@@ -763,6 +882,117 @@ export function ThesisWorkbench() {
     }
   }
 
+  function researchSignal(signal: ResearchSignal): SignalDraft {
+    return {
+      score: Math.round(signal.score),
+      evidence: signal.evidenceLevel,
+      quality: Math.max(0, Math.min(1, signal.confidence)),
+      contradictions: 0,
+    };
+  }
+
+  async function runDeepResearch() {
+    const seed = (aiIntakeText.trim() || [context.problem, context.solution].filter(Boolean).join(" — ")).trim();
+    if (!context.name.trim() || seed.length < 8) {
+      setAiError("Informe pelo menos o nome e uma descrição curta da tese.");
+      return;
+    }
+
+    setAiBusy("research");
+    setAiError("");
+
+    try {
+      const response = await fetch("/api/ai/research", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: context.name.trim(),
+          tagline: seed,
+          category: context.sector.trim(),
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error ?? `AI ${response.status}`);
+
+      const result = data as AiResearch;
+      setAiResearch(result);
+
+      setContext((prev) => ({
+        ...prev,
+        payer: result.brazilAdaptation.payer || prev.payer,
+        user: result.brazilAdaptation.user || prev.user,
+        solution: result.brazilAdaptation.wedge || prev.solution,
+      }));
+
+      setRouterSignals((prev) => {
+        const next = { ...prev };
+        for (const suggestion of result.engineSuggestions) {
+          next[suggestion.engine] = {
+            ...(next[suggestion.engine] ?? blankSignal()),
+            score: Math.round(suggestion.affinity),
+            evidence: "DESK_RESEARCH",
+            quality: result.researchConfidence,
+          };
+        }
+        return next;
+      });
+
+      setUniversalSignals(
+        Object.fromEntries(
+          result.proposedSignals.universal.map((signal) => [signal.key, researchSignal(signal)]),
+        ),
+      );
+      setLearningSignals(
+        Object.fromEntries(
+          result.proposedSignals.learning.map((signal) => [signal.key, researchSignal(signal)]),
+        ),
+      );
+      setPotentialSignals(
+        Object.fromEntries(
+          result.proposedSignals.potential.map((signal) => [signal.key, researchSignal(signal)]),
+        ),
+      );
+      setBlueOceanSignals(
+        Object.fromEntries(
+          result.blueOcean.proposedSignals.map((signal) => [signal.key, researchSignal(signal)]),
+        ),
+      );
+      setExpertSignals(
+        Object.fromEntries(
+          result.proposedSignals.experts.map((group) => [
+            group.engine,
+            Object.fromEntries(group.criteria.map((signal) => [signal.key, researchSignal(signal)])),
+          ]),
+        ),
+      );
+
+      setHypotheses(
+        result.criticalHypotheses.map((h) => ({
+          id: h.id,
+          label: h.label,
+          prior_probability: h.priorProbability,
+          prior_strength: 2,
+          kill_if_false: h.killIfFalse,
+          observations: [],
+        })),
+      );
+      setCandidateExperiments(
+        result.candidateExperiments.map((e) => ({
+          id: e.id,
+          label: e.label,
+          hypothesis_id: e.hypothesisId,
+          cost_brl: e.costBRL,
+          hours: e.hours,
+          decisiveness: e.decisiveness,
+        })),
+      );
+    } catch (error) {
+      setAiError(String(error));
+    } finally {
+      setAiBusy(null);
+    }
+  }
+
   function evidenceCriteria(evaluation: Evaluation) {
     return [
       ...evaluation.universal.criteria.map((criterion) => ({
@@ -853,7 +1083,7 @@ export function ThesisWorkbench() {
           </div>
           <div>
             <strong>Startup Checker</strong>
-            <span>Thesis Engine V7</span>
+            <span>Thesis Engine V8</span>
           </div>
         </div>
 
@@ -982,7 +1212,7 @@ export function ThesisWorkbench() {
               <div className="big-ring">
                 <div>
                   <strong>{currentHeroScore.toFixed(1)}</strong>
-                  <span>score V7</span>
+                  <span>score V8</span>
                 </div>
               </div>
             </div>
@@ -1153,7 +1383,7 @@ export function ThesisWorkbench() {
             </div>
 
             {!config && !configError ? (
-              <div className="wizard-state">Carregando Thesis Engine V7…</div>
+              <div className="wizard-state">Carregando Thesis Engine V8…</div>
             ) : null}
 
             {configError ? (
@@ -1177,14 +1407,24 @@ export function ThesisWorkbench() {
                       <span>LLM opcional</span>
                       <strong>Estruturar uma tese em texto livre</strong>
                     </div>
-                    <button
-                      className="secondary-button"
-                      disabled={aiBusy === "intake"}
-                      onClick={runAiIntake}
-                    >
-                      <Sparkles size={14} />
-                      {aiBusy === "intake" ? "Estruturando…" : "Estruturar com IA"}
-                    </button>
+                    <div className="ai-action-row">
+                      <button
+                        className="secondary-button"
+                        disabled={aiBusy === "intake"}
+                        onClick={runAiIntake}
+                      >
+                        <Sparkles size={14} />
+                        {aiBusy === "intake" ? "Estruturando…" : "Estruturar com IA"}
+                      </button>
+                      <button
+                        className="secondary-button"
+                        disabled={aiBusy === "research"}
+                        onClick={runDeepResearch}
+                      >
+                        <Search size={14} />
+                        {aiBusy === "research" ? "Pesquisando…" : "Deep Research V8"}
+                      </button>
+                    </div>
                   </div>
                   <textarea
                     rows={4}
@@ -1192,6 +1432,26 @@ export function ThesisWorkbench() {
                     onChange={(e) => setAiIntakeText(e.target.value)}
                     placeholder="Cole aqui a ideia do jeito que você pensou. A IA só organiza, aponta lacunas e sugere o mecanismo de valor — ela não julga a tese."
                   />
+                  {aiResearch ? (
+                    <div className="research-summary">
+                      <div>
+                        <span>Adaptação</span>
+                        <strong>{aiResearch.brazilAdaptation.verdict}</strong>
+                      </div>
+                      <div>
+                        <span>Confiança research</span>
+                        <strong>{Math.round(aiResearch.researchConfidence * 100)}%</strong>
+                      </div>
+                      <div>
+                        <span>Hipóteses críticas</span>
+                        <strong>{aiResearch.criticalHypotheses.length}</strong>
+                      </div>
+                      <div>
+                        <span>Experimentos</span>
+                        <strong>{aiResearch.candidateExperiments.length}</strong>
+                      </div>
+                    </div>
+                  ) : null}
                   {aiIntake ? (
                     <div className="ai-intake-output">
                       <div>
@@ -1454,6 +1714,45 @@ export function ThesisWorkbench() {
                   </div>
                 </div>
 
+                <div className="criteria-section">
+                  <div className="criteria-title">
+                    <strong>Founder Fit — separado da oportunidade</strong>
+                    <button
+                      className="secondary-button"
+                      onClick={() => {
+                        const next = !founderFitEnabled;
+                        setFounderFitEnabled(next);
+                        if (next && Object.keys(founderFitSignals).length === 0) {
+                          setFounderFitSignals(makeSignals(config.criteria.founder_fit));
+                        }
+                      }}
+                    >
+                      {founderFitEnabled ? "Remover Founder Fit" : "Avaliar nosso fit"}
+                    </button>
+                  </div>
+                  {founderFitEnabled ? (
+                    <>
+                      <p className="section-helper">
+                        Isso não altera Thesis Score. Só altera Founder Attention Priority.
+                      </p>
+                      <div className="criteria-grid">
+                        {config.criteria.founder_fit.map(([key, label, weight, veto]) => (
+                          <CriterionControl
+                            key={key}
+                            label={label}
+                            weight={weight}
+                            veto={veto}
+                            value={founderFitSignals[key] ?? blankSignal()}
+                            onChange={(next) =>
+                              updateGroup(setFounderFitSignals, key, next)
+                            }
+                          />
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+
                 {evaluationError ? (
                   <div className="wizard-error compact">
                     <strong>Não consegui avaliar</strong>
@@ -1468,7 +1767,7 @@ export function ThesisWorkbench() {
                     disabled={evaluating}
                     onClick={evaluateThesis}
                   >
-                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V7"}
+                    {evaluating ? "Avaliando…" : "Rodar Thesis Engine V8"}
                     {!evaluating ? <Sparkles size={15} /> : null}
                   </button>
                 </div>
@@ -1480,7 +1779,7 @@ export function ThesisWorkbench() {
                 <div className="result-hero">
                   <div className="result-score">
                     <strong>{lastEvaluation.thesis_score.toFixed(1)}</strong>
-                    <span>score V7</span>
+                    <span>score V8</span>
                   </div>
                   <div>
                     <span className={decisionTone(formatDecision(lastEvaluation.decision))}>
@@ -1507,6 +1806,22 @@ export function ThesisWorkbench() {
                   <div>
                     <span>Faixa</span>
                     <strong>{lastEvaluation.rating_band}</strong>
+                  </div>
+                  <div className="v8-priority">
+                    <span>Founder Attention</span>
+                    <strong>{lastEvaluation.founder_attention_priority.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Value of Information</span>
+                    <strong>{lastEvaluation.value_of_information.toFixed(1)}</strong>
+                  </div>
+                  <div>
+                    <span>Kill probability</span>
+                    <strong>{Math.round(lastEvaluation.kill_probability * 100)}%</strong>
+                  </div>
+                  <div>
+                    <span>Founder Fit</span>
+                    <strong>{lastEvaluation.founder_fit ? lastEvaluation.founder_fit.scorecard.conservative_score.toFixed(1) : "N/A"}</strong>
                   </div>
                   <div>
                     <span>Learning</span>
@@ -1546,6 +1861,59 @@ export function ThesisWorkbench() {
                     </span>
                   </div>
                 ) : null}
+
+                {lastEvaluation.best_v8_experiment ? (
+                  <div className="v8-decision-card">
+                    <div>
+                      <span>Next Best Experiment · V8</span>
+                      <strong>{lastEvaluation.best_v8_experiment.label}</strong>
+                      <p>
+                        VOI {lastEvaluation.best_v8_experiment.value_of_information.toFixed(1)} ·
+                        {" "}R$ {lastEvaluation.best_v8_experiment.cost_brl.toFixed(0)} ·
+                        {" "}{lastEvaluation.best_v8_experiment.hours.toFixed(1)}h ·
+                        {" "}kill {Math.round(lastEvaluation.best_v8_experiment.kill_probability * 100)}%
+                      </p>
+                    </div>
+                    <FlaskConical size={20} />
+                  </div>
+                ) : null}
+
+                {lastEvaluation.failure_patterns.length ? (
+                  <div className="failure-patterns">
+                    <div className="criteria-title">
+                      <strong>Failure Pattern Library</strong>
+                      <span>padrões que já mataram teses parecidas</span>
+                    </div>
+                    {lastEvaluation.failure_patterns.map((pattern) => (
+                      <div className="failure-pattern" key={pattern.code}>
+                        <b>{pattern.code}</b>
+                        <div>
+                          <strong>{pattern.label}</strong>
+                          <span>{pattern.reason}</span>
+                        </div>
+                        <em>{pattern.severity}/5</em>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
+                <div className="counterfactual-grid">
+                  {lastEvaluation.counterfactuals.map((item) => (
+                    <div className="counterfactual-card" key={item.target_score}>
+                      <span>Para chegar em {item.target_score.toFixed(0)}</span>
+                      {item.already_reached ? (
+                        <strong>Já atingido</strong>
+                      ) : (
+                        <>
+                          <strong>{item.blockers.length} bloqueio(s)</strong>
+                          {item.blockers.slice(0, 3).map((blocker) => (
+                            <small key={blocker}>{blocker}</small>
+                          ))}
+                        </>
+                      )}
+                    </div>
+                  ))}
+                </div>
 
                 <div className="experiment-card">
                   <div className="experiment-head">
