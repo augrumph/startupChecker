@@ -47,5 +47,7 @@
     "priority_train_mae": 5.6103
   },
   "guardrail": "ScoutNet imitates V5 weak labels only; it cannot change deterministic Rust decisions.",
-  "outcomenet": "LOCKED_UNTIL_REAL_LABELS"
+  "outcomenet": "LOCKED_UNTIL_REAL_LABELS",
+  "status": "V6_LEGACY_TEACHER_V7_ADVISORY_ONLY",
+  "v7_note": "The model remains a cheap ranker. Its research_priority is nonlinearly compressed to the V7 0-10 scale; it is not a thesis score and must not affect Rust vetoes."
 }
