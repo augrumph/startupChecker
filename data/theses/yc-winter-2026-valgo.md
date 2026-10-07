@@ -1,29 +1,125 @@
 # Valgo
 
-> Sparse YC thesis. Filter taxonomy is heuristic navigation metadata, not V10 evidence.
+> Pesquisa migrada do Deep Research Pass 1 para o registro canônico da tese. Este arquivo contém tudo que já foi pesquisado, mas **ainda não está ENGINE_READY** segundo o novo gate de pesquisa.
 
 - **ID:** `yc-winter-2026-valgo`
+- **Source:** Y Combinator
+- **Batch:** Winter 2026
+- **Location:** San Francisco, CA, USA
 - **Market:** B2B
 - **Macro area:** Financial Services & Risk
 - **Area:** Insurance
-- **Product:** SaaS / Workflow
+- **Product type:** SaaS / Workflow
 - **Sales motion:** B2B Sales
-- **Batch:** Winter 2026
-- **Location:** San Francisco, CA, USA
-- **Capital:** LOW
-- **Regulation:** HIGH
-- **Adaptation:** LOCALIZE_BRAZIL
-- **Status:** `SPARSE_TRIAGED_RESEARCH_PENDING`
-- **Thesis score:** N/A
+- **Research status:** `RESEARCH_INCOMPLETE`
+- **Deep Research Pass 1:** `DEEP_RESEARCHED`
+- **Research priority (legado):** 6.8
+- **Scout priority (legado):** 3.9
+- **V10 Thesis Score:** N/A
 
-## Sparse thesis
+## Tese reformulada em PT-BR
 
-Insurance risk layer for physical AI
+Constrói uma camada de modelagem e transferência de risco para robôs e sistemas autônomos que ainda não têm histórico suficiente para seguros tradicionais.
+
+## Quem paga
+
+Empresas de robótica/autonomia e seguradoras interessadas em novos riscos.
+
+## Dor econômica
+
+Tecnologias físicas novas não têm histórico de sinistro suficiente para underwriting convencional.
+
+## Como captura valor
+
+Destravar implantação/comercialização ao tornar risco mensurável e segurável.
+
+## O que já foi encontrado
+
+- Equipe e tese pública são focadas especificamente no gap de dados para physical AI.
+
+## Por que entrou no ranking de pesquisa
+
+Pode virar infraestrutura importante, mas mercado ainda é cedo e depende de escala de autonomia.
+
+## O que pode matar a tese
+
+Cai se volume segurável demorar anos ou carriers fizerem modelagem internamente.
+
+## Fontes já pesquisadas
+
+1. https://www.ycombinator.com/companies/valgo
+
+## Lacunas obrigatórias antes do motor
+
+Este registro **não pode ser pontuado pelo V10 ainda**. O Pass 1 não cobriu com profundidade suficiente:
+
+- `buyer.budgetOwner`
+- `buyer.purchaseTrigger`
+- `buyer.purchaseProcess`
+- `buyer.procurementReality`
+- `problem.currentWorkflow`
+- `problem.frequency`
+- `problem.urgency`
+- `problem.severity`
+- `problem.statusQuoCost`
+- `problem.switchingFriction`
+- `economics.currentSpend`
+- `economics.pricingBenchmarks`
+- `economics.wtpEvidence`
+- `economics.roiMechanism`
+- `economics.valueEquation`
+- `economics.paybackLogic`
+- `economics.grossMarginLogic`
+- `economics.implementationCostLogic`
+- `market.buyerCount`
+- `market.buyerDensity`
+- `market.tam`
+- `market.sam`
+- `market.somEntryWedge`
+- `market.marketGrowth`
+- `competition.direct>=3`
+- `competition.indirectAlternatives`
+- `competition.incumbentResponse`
+- `competition.substitutionRisk`
+- `competition.marketCrowding`
+- `distribution.primaryChannels`
+- `distribution.salesCycle`
+- `distribution.cacProxy`
+- `distribution.trustBarrier`
+- `distribution.landAndExpand`
+- `product.requiredIntegrations`
+- `product.requiredData`
+- `product.automationBoundary`
+- `product.humanInTheLoop`
+- `product.technicalRisks`
+- `product.implementationComplexity`
+- `product.timeToValue`
+- `regulation.obligations`
+- `regulation.licenses`
+- `regulation.privacyData`
+- `regulation.liability`
+- `regulation.regulatoryRiskSummary`
+- `defensibility.switchingCosts`
+- `defensibility.dataAdvantage`
+- `defensibility.workflowEmbedding`
+- `defensibility.networkEffects`
+- `defensibility.platformDependency`
+- `defensibility.incumbentCopyRisk`
+- `retentionExpansion.usageFrequency`
+- `retentionExpansion.retentionDriver`
+- `retentionExpansion.churnRisks`
+- `retentionExpansion.expansionPaths`
+- `localization.brazilSpecificWorkflow`
+- `localization.brazilCompetitors`
+- `localization.brazilRegulation`
+- `localization.brazilPricingReality`
+
+Além disso, o novo gate exige no mínimo 12 fontes, 6 domínios independentes, 2 fontes primárias/oficiais, 12 claims auditáveis e ausência de unknowns críticos.
 
 ## Machine record
 
 <!-- STARTUPCHECKER_RECORD_V1 -->
 ~~~json
-{"schema_version":1,"thesis":{"id":"yc-winter-2026-valgo","name":"Valgo","context":{"sector":"B2B / Engineering, Product and Design","business_models":["B2B","Engineering, Product and Design"],"payer":"","user":"","problem":"UNKNOWN — requires Deep Research V10","solution":"Insurance risk layer for physical AI","source":"Y Combinator","batch":"Winter 2026","location":"San Francisco, CA, USA","area":"Insurance","source_url":"","analysis_status":"SPARSE_TRIAGED_RESEARCH_PENDING","adaptation_mode":"LOCALIZE_BRAZIL","market_types":["B2B"],"macro_area":"Financial Services & Risk","product_type":"SaaS / Workflow","sales_motion":"B2B Sales","capital_intensity":"LOW","regulatory_intensity":"HIGH","filter_confidence":"TRIAGE_HEURISTIC"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[],"evidence_as_of_unix":null},"evaluation":null,"created_at_unix":1791338328,"updated_at_unix":1791338328}
+{"schema_version":1,"thesis":{"id":"yc-winter-2026-valgo","name":"Valgo","context":{"sector":"B2B / Engineering, Product and Design","business_models":["B2B","Engineering, Product and Design"],"payer":"Empresas de robótica/autonomia e seguradoras interessadas em novos riscos.","user":"","problem":"Tecnologias físicas novas não têm histórico de sinistro suficiente para underwriting convencional.","solution":"Constrói uma camada de modelagem e transferência de risco para robôs e sistemas autônomos que ainda não têm histórico suficiente para seguros tradicionais.","source":"Y Combinator","batch":"Winter 2026","location":"San Francisco, CA, USA","area":"Insurance","source_url":"","analysis_status":"RESEARCH_INCOMPLETE","adaptation_mode":"LOCALIZE_BRAZIL","market_types":["B2B"],"macro_area":"Financial Services & Risk","product_type":"SaaS / Workflow","sales_motion":"B2B Sales","capital_intensity":"LOW","regulatory_intensity":"HIGH","filter_confidence":"TRIAGE_HEURISTIC"},"router":{},"engine_override":[],"universal":{},"experts":{},"learning":{},"potential":{},"blue_ocean":{},"founder_fit":{},"hypotheses":[],"candidate_experiments":[],"experiment_ledger":[],"outcomes":[],"decision_history":[],"scenario_value":null,"evidence_records":[{"id":"pass1-1","claim":"Equipe e tese pública são focadas especificamente no gap de dados para physical AI.","source_kind":"UNKNOWN","source_url":"https://www.ycombinator.com/companies/valgo","source_title":null,"published_at_unix":null,"observed_at_unix":null,"fetched_at_unix":1791375246,"criterion_keys":[],"direction":"SUPPORTS","strength":0.55,"reliability":0.55,"independence_group":null,"content_hash":null,"note":"Migrado do Deep Research Pass 1; associação claim↔fonte ainda precisa de auditoria granular."}],"evidence_as_of_unix":1791375246,"research_dossier":{"version":"deep-research-pass1-migrated-v1","original_status":"DEEP_RESEARCHED","research_priority":6.8,"scout_priority":3.9,"ocean_hypothesis":"PURPLE_OCEAN","thesis":{"rewritten_ptbr":"Constrói uma camada de modelagem e transferência de risco para robôs e sistemas autônomos que ainda não têm histórico suficiente para seguros tradicionais.","original_tagline":"Insurance risk layer for physical AI","category":"B2B / Engineering, Product and Design","market_types":["B2B"],"macro_area":"Financial Services & Risk","area":"Insurance","product_type":"SaaS / Workflow","sales_motion":"B2B Sales"},"buyer":{"economic_buyer_ptbr":"Empresas de robótica/autonomia e seguradoras interessadas em novos riscos.","budget_owner":"UNKNOWN","end_user":"UNKNOWN","beneficiary":"UNKNOWN","purchase_trigger":"UNKNOWN","purchase_process":"UNKNOWN","procurement_reality":"UNKNOWN"},"problem":{"economic_pain_ptbr":"Tecnologias físicas novas não têm histórico de sinistro suficiente para underwriting convencional.","current_workflow":"UNKNOWN","frequency":"UNKNOWN","urgency":"UNKNOWN","severity":"UNKNOWN","status_quo_cost":"UNKNOWN","switching_friction":"UNKNOWN"},"economics":{"value_capture_ptbr":"Destravar implantação/comercialização ao tornar risco mensurável e segurável.","current_spend":[],"pricing_benchmarks":[],"wtp_evidence":[],"roi_mechanism":"UNKNOWN","value_equation":"UNKNOWN","payback_logic":"UNKNOWN","gross_margin_logic":"UNKNOWN","implementation_cost_logic":"UNKNOWN"},"evidence":{"facts_ptbr":["Equipe e tese pública são focadas especificamente no gap de dados para physical AI."],"source_urls":["https://www.ycombinator.com/companies/valgo"],"source_count":1,"independent_domains":0},"ranking":{"deep_research_rank":43,"why_ranked_ptbr":"Pode virar infraestrutura importante, mas mercado ainda é cedo e depende de escala de autonomia.","what_can_kill_ptbr":"Cai se volume segurável demorar anos ou carriers fizerem modelagem internamente."},"market":{"buyer_count":"UNKNOWN","buyer_density":"UNKNOWN","tam":"UNKNOWN","sam":"UNKNOWN","som_entry_wedge":"UNKNOWN","market_growth":"UNKNOWN"},"competition":{"direct":[],"indirect_alternatives":[],"incumbent_response":"UNKNOWN","substitution_risk":"UNKNOWN","market_crowding":"UNKNOWN"},"distribution":{"primary_channels":[],"sales_motion":"B2B Sales","sales_cycle":"UNKNOWN","cac_proxy":"UNKNOWN","trust_barrier":"UNKNOWN","land_and_expand":"UNKNOWN"},"product":{"minimum_viable_wedge":"UNKNOWN","workflow_insertion_point":"UNKNOWN","required_integrations":[],"required_data":[],"automation_boundary":"UNKNOWN","human_in_the_loop":"UNKNOWN","technical_risks":[],"implementation_complexity":"UNKNOWN","time_to_value":"UNKNOWN"},"regulation":{"obligations":[],"licenses":[],"privacy_data":[],"liability":[],"regulatory_risk_summary":"UNKNOWN"},"defensibility":{"switching_costs":"UNKNOWN","data_advantage":"UNKNOWN","workflow_embedding":"UNKNOWN","network_effects":"UNKNOWN","scale_economies":"UNKNOWN","brand_trust":"UNKNOWN","proprietary_technology":"UNKNOWN","platform_dependency":"UNKNOWN","incumbent_copy_risk":"UNKNOWN"},"retention_expansion":{"usage_frequency":"UNKNOWN","retention_driver":"UNKNOWN","churn_risks":[],"expansion_paths":[],"natural_upsell":"UNKNOWN"},"traction":{"revenue":"UNKNOWN","customer_count":"UNKNOWN","named_customers":[],"growth":"UNKNOWN","funding":"UNKNOWN","usage":"UNKNOWN","outcomes":["Equipe e tese pública são focadas especificamente no gap de dados para physical AI."]},"localization":{"brazil_applicability":"UNKNOWN","brazil_specific_workflow":"UNKNOWN","brazil_competitors":[],"brazil_regulation":[],"brazil_pricing_reality":"UNKNOWN","global_from_brazil_case":"UNKNOWN"},"risks":{"fatal_assumptions":["Cai se volume segurável demorar anos ou carriers fizerem modelagem internamente."],"contradiction_evidence":[],"unknowns":["buyer.budgetOwner","buyer.purchaseTrigger","buyer.purchaseProcess","buyer.procurementReality","problem.currentWorkflow","problem.frequency","problem.urgency","problem.severity","problem.statusQuoCost","problem.switchingFriction","economics.currentSpend","economics.pricingBenchmarks","economics.wtpEvidence","economics.roiMechanism","economics.valueEquation","economics.paybackLogic","economics.grossMarginLogic","economics.implementationCostLogic","market.buyerCount","market.buyerDensity","market.tam","market.sam","market.somEntryWedge","market.marketGrowth","competition.direct>=3","competition.indirectAlternatives","competition.incumbentResponse","competition.substitutionRisk","competition.marketCrowding","distribution.primaryChannels","distribution.salesCycle","distribution.cacProxy","distribution.trustBarrier","distribution.landAndExpand","product.requiredIntegrations","product.requiredData","product.automationBoundary","product.humanInTheLoop","product.technicalRisks","product.implementationComplexity","product.timeToValue","regulation.obligations","regulation.licenses","regulation.privacyData","regulation.liability","regulation.regulatoryRiskSummary","defensibility.switchingCosts","defensibility.dataAdvantage","defensibility.workflowEmbedding","defensibility.networkEffects","defensibility.platformDependency","defensibility.incumbentCopyRisk","retentionExpansion.usageFrequency","retentionExpansion.retentionDriver","retentionExpansion.churnRisks","retentionExpansion.expansionPaths","localization.brazilSpecificWorkflow","localization.brazilCompetitors","localization.brazilRegulation","localization.brazilPricingReality"],"external_dependencies":[]}},"research_readiness":{"status":"RESEARCH_INCOMPLETE","dossier_version":"deep-research-pass1-migrated-v1","completeness":0.35,"missing_fields":["buyer.budgetOwner","buyer.purchaseTrigger","buyer.purchaseProcess","buyer.procurementReality","problem.currentWorkflow","problem.frequency","problem.urgency","problem.severity","problem.statusQuoCost","problem.switchingFriction","economics.currentSpend","economics.pricingBenchmarks","economics.wtpEvidence","economics.roiMechanism","economics.valueEquation","economics.paybackLogic","economics.grossMarginLogic","economics.implementationCostLogic","market.buyerCount","market.buyerDensity","market.tam","market.sam","market.somEntryWedge","market.marketGrowth","competition.direct>=3","competition.indirectAlternatives","competition.incumbentResponse","competition.substitutionRisk","competition.marketCrowding","distribution.primaryChannels","distribution.salesCycle","distribution.cacProxy","distribution.trustBarrier","distribution.landAndExpand","product.requiredIntegrations","product.requiredData","product.automationBoundary","product.humanInTheLoop","product.technicalRisks","product.implementationComplexity","product.timeToValue","regulation.obligations","regulation.licenses","regulation.privacyData","regulation.liability","regulation.regulatoryRiskSummary","defensibility.switchingCosts","defensibility.dataAdvantage","defensibility.workflowEmbedding","defensibility.networkEffects","defensibility.platformDependency","defensibility.incumbentCopyRisk","retentionExpansion.usageFrequency","retentionExpansion.retentionDriver","retentionExpansion.churnRisks","retentionExpansion.expansionPaths","localization.brazilSpecificWorkflow","localization.brazilCompetitors","localization.brazilRegulation","localization.brazilPricingReality"],"source_count":1,"independent_domains":0,"primary_or_official_sources":0,"evidence_claim_count":1,"critical_unknowns":["pagador detalhado/budget owner","WTP/pricing","economics completos","concorrência exaustiva","distribuição/CAC","regulação aplicável","Brasil/localização"]}},"evaluation":null,"created_at_unix":1791375246,"updated_at_unix":1791375246}
 ~~~
 <!-- END_STARTUPCHECKER_RECORD_V1 -->
