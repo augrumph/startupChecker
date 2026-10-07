@@ -3,7 +3,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-pub const ENGINE_VERSION: &str = "4.0.0";
+pub const ENGINE_VERSION: &str = "5.0.0";
 
 #[derive(
     Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
@@ -183,6 +183,21 @@ pub struct Evaluation {
 
     /// High = worth founder attention now. Strong structure + uncertainty + learnability.
     pub investigation_priority: f64,
+
+    /// V5: confidence in the decision itself, not in the thesis.
+    pub decision_confidence: f64,
+
+    /// V5: how easily small score changes could alter gates/decision.
+    pub sensitivity_risk: f64,
+
+    /// V5: disagreement among selected expert engines.
+    pub expert_disagreement: f64,
+
+    /// V5: smallest distance from any veto threshold.
+    pub decision_margin: f64,
+
+    /// V5: true when a human should inspect the decision before acting.
+    pub review_required: bool,
 
     pub fatal_vetoes: Vec<CriterionResult>,
     pub entry_flags: Vec<CriterionResult>,
@@ -547,6 +562,92 @@ fn potential_score(input: &ThesisInput) -> Option<f64> {
         .map(|s| s.raw_score)
 }
 
+fn veto_criteria<'a>(
+    universal: &'a ScoreCard,
+    experts: &'a [ExpertEvaluation],
+) -> Vec<&'a CriterionResult> {
+    universal
+        .criteria
+        .iter()
+        .chain(experts.iter().flat_map(|e| e.scorecard.criteria.iter()))
+        .filter(|criterion| criterion.threshold.is_some())
+        .collect()
+}
+
+fn decision_margin(universal: &ScoreCard, experts: &[ExpertEvaluation]) -> f64 {
+    veto_criteria(universal, experts)
+        .into_iter()
+        .filter_map(|criterion| {
+            criterion
+                .threshold
+                .map(|threshold| (criterion.score - threshold).abs())
+        })
+        .min_by(|a, b| a.total_cmp(b))
+        .map(round1)
+        .unwrap_or(10.0)
+}
+
+fn sensitivity_risk(universal: &ScoreCard, experts: &[ExpertEvaluation]) -> f64 {
+    let criteria = veto_criteria(universal, experts);
+    if criteria.is_empty() {
+        return 0.0;
+    }
+
+    let risk = criteria
+        .iter()
+        .map(|criterion| {
+            let threshold = criterion.threshold.unwrap_or(0.0);
+            let distance = (criterion.score - threshold).abs();
+            let proximity = ((2.0 - distance).max(0.0) / 2.0).clamp(0.0, 1.0);
+            let uncertainty = 1.0 - criterion.confidence;
+            proximity * (0.55 + uncertainty * 0.45)
+        })
+        .sum::<f64>()
+        / criteria.len() as f64
+        * 100.0;
+
+    round1(risk)
+}
+
+fn expert_disagreement(experts: &[ExpertEvaluation]) -> f64 {
+    if experts.len() <= 1 {
+        return 0.0;
+    }
+
+    let mean = experts
+        .iter()
+        .map(|e| e.scorecard.raw_score)
+        .sum::<f64>()
+        / experts.len() as f64;
+
+    let variance = experts
+        .iter()
+        .map(|e| {
+            let delta = e.scorecard.raw_score - mean;
+            delta * delta
+        })
+        .sum::<f64>()
+        / experts.len() as f64;
+
+    // A 20-point standard deviation maps to maximum disagreement.
+    round1((variance.sqrt() / 20.0 * 100.0).clamp(0.0, 100.0))
+}
+
+fn decision_confidence(
+    evidence_coverage: f64,
+    sensitivity_risk: f64,
+    expert_disagreement: f64,
+) -> f64 {
+    round1(
+        (
+            evidence_coverage.clamp(0.0, 1.0) * 0.50
+                + (1.0 - sensitivity_risk / 100.0).clamp(0.0, 1.0) * 0.30
+                + (1.0 - expert_disagreement / 100.0).clamp(0.0, 1.0) * 0.20
+        ) * 100.0,
+    )
+}
+
+
 fn round1(v: f64) -> f64 {
     (v * 10.0).round() / 10.0
 }
@@ -640,6 +741,13 @@ impl EngineV4 {
                 + (uncertainty * 100.0) * 0.20
         };
 
+        let sensitivity = sensitivity_risk(&universal, &experts);
+        let disagreement = expert_disagreement(&experts);
+        let margin = decision_margin(&universal, &experts);
+        let confidence = decision_confidence(evidence_coverage, sensitivity, disagreement);
+        let review_required =
+            confidence < 55.0 || sensitivity >= 45.0 || disagreement >= 35.0;
+
         Ok(Evaluation {
             engine_version: ENGINE_VERSION.to_string(),
             thesis_id: input.id.clone(),
@@ -654,6 +762,11 @@ impl EngineV4 {
             conservative_strength: round1(conservative_strength),
             evidence_coverage: round3(evidence_coverage),
             investigation_priority: round1(investigation_priority),
+            decision_confidence: confidence,
+            sensitivity_risk: sensitivity,
+            expert_disagreement: disagreement,
+            decision_margin: margin,
+            review_required,
             fatal_vetoes,
             entry_flags: flags,
             decision,
