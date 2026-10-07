@@ -1448,6 +1448,10 @@ export function ThesisWorkbench() {
                   setAreaFilter("ALL");
                   setBatchFilter("ALL");
                   setProductFilter("ALL");
+                  setSalesMotionFilter("ALL");
+                  setCapitalFilter("ALL");
+                  setRegulatoryFilter("ALL");
+                  setAdaptationFilter("ALL");
                   setStatusFilter("ALL");
                 }}
               >
@@ -1587,13 +1591,29 @@ export function ThesisWorkbench() {
             </section>
           ) : null}
 
-          <section className="section">
-            <div className="section-title">
-              <div>
-                <h3>Leitura do motor</h3>
-                <p>Estrutura, expert, velocidade, evidência e prioridade de investigação.</p>
+          {selectedShortlist && !thesis.evaluation ? (
+            <section className="section sparse-status-card">
+              <div className="section-title">
+                <div>
+                  <h3>Aguardando Deep Research V10</h3>
+                  <p>Não mostramos Core/Expert/Truth como zero porque ainda não foram medidos.</p>
+                </div>
               </div>
-            </div>
+              <div className="sparse-status-grid">
+                <div><span>Scout priority</span><strong>{selectedShortlist.scoutPriority.toFixed(1)}</strong></div>
+                <div><span>Ocean hypothesis</span><strong>{selectedShortlist.ocean === "BLUE_HYPOTHESIS" ? "Blue" : "Purple"}</strong></div>
+                <div><span>Posição</span><strong>#{selectedShortlist.rank} / 539</strong></div>
+                <div><span>V10 Thesis Score</span><strong>N/A</strong></div>
+              </div>
+            </section>
+          ) : (
+            <section className="section">
+              <div className="section-title">
+                <div>
+                  <h3>Leitura do motor</h3>
+                  <p>Estrutura, expert, velocidade, evidência e prioridade de investigação.</p>
+                </div>
+              </div>
 
             <div className="metric-list">
               <Metric
@@ -1662,7 +1682,8 @@ export function ThesisWorkbench() {
                 </div>
               </div>
             </div>
-          </section>
+            </section>
+          )}
 
           {thesis.evaluation ? (
             <section className="section evaluation-details">
