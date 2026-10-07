@@ -7,13 +7,13 @@ use axum::{
 };
 use serde_json::{json, Value};
 use thesis_engine::{
-    public_config, public_expert_config, EngineV4, ThesisInput, ENGINE_VERSION,
+    public_config, public_expert_config, scout_sparse_thesis, EngineV6, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
 use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Clone, Default)]
 struct AppState {
-    engine: EngineV4,
+    engine: EngineV6,
 }
 
 #[tokio::main]
@@ -22,6 +22,7 @@ async fn main() {
         .route("/health", get(health))
         .route("/v1/config", get(config))
         .route("/v1/evaluate", post(evaluate))
+        .route("/v1/scout", post(scout))
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)
@@ -42,7 +43,7 @@ async fn main() {
 async fn health() -> Json<Value> {
     Json(json!({
         "ok": true,
-        "engine": "Thesis Engine V5",
+        "engine": "Thesis Engine V6",
         "version": ENGINE_VERSION
     }))
 }
@@ -84,6 +85,14 @@ async fn config() -> Json<Value> {
                 "description": "Remove fricção, economiza esforço/tempo ou melhora muito a experiência."
             }
         ]
+    }))
+}
+
+async fn scout(Json(input): Json<SparseThesisInput>) -> Json<Value> {
+    Json(json!({
+        "engine_version": ENGINE_VERSION,
+        "scout_model_version": SCOUT_MODEL_VERSION,
+        "prediction": scout_sparse_thesis(&input)
     }))
 }
 
