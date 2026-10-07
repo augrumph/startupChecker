@@ -1065,6 +1065,7 @@ impl EngineV4 {
             decision,
             structural_strength,
             evidence_coverage,
+            confidence,
             sensitivity,
             &v8_overlay,
         );
