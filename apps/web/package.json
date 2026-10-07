@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "research:all": "node scripts/research-all.mjs",
+    "score:all": "node scripts/score-all.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
