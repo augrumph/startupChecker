@@ -22,7 +22,6 @@ import {
   RefreshCw,
   Search,
   ShieldCheck,
-  SlidersHorizontal,
   Sparkles,
   Target,
   Trophy,
