@@ -7,13 +7,13 @@ use axum::{
 };
 use serde_json::{json, Value};
 use thesis_engine::{
-    public_config, public_expert_config, scout_sparse_thesis, EngineV6, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
+    public_config, public_expert_config, scout_sparse_thesis, EngineV7, SparseThesisInput, ThesisInput, ENGINE_VERSION, SCOUT_MODEL_VERSION,
 };
 use tower_http::cors::{Any, CorsLayer};
 
 #[derive(Clone, Default)]
 struct AppState {
-    engine: EngineV6,
+    engine: EngineV7,
 }
 
 #[tokio::main]
@@ -43,7 +43,7 @@ async fn main() {
 async fn health() -> Json<Value> {
     Json(json!({
         "ok": true,
-        "engine": "Thesis Engine V6",
+        "engine": "Thesis Engine V7",
         "version": ENGINE_VERSION
     }))
 }
