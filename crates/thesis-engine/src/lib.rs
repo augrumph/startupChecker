@@ -663,7 +663,7 @@ impl EngineV4 {
     }
 }
 
-type PublicCriterion = (&'static str, &'static str, f64, Option<f64>);
+pub type PublicCriterion = (&'static str, &'static str, f64, Option<f64>);
 
 fn public_defs(defs: &[CriterionDef]) -> Vec<PublicCriterion> {
     defs.iter()

@@ -18,7 +18,7 @@ import {
   TrendingUp,
   X,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 
 type EngineKey =
   | "ECONOMIC_ROI"
@@ -350,7 +350,7 @@ function Metric({
   subtitle,
   value,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   subtitle: string;
   value: number;
@@ -506,7 +506,7 @@ export function ThesisWorkbench() {
   }
 
   function updateGroup(
-    setter: React.Dispatch<React.SetStateAction<Record<string, SignalDraft>>>,
+    setter: Dispatch<SetStateAction<Record<string, SignalDraft>>>,
     key: string,
     next: SignalDraft,
   ) {
